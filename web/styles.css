@@ -1,0 +1,10 @@
+#consoles {
+    display: grid;
+    grid-template-columns: 33% 33% 33%;
+    height: 100px;
+}
+
+.console {
+    width: 100px;
+    height: 100px;
+}
