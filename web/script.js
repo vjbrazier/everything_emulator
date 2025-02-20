@@ -5,6 +5,7 @@ async function loadConsoles() {
     consoles.forEach(console => {
         let button = document.createElement('button');
         button.classList.add('console');
+        button.id = console.toLowerCase();
         button.innerText = console;
         console_list.appendChild(button);
     });
