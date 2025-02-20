@@ -14,4 +14,4 @@ def get_consoles():
 
 # Run the program
 if __name__ == '__main__':
-    eel.start("index.html", size=(1200, 1200))
+    eel.start("index.html", host="localhost", port="5000", size=(1200, 1200))

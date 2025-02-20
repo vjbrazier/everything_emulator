@@ -12,4 +12,6 @@ async function loadConsoles() {
 
 }
 
+
+
 window.onload = loadConsoles;
