@@ -9,7 +9,7 @@
 
     display: flex;
     flex-direction: row;
-    place-self: center;
+    /* place-self: center; */
 }
 
 #search {
@@ -37,9 +37,36 @@
     
     padding: 5px 5px 5px 5px;
     height: 32px;
-    width: 100%;
+    width: 40%;
 
     font-size: large;
+}
+
+/* Arrows for scrolling */
+.arrow-left, .arrow-right {
+    position: absolute;
+
+    --width: 50px;
+    height: 220px;
+    aspect-ratio: 3/5;
+
+    background-color: #ff0000;
+}
+
+.arrow-left {
+    left: 5px;
+
+    clip-path: polygon(100% 0,calc(100% - var(--width)) 0,0 50%,calc(100% - var(--width)) 100%,100% 100%,var(--width) 50%);
+}
+
+.arrow-right {
+    right: 5px;
+
+    clip-path: polygon(0 0,var(--width) 0,100% 50%,var(--width) 100%,0 100%,calc(100% - var(--width)) 50%);
+}
+
+.console-arrow {
+    top: 125px;
 }
 
 /* Consoles */
@@ -47,27 +74,47 @@
     display: flex;
     flex-direction: row;
 
-    /* width: 100%; */
-    height: 120px;
+    height: 300px;
+    /* max-width: calc(5 * 300); */
+    width: 100%;
+    margin-left: 5px;
     gap: 5px;
     overflow: hidden;
 
-    place-content: center;
     margin-top: 10px;
 }
 
-#previous, #next {
-    height: 100px;
-    width: 50px;
-}
-
 #consoles {
-    display: grid;
-    grid-template-columns: 33% 33% 33%;
+    display: flex;
+    /* grid-template-areas: "a b c d e"; */
+    flex-direction: row;
+
+    margin-left: 60px;
+    gap: 5px;
 }
 
 .console {
-    width: 100px;
-    height: 100px;
+    width:  300px;
+    height: 300px;
     place-self: center;
+}
+
+#carosel-0 {
+    grid-area: "a";
+}
+
+#carosel-1 {
+    grid-area: "b";
+}
+
+#carosel-2 {
+    grid-area: "c";
+}
+
+#carosel-3 {
+    grid-area: "d";
+}
+
+#carosel-4 {
+    grid-area: "e";
 }
