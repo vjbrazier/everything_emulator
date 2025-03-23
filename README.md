@@ -1,11 +1,11 @@
 Welcome to The Everything Emulator
 (side note: it is not actually _everything_)
 
-The purpose of this is not to emulate every single emulator out there. It is a far cry from that, and it actually does not do any emulation itself.
-Do not look to this as though it is an alterntive to RetroArch or similar.
+This is not an emulator itself. The purpose of this app is to act as a hub for various emulators. This eliminates the need to remember the names of various emulators, and instead gives a central access point.
+In addition to housing emulators, this will also provide a list of all of your games that you have, with the ability to easily search through them. You can just click a game to open it from here. 
 
-The purpose of this is to create a singular application that acts as a "hub" for all of your emulators and games.
-What emulators are available is limited it is mostly Nintendo Stuff with a few others sprinkled in.
+Please note, it is primarily Nintendo Game Emulators supported, as that is my preference.
 
-The way the games load is that it relies on a database from RetroArch of hashes for the games that contain all the data on them. 
-The database is local to prevent the need for API calls. I had enough storage to hold this for myself which is what led to this decision.
+The main value is for convenience, but it also acts as an easy way to setup emulators in your living room. Rather than having several consoles out, you can simply install this to a laptop, and put it up on the screen to allow easy access to all of your games.
+
+The technologies used in this project are EEL, a python library for developing website like apps, and Retroarch's database of ROM hashes. The database is local, around 30GB in space, in order to make the app not rely on wifi, as well as run faster as it doesn't need to wait on potentially dozens of API calls to go through.
