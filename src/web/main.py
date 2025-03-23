@@ -2,14 +2,15 @@
 import eel, os, json, hashlib
 
 # Initialize
-eel.init('web')
+eel.init('/web')
 
 # List of consoles
-consoles = ['XBOX', 'XBOX 360', 'Gamecube', 'Wii', 'Nintendo 64', 'Nintendo Switch', 'Super Nintendo', 'Wii U']
+consoles = []
+# consoles = ['XBOX', 'XBOX 360', 'Gameboy', 'Gameboy Advance', 'Gamecube', '3DS', 'Nintendo 64', 'DS', 'NES', 'SNES', 'Wii', 'Wii U', 'Switch', 'SEGA Genesis', 'Playstation', 'Playstation 2']
 
 # List of games
-games = ['Super Mario World', 'Mario Odyssey', 'Mario Kart', 'Mario Party', 'Mario 64', 'Mario Galaxy', "Luigi's Mansion"]
-
+games = []
+# games = ['Super Mario World', 'Mario Odyssey', 'Mario Kart', 'Mario Party', 'Mario 64', 'Mario Galaxy', "Luigi's Mansion"]
 
 
 # Dummy data

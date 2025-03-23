@@ -79,11 +79,10 @@
 
 #consoles {
     display: flex;
-    flex-direction: row;
 
     margin-left: 60px;
     overflow: hidden;
-    gap: 5px;
+    gap: 150px;
 
     transition: .5s ease-in-out;
 }

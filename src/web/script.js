@@ -1,6 +1,10 @@
 // Variables/Site Elements
-const consoles           = document.getElementById('consoles');
-let   consoles_margin    = parseInt(window.getComputedStyle(consoles).marginLeft);
+const consoles                = document.getElementById('consoles');
+const consoles_margin_initial = parseInt(window.getComputedStyle(consoles).marginLeft);
+let   consoles_margin         = parseInt(window.getComputedStyle(consoles).marginLeft);
+const consoles_left_limit   = consoles_margin_initial  + (450 * consoles.length);
+const consoles_right_limit   = consoles_margin_initial - (450 * consoles.length);
+
 const games              = document.getElementById('games');
 
 // Creates all of the consoles
@@ -8,47 +12,46 @@ async function loadConsoles() {
 
     let console_list = await eel.get_consoles()();
 
-    for (let i = 0; i < console_list.length; i++) {
-        console_id = console_list[i].replaceAll(' ', '-').toLowerCase();
-
-        var console_div    = document.createElement('div');
-        var console_button = document.createElement('button');
-        var console_text   = document.createElement('h3');
-
-        console_div.classList.add('console-div');
-        console_button.classList.add('console');
-        console_text.classList.add('console-text');
-
-        console_div.id    = console_id + '-div';
-        console_button.id = console_id;
-        console_text.id   = console_id + '-text';
-
-        console_button.innerText = console_list[i];
-        console_text.innerText   = console_list[i];
-
-        console_div.appendChild(console_button);
-        console_div.appendChild(console_text);
-        consoles.appendChild(console_div);
+    function createConsoles() {
+        for (let i = 0; i < console_list.length; i++) {
+            console_class = console_list[i].replaceAll(' ', '-').toLowerCase();
+    
+            var console_div    = document.createElement('div');
+            var console_button = document.createElement('button');
+            var console_text   = document.createElement('h3');
+    
+            console_div.classList.add('console-div');
+            console_button.classList.add('console');
+            console_text.classList.add('console-text');
+    
+            console_div.classList.add(console_class + '-div');
+            console_button.classList.add(console_class);
+            console_text.classList.add(console_class + '-text');
+    
+            console_button.innerText = console_list[i];
+            console_text.innerText   = console_list[i];
+    
+            console_div.appendChild(console_button);
+            console_div.appendChild(console_text);
+            consoles.appendChild(console_div);
+        }
     }
 
-}
-
-//Cycles through the consoles
-function visbility_check(id) {
-    var element = document.getElementById(id);
-
-    if ((parseInt(window.getComputedStyle(element).marginLeft) < 0)) {
-        element.classList.remove('visible');
+    // Makes a "looping" effect
+    for (let i = 0; i < 5; i++) {
+        createConsoles();
     }
 }
 
 document.getElementById('console-left').addEventListener('click', () => {
-    consoles_margin -= 250;
-    consoles.style.marginLeft = consoles_margin + 'px';
+    if (consoles_margin != consoles_margin_initial) {
+        consoles_margin += 450;
+        consoles.style.marginLeft = consoles_margin + 'px';
+    }
 })
 
 document.getElementById('console-right').addEventListener('click', () => {
-    consoles_margin += 250;
+    consoles_margin -= 450;
     consoles.style.marginLeft = consoles_margin + 'px';
 })
 
