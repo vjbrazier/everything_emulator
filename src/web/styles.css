@@ -72,35 +72,29 @@
 
     height: 300px;
     margin-left: 60px;
-    gap: 5px;
+    overflow: hidden;
 
     margin-top: 10px;
 }
 
 #consoles {
     display: flex;
+    flex-direction: row;
 
     margin-left: 60px;
-    overflow: hidden;
-    gap: 150px;
 
     transition: .5s ease-in-out;
 }
 
-.console-div {
-    display: flex;
-    flex-direction: column;
-}
-
-.console-text {
-    place-self: center;
-}
-
-.console {
+.console-button {
     width:  300px;
     height: 300px;
+
+    margin-right: 150px;
+
     place-self: center;
-}
+    transition: .5s ease-in-out;
+} 
 
 /* Games */
 #games {

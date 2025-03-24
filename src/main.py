@@ -5,8 +5,8 @@ import eel, os, json, hashlib
 eel.init('web')
 
 # List of consoles
-consoles = []
-# consoles = ['XBOX', 'XBOX 360', 'Gameboy', 'Gameboy Advance', 'Gamecube', '3DS', 'Nintendo 64', 'DS', 'NES', 'SNES', 'Wii', 'Wii U', 'Switch', 'SEGA Genesis', 'Playstation', 'Playstation 2']
+# consoles = []
+consoles = ['XBOX', 'XBOX 360', 'Gameboy', 'Gameboy Advance', 'Gamecube', '3DS', 'Nintendo 64', 'DS', 'NES', 'SNES', 'Wii', 'Wii U', 'Switch', 'SEGA Genesis', 'Playstation', 'Playstation 2']
 
 # List of games
 games = []
