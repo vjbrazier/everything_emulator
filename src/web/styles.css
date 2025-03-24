@@ -91,6 +91,7 @@
     height: 300px;
 
     margin-right: 150px;
+    background-color: white;
 
     place-self: center;
     transition: .5s ease-in-out;
