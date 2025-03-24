@@ -6,7 +6,7 @@ eel.init('web')
 
 # List of consoles
 # consoles = []
-consoles = ['XBOX', 'XBOX 360', 'Gameboy', 'Gameboy Advance', 'Gamecube', '3DS', 'Nintendo 64', 'DS', 'NES', 'SNES', 'Wii', 'Wii U', 'Switch', 'SEGA Genesis', 'Playstation', 'Playstation 2']
+consoles = ['XBOX', 'XBOX 360', 'Gameboy', 'Gameboy Advance', 'Gamecube', 'DS', '3DS', 'Nintendo 64', 'NES', 'SNES', 'Wii', 'Wii U', 'Switch', 'SEGA Genesis', 'Playstation', 'Playstation 2']
 
 # List of games
 games = []

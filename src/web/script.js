@@ -35,9 +35,9 @@ async function loadConsoles() {
         var current_console = document.createElement('button');
         
         current_console.classList.add('console-button');
-        current_console.innerText = console_name;
+        // current_console.innerText = console_name;
         current_console.id = console_name;
-        current_console.style.backgroundImage = "url('" + console_name + ".png')"
+        current_console.style.backgroundImage = "url('images/" + console_name + ".png')"
 
         consoles.appendChild(current_console);
     }
