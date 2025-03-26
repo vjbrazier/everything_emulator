@@ -1,9 +1,13 @@
 // Variables/Site Elements
 const consoles                = document.getElementById('consoles');
-const consoles_margin_initial = parseInt(window.getComputedStyle(consoles).marginLeft);
 let   consoles_margin         = parseInt(window.getComputedStyle(consoles).marginLeft);
 let   console_pos, console_pos_initial, console_pos_limit;
 const games              = document.getElementById('games');
+
+//Capitalizes a word for convenience
+function capitalize(word) {
+    return word.charAt(0).toUpperCase() + word.slice(1);
+}
 
 // Calculates the size of the screen and adjusts values accordingly for various screen sizes.
 function calculate_consoles_per_scroll() {
@@ -15,12 +19,23 @@ function calculate_consoles_per_scroll() {
         window_width -= 450;
     }
 
+    //This is used to figure out how much the position changed by on resize
+    var original_pos = console_pos_initial - count;
+
     console_pos_initial = count;
-    return count;
+
+    //If console_pos hasn't been set yet (first load) it defaults it
+    if (!console_pos) {
+        console_pos = count;
+    } else {
+        console_pos = (console_pos - original_pos);
+    }
 }
 
+//Changes your current position in the console list based on how many your screen size holds
 window.addEventListener('resize', () => {
-    console_pos = calculate_consoles_per_scroll();
+    calculate_consoles_per_scroll();
+    document.getElementById('ratio').innerText = window.innerWidth + " x " + window.innerHeight;
 });
 
 // Creates all of the consoles
@@ -28,17 +43,30 @@ async function loadConsoles() {
     let console_list = await eel.get_consoles()();
 
     console_pos_limit = console_list.length;
-    console_pos = calculate_consoles_per_scroll(console_list);
+    calculate_consoles_per_scroll(console_list);
 
     for (let i = 0; i < console_list.length; i++) {
-        var console_name = console_list[i].replaceAll(' ', '-').toLowerCase();
-        var current_console = document.createElement('button');
-        
-        current_console.classList.add('console-button');
-        current_console.id = console_name;
-        current_console.style.backgroundImage = "url('images/" + console_name + ".png')"
+        var console_name = console_list[i];
+        var console_id   = console_name.replaceAll(' ', '-').toLowerCase()
 
-        consoles.appendChild(current_console);
+        var console_div = document.createElement('div');
+        var console_button = document.createElement('button');
+        var console_text = document.createElement('h3');
+        
+        console_div.classList.add('console-div');
+        console_div.id = console_id + '-div';
+
+        console_button.classList.add('console-button');
+        console_button.id = console_id;
+        console_button.style.backgroundImage = "url('images/" + console_id + ".png')"
+
+        console_text.classList.add('console-text');
+        console_text.innerText = capitalize(console_name);
+
+        console_div.appendChild(console_button);
+        console_div.appendChild(console_text);
+
+        consoles.appendChild(console_div);
     }
 
 

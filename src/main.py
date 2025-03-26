@@ -28,4 +28,4 @@ def get_games():
 
 # Run the program
 if __name__ == '__main__':
-    eel.start("index.html", host="localhost", port="5000", size=(1920, 1080))
+    eel.start("index.html", host="localhost", port="5600", size=(1920, 1080))

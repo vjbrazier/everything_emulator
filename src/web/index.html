@@ -5,14 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Everything Emulator</title>
 
+    <!-- Themes -->
+    <link rel="stylesheet" href="themes.css">
+
     <!-- Page Styling/Reset -->
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="reset.css">
-
+    
     <script type="text/javascript" src="/eel.js"></script>
-
 </head>
-<body>
+<body id="webpage">
+    <!-- Themes -->
+    <div id="theme-selection">
+        <button id="toggle-themes-button">Theme</button>
+        <button class="theme-button" data-theme-button="light"       id="light-button"      ></button>
+        <button class="theme-button" data-theme-button="dark"        id="dark-button"       ></button>
+        <button class="theme-button" data-theme-button="red"         id="red-button"        ></button>
+        <button class="theme-button" data-theme-button="pink"        id="pink-button"       ></button>
+        <button class="theme-button" data-theme-button="blue"        id="blue-button"       ></button>
+        <button class="theme-button" data-theme-button="light blue"  id="light-blue-button" ></button>
+        <button class="theme-button" data-theme-button="green"       id="green-button"      ></button>
+        <button class="theme-button" data-theme-button="light green" id="light-green-button"></button>
+        <button class="theme-button" data-theme-button="purple"      id="purple-button"     ></button>
+        <button class="theme-button" data-theme-button="lavender"    id="lavender-button"   ></button>
+        <button class="theme-button" data-theme-button="orange"      id="orange-button"     ></button> 
+        <button class="theme-button" data-theme-button="yellow"      id="yellow-button"     ></button>
+    </div>
+
+    <h1 id="ratio"></h1>
+
     <h1>The Everything Emulator</h1>
     <div id="search-box">
         <button id="search-icon"></button>
@@ -39,5 +60,6 @@
     </div>
 
     <script src="script.js"></script>
+    <script src="themes.js"></script>
 </body>
 </html>     

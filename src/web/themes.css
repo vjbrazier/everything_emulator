@@ -1,0 +1,310 @@
+body {
+    --transition: .75s ease-in-out; 
+}
+
+/* Styling for the buttons themselves */
+#toggle-themes-button {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+
+    width:  52px;
+    height: 52px;
+    
+    border-radius: 25px;
+    padding: 5px 5px 5px;
+    font-size: small;
+}
+
+.theme-button {
+    position: absolute;
+    right: -25px;
+    top:   -25px;
+    place-self: end;
+    
+    opacity: 0;
+    width:  25px;
+    height: 25px;
+    
+    padding: 5px 5px 5px 5px;
+    border-radius: 25px;
+}
+
+#toggle-themes-button, .theme-button {
+    background-color: var(--button-background-color);
+    border: 1px solid var(--button-border-color);
+    color: var(--button-text-color);
+    transition: var(--transition);
+}
+
+#toggle-themes-button:hover, .theme-button:hover {
+    background-color: var(--button-hover-color);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+/* Animation of them all sliding in/out */
+#light-button.visible {
+    top: 1px;
+    right: 90px;
+    opacity: 1;
+}
+
+#dark-button.visible {
+    top: 1px;
+    right: 60px;
+    opacity: 1;
+}
+
+#red-button.visible {
+    top: 28px;
+    right: 60px;
+    opacity: 1;
+}
+
+#pink-button.visible {
+    top: 28px;
+    right: 90px;
+    opacity: 1;
+}
+
+#blue-button.visible {
+    top: 57px;
+    right: 60px;
+    opacity: 1;
+}
+
+#light-blue-button.visible {
+    top: 57px;
+    right: 90px;
+    opacity: 1;
+}
+
+#green-button.visible {
+    top: 87px;
+    right: 60px;
+    opacity: 1;
+}
+
+#light-green-button.visible {
+    top: 87px;
+    right: 90px;
+    opacity: 1;
+}
+
+#purple-button.visible {
+    top: 57px;
+    right: 30px;
+    opacity: 1;
+}
+
+#lavender-button.visible {
+    top: 87px;
+    right: 30px;
+    opacity: 1;
+}
+
+#orange-button.visible {
+    top: 57px;
+    right: 1px;
+    opacity: 1;
+}
+
+#yellow-button.visible {
+    top: 87px;
+    right: 1px;
+    opacity: 1;
+}
+
+/* The actual colors of each theme */
+body[data-theme="light"], #light-button, #light-button:hover {
+    --page-background-color: #ffffff;
+    --page-text-color: #000000;
+
+    --button-background-color: #ffffff;
+    --button-border-color: #000000;
+    --button-hover-color: #d1d1d1;
+    --button-text-color: #000000;
+
+    --div-background-color: #d1d1d1; 
+    --div-text-color: #000000;
+    
+    --border-color: #000000;
+    transition: var(--transition);
+}
+
+body[data-theme="dark"], #dark-button, #light-button:hover {
+    --page-background-color: #000000;
+    --page-text-color: #ffffff;
+
+    --button-background-color: #6e6e6e;
+    --button-border-color: #ffffff;
+    --button-hover-color: #8f8f8f;
+    --button-text-color: #ffffff;
+
+    --div-background-color: #6e6e6e; 
+    --div-text-color: #ffffff;
+    
+    --border-color: #ffffff;
+    transition: var(--transition);
+}
+
+body[data-theme="red"], #red-button, #red-button:hover {
+    --page-background-color: #ff0000;
+    --page-text-color: #000000;
+
+    --button-background-color: #dc143c;
+    --button-border-color: #000000;
+    --button-hover-color: #b22222;
+    --button-text-color: #000000;
+
+    --div-background-color: #b22222; 
+    --div-text-color: #000000;
+    
+    --border-color: #000000;
+    transition: var(--transition);
+}
+
+body[data-theme="pink"], #pink-button, #pink-button:hover {
+    --page-background-color: #ffc0cb;
+    --page-text-color: #ffffff;
+
+    --button-background-color: #ffe4e1;
+    --button-border-color: #ff69b4;
+    --button-hover-color: #ffb6c1;
+    --button-text-color: #ff69b4;
+
+    --div-background-color: #ffb6c1; 
+    --div-text-color: #ffffff;
+    
+    --border-color: #ff69b4;
+    transition: var(--transition);
+}
+
+body[data-theme="blue"], #blue-button, #blue-button:hover {
+    --page-background-color: #0000ff;
+    --page-text-color: #000000;
+
+    --button-background-color: #00008b;
+    --button-border-color: #d3d3d3;
+    --button-hover-color: #0000cd;
+    --button-text-color: #ffffff;
+
+    --div-background-color: #0000cd; 
+    --div-text-color: #ffffff;
+    
+    --border-color: #000000;
+    transition: var(--transition);
+}
+
+body[data-theme="light blue"], #light-blue-button, #light-blue-button:hover {
+    --page-background-color: #87cefa;
+    --page-text-color: #ffffff;
+
+    --button-background-color: #7cdeff;
+    --button-border-color: #ffffff;
+    --button-hover-color: #69c0f7;
+    --button-text-color: #000000;
+
+    --div-background-color: #7cdeff; 
+    --div-text-color: #000000;
+    
+    --border-color: #ffffff;
+    transition: var(--transition);
+}
+
+body[data-theme="green"], #green-button, #green-button:hover {
+    --page-background-color: #008000;
+    --page-text-color: #000000;
+
+    --button-background-color: #006400;
+    --button-border-color: #000000;
+    --button-hover-color: #228b22;
+    --button-text-color: #000000;
+    
+    --div-background-color: #006400;
+    --div-text-color: #000000;
+    
+    --border-color: #000000;
+    transition: var(--transition);
+}
+
+body[data-theme="light green"], #light-green-button, #light-green-button:hover {
+    --page-background-color: #66ff40;
+    --page-text-color: #ffffff;
+
+    --button-background-color: #32cd32;
+    --button-border-color: #49aa5e;
+    --button-hover-color: #49ec49;
+    --button-text-color: #000000;
+
+    --div-background-color: #4cca4c; 
+    --div-text-color: #000000;
+    
+    --border-color: #49aa5e;
+    transition: var(--transition);
+}
+
+body[data-theme="purple"], #purple-button, #purple-button:hover {
+    --page-background-color: #4b0082;
+    --page-text-color: #9370d8;
+
+    --button-background-color: #9370d8;
+    --button-border-color: #000000;
+    --button-hover-color: #bea8e9;
+    --button-text-color: #000000;
+
+    --div-background-color: #9370d8; 
+    --div-text-color: #000000;
+    
+    --border-color: #000000;
+    transition: var(--transition);
+}
+
+body[data-theme="lavender"], #lavender-button, #lavender-button:hover {
+    --page-background-color: #c57bd8;
+    --page-text-color: #4b0082;
+
+    --button-background-color: #e1a0f0;
+    --button-border-color: #4b0082;
+    --button-hover-color: #9647ce;
+    --button-text-color: #000000;
+
+    --div-background-color: #e1a0f0; 
+    --div-text-color: #4b0082;
+    
+    --border-color: #4b0082;
+    transition: var(--transition);
+}
+
+body[data-theme="orange"], #orange-button, #orange-button:hover {
+    --page-background-color: #ff8c00;
+    --page-text-color: #ffffff;
+
+    --button-background-color: #ffa500;
+    --button-border-color: #ffffff;
+    --button-hover-color: #ff7300;
+    --button-text-color: #ffffff;
+
+    --div-background-color: #ffa500; 
+    --div-text-color: #ffffff;
+    
+    --border-color: #ffffff;
+    transition: var(--transition);
+}
+
+body[data-theme="yellow"], #yellow-button, #yellow-button:hover {
+    --page-background-color: #ffff00;
+    --page-text-color: #000000;
+
+    --button-background-color: #ffd700;
+    --button-border-color: #000000;
+    --button-hover-color: #f0e68c;
+    --button-text-color: #000000;
+
+    --div-background-color: #ffd700; 
+    --div-text-color: #000000;
+    
+    --border-color: #000000;
+    transition: var(--transition);
+}
