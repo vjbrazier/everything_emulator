@@ -1,12 +1,65 @@
 # Import
-import eel, os, json, hashlib
+import eel, os, json, hashlib, tkinter as tk
+from tkinter import filedialog
 
 # Initialize
 eel.init('web')
 
 # List of consoles
 # consoles = []
-consoles = ['XBOX', 'XBOX 360', 'Gameboy', 'Gameboy Advance', 'Gamecube', 'DS', '3DS', 'Nintendo 64', 'NES', 'SNES', 'Wii', 'Wii U', 'Switch', 'SEGA Genesis', 'Playstation', 'Playstation 2']
+consoles = ['xbox', 'xbox-360', 'gameboy', 'gameboy-advance', 'gamecube', 'ds', '3ds', 'nintendo-64', 'nes', 'snes', 'wii', 'wii-u', 'switch', 'sega-genesis', 'playstation', 'playstation-2']
+
+# Initializes missing data in the paths file
+with open('paths.json', 'r') as f:
+    data = json.load(f)
+
+    console_paths = list(data["emulator-paths"].keys())
+
+    for console in consoles:
+        if console not in console_paths:
+            data["emulator-paths"][console] = ""
+
+    with open('paths.json', 'w') as f:
+        json.dump(data, f, indent=4)
+
+@eel.expose
+def check_console_path(console):
+    with open('paths.json', 'r') as f:
+        data = json.load(f)
+
+        if (data['emulator-paths'][console] == ''):
+            return False
+        else:
+            return True
+
+@eel.expose
+def open_console(console):
+    with open('paths.json', 'r') as f:
+        data = json.load(f)
+
+        if data["emulator-paths"][console] == "":
+            return False
+        
+        else:
+            os.startfile(data["emulator-paths"][console])
+
+@eel.expose
+def user_console_selection(console):
+    root = tk.Tk()
+    root.withdraw()
+    file_path = filedialog.askopenfilename(title="Select the .exe of the emulator")
+    update_console(console, file_path)
+    root.destroy()
+
+def update_console(console, path):
+    with open('paths.json', 'r') as f:
+        data = json.load(f)
+
+        data["emulator-paths"][console] = path
+
+    with open('paths.json', 'w') as f:
+        json.dump(data, f, indent=4)
+
 
 # List of games
 games = []

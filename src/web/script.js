@@ -52,9 +52,11 @@ async function loadConsoles() {
         var console_div = document.createElement('div');
         var console_button = document.createElement('button');
         var console_text = document.createElement('h3');
+        var console_path = document.createElement('h3');
         
         console_div.classList.add('console-div');
         console_div.id = console_id + '-div';
+        console_path.id = console_id + '-path';
 
         console_button.classList.add('console-button');
         console_button.id = console_id;
@@ -63,15 +65,35 @@ async function loadConsoles() {
         console_text.classList.add('console-text');
         console_text.innerText = capitalize(console_name);
 
+        console_path.classList.add('console-path');
+        console_path.innerText = "🗁";
+
         console_div.appendChild(console_button);
         console_div.appendChild(console_text);
+        console_div.appendChild(console_path);
 
         consoles.appendChild(console_div);
     }
 
-
+    addConsolePaths();
 }
 
+async function addConsolePaths() {
+    const console_buttons = document.getElementsByClassName('console-button');
+
+    for (let i = 0; i < console_buttons.length; i++) {
+        console_buttons[i].addEventListener('click', async () => {
+            let console_id = console_buttons[i].id;
+            let emulator_setup = await eel.open_console(console_id)();
+
+            if (!emulator_setup) {
+                eel.user_console_selection(console_id);
+            }
+        })
+    }
+}
+
+//Scrolling through the list of consoles
 document.getElementById('console-left').addEventListener('click', () => {
     if (console_pos != console_pos_initial) {
         console_pos--;

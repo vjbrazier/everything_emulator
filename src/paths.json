@@ -1,0 +1,21 @@
+{
+    "emulator-paths": {
+        "xbox": "",
+        "xbox-360": "",
+        "gameboy": "",
+        "gameboy-advance": "",
+        "gamecube": "",
+        "ds": "",
+        "3ds": "",
+        "nintendo-64": "",
+        "nes": "",
+        "snes": "",
+        "wii": "",
+        "wii-u": "",
+        "switch": "",
+        "sega-genesis": "",
+        "playstation": "",
+        "playstation-2": ""
+    },
+    "roms-location": ""
+}
