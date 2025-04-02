@@ -17,7 +17,7 @@ body {
 }
 
 #search-icon {
-    background-image: url('images/search.png');
+    background-image: url('images/page_elements/search.png');
     background-color: transparent;
     background-repeat: no-repeat;
     background-position: center;

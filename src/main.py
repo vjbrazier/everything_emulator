@@ -7,17 +7,17 @@ eel.init('web')
 
 # List of consoles
 consoles = ['xbox', 'xbox-360', 'gameboy', 'gameboy-advance', 'gamecube', 'ds', '3ds', 'nintendo-64', 'nes', 'snes', 'wii', 'wii-u', 'switch', 'sega-genesis', 'playstation', 'playstation-2']
-paths_json = "data/paths.json"
+paths_json = 'data/paths.json'
 
 # Initializes missing data in the paths file
 with open(paths_json, 'r') as f:
     data = json.load(f)
 
-    console_paths = list(data["emulator-paths"].keys())
+    console_paths = list(data['emulator-paths'].keys())
 
     for console in consoles:
         if console not in console_paths:
-            data["emulator-paths"][console] = ""
+            data['emulator-paths'][console] = ''
 
     with open(paths_json, 'w') as f:
         json.dump(data, f, indent=4)
@@ -37,27 +37,27 @@ def open_console(console):
     with open(paths_json, 'r') as f:
         data = json.load(f)
 
-        if data["emulator-paths"][console] == "":
+        if data['emulator-paths'][console] == '':
             return False
         
         else:
-            os.startfile(data["emulator-paths"][console])
+            os.startfile(data['emulator-paths'][console])
 
 @eel.expose
 def user_console_selection(console):
     root = tk.Tk()
     root.withdraw()
-    file_path = filedialog.askopenfilename(title="Select the .exe of the emulator")
+    file_path = filedialog.askopenfilename(title = 'Select the .exe of the emulator')
     update_console(console, file_path)
     root.destroy()
 
 def update_console(console, path):
-    with open('paths.json', 'r') as f:
+    with open(paths_json, 'r') as f:
         data = json.load(f)
 
-        data["emulator-paths"][console] = path
+        data['emulator-paths'][console] = path
 
-    with open('paths.json', 'w') as f:
+    with open(paths_json, 'w') as f:
         json.dump(data, f, indent=4)
 
 
@@ -68,7 +68,7 @@ games = []
 
 # Dummy data
 for i in range(25):
-    games.append(f"Game {i}")
+    games.append(f'Game {i}')
 
 # Passes consoles
 @eel.expose
@@ -81,4 +81,4 @@ def get_games():
 
 # Run the program
 if __name__ == '__main__':
-    eel.start("index.html", host="localhost", port="5600", size=(1920, 1080))
+    eel.start('index.html', host='localhost', port='5600', size=(1500, 1080))
