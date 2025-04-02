@@ -60,7 +60,7 @@ async function loadConsoles() {
 
         console_button.classList.add('console-button');
         console_button.id = console_id;
-        console_button.style.backgroundImage = "url('images/" + console_id + ".png')"
+        console_button.style.backgroundImage = "url('images/consoles/" + console_id + ".png')"
 
         console_text.classList.add('console-text');
         console_text.innerText = capitalize(console_name);

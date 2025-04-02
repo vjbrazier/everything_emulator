@@ -6,11 +6,11 @@ from tkinter import filedialog
 eel.init('web')
 
 # List of consoles
-# consoles = []
 consoles = ['xbox', 'xbox-360', 'gameboy', 'gameboy-advance', 'gamecube', 'ds', '3ds', 'nintendo-64', 'nes', 'snes', 'wii', 'wii-u', 'switch', 'sega-genesis', 'playstation', 'playstation-2']
+paths_json = "data/paths.json"
 
 # Initializes missing data in the paths file
-with open('paths.json', 'r') as f:
+with open(paths_json, 'r') as f:
     data = json.load(f)
 
     console_paths = list(data["emulator-paths"].keys())
@@ -19,12 +19,12 @@ with open('paths.json', 'r') as f:
         if console not in console_paths:
             data["emulator-paths"][console] = ""
 
-    with open('paths.json', 'w') as f:
+    with open(paths_json, 'w') as f:
         json.dump(data, f, indent=4)
 
 @eel.expose
 def check_console_path(console):
-    with open('paths.json', 'r') as f:
+    with open(paths_json, 'r') as f:
         data = json.load(f)
 
         if (data['emulator-paths'][console] == ''):
@@ -34,7 +34,7 @@ def check_console_path(console):
 
 @eel.expose
 def open_console(console):
-    with open('paths.json', 'r') as f:
+    with open(paths_json, 'r') as f:
         data = json.load(f)
 
         if data["emulator-paths"][console] == "":
