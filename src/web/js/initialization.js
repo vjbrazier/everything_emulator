@@ -79,7 +79,7 @@ async function loadGames() {
         game_console.id = game_id + '-console';
 
         game_div.classList.add('game-div');
-        game_button.classList.add('game');
+        game_button.classList.add('game-button');
         game_text.classList.add('game-text');
         game_console.classList.add('game-console');
 

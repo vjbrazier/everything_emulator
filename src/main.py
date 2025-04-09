@@ -1,70 +1,31 @@
-# Import
-import eel, os, json, hashlib, tkinter as tk
-from tkinter import filedialog
+# Imports
+import eel, json, hashlib, consoles
 
 # Initialize
 eel.init('web')
 
 # List of consoles
-consoles = ['xbox', 'xbox-360', 'gameboy', 'gameboy-advance', 'gamecube', 'ds', '3ds', 'nintendo-64', 'nes', 'snes', 'wii', 'wii-u', 'switch', 'sega-genesis', 'playstation', 'playstation-2']
+consoles = ['xbox', 'xbox-360', 'gameboy', 'gameboy-advance', 'gamecube', 'DS', '3DS', 'nintendo-64', 'NES', 'SNES', 'wii', 'wii-U', 'switch', 'sega-genesis', 'playstation', 'playstation-2']
+
+# The path to the data file
 paths_json = 'data/paths.json'
 
 # Initializes missing data in the paths file
-with open(paths_json, 'r') as f:
-    data = json.load(f)
-
-    console_paths = list(data['emulator-paths'].keys())
-
-    for console in consoles:
-        if console not in console_paths:
-            data['emulator-paths'][console] = ''
-
-    with open(paths_json, 'w') as f:
-        json.dump(data, f, indent=4)
-
-@eel.expose
-def check_console_path(console):
+def add_missing_data():
     with open(paths_json, 'r') as f:
         data = json.load(f)
 
-        if (data['emulator-paths'][console] == ''):
-            return False
-        else:
-            return True
+        console_paths = list(data['emulator-paths'].keys())
 
-@eel.expose
-def open_console(console):
-    with open(paths_json, 'r') as f:
-        data = json.load(f)
+        for console in consoles:
+            if console not in console_paths:
+                data['emulator-paths'][console] = ''
 
-        if data['emulator-paths'][console] == '':
-            return False
-        
-        else:
-            os.startfile(data['emulator-paths'][console])
-
-@eel.expose
-def user_console_selection(console):
-    root = tk.Tk()
-    root.withdraw()
-    file_path = filedialog.askopenfilename(title = 'Select the .exe of the emulator')
-    update_console(console, file_path)
-    root.destroy()
-
-def update_console(console, path):
-    with open(paths_json, 'r') as f:
-        data = json.load(f)
-
-        data['emulator-paths'][console] = path
-
-    with open(paths_json, 'w') as f:
-        json.dump(data, f, indent=4)
-
+        with open(paths_json, 'w') as f:
+            json.dump(data, f, indent=4)
 
 # List of games
 games = []
-# games = ['Super Mario World', 'Mario Odyssey', 'Mario Kart', 'Mario Party', 'Mario 64', 'Mario Galaxy', "Luigi's Mansion"]
-
 
 # Dummy data
 for i in range(25):

@@ -17,7 +17,7 @@ body {
 }
 
 #search-icon {
-    background-image: url('images/page_elements/search.png');
+    background-image: url('../images/page_elements/search.png');
     background-color: transparent;
     background-repeat: no-repeat;
     background-position: center;
@@ -124,17 +124,19 @@ body {
     background-color: var(--button-background-color);
     background-position: center;
     background-repeat: no-repeat;
-    border: 1px solid var(--button-border-color);
+    border: 3px solid var(--button-border-color);
+    border-radius: 10px;
 
     place-self: center;
     transition: var(--transition);
 } 
 
 .console-button:hover {
-    width:  325px;
-    height: 325px;
+    width:  300px;
+    height: 300px; 
 
     background-color: var(--button--color);
+    border: 6px solid var(--button-border-color);
     transition: var(--transition);
 }
 
@@ -150,13 +152,16 @@ body {
     right: 150px;
 
     place-self: start;
-    width: auto;
     font-size: 17px;
     height: 25px;
+    padding: 5px 5px 5px 5px;
 
     color: var(--button-text-color);
+    background-color: var(--button-background-color);
     border: 3px solid var(--button-border-color);
-    transition: var(--transition);
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    transition: .25s ease-in-out;
 }
 
 .console-path:hover {
@@ -167,6 +172,11 @@ body {
 .console-path:hover.console-path::before {
     font-size: 17px;
     transition: var(--transition);
+}
+
+.console-text {
+    place-self: center;
+    transform: translateX(-85px);
 }
 
 /* Games */
@@ -183,12 +193,22 @@ body {
     margin-bottom: 50px;
 }
 
-.game {
+.game-button {
     width: 300px;
     height: 300px;
     place-self: center;
 
-    border: 1px solid var(--button-border-color);
+    background-color: var(--button-background-color);
+    border: 3px solid var(--button-border-color);
+    border-radius: 10px;
+
+    transition: var(--transition);
+}
+
+.game-button:hover {
+    background-color: var(--button-hover-color);
+    border: 6px solid var(--button-border-color);
+
     transition: var(--transition);
 }
 
@@ -202,10 +222,13 @@ body {
     right: 0px;
 
     place-self: start;
+    padding: 5px 5px 5px 5px;
     width: auto;
 
     color: var(--button-text-color);
     border: 3px solid var(--button-border-color);
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
     transition: var(--transition);
 }
 
