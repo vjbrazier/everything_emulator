@@ -1,5 +1,6 @@
 # Imports
-import eel, json, hashlib, consoles
+import eel, json, consoles, games
+from pathlib import Path
 
 # Initialize
 eel.init('web')
@@ -7,8 +8,9 @@ eel.init('web')
 # List of consoles
 consoles = ['xbox', 'xbox-360', 'gameboy', 'gameboy-advance', 'gamecube', 'DS', '3DS', 'nintendo-64', 'NES', 'SNES', 'wii', 'wii-U', 'switch', 'sega-genesis', 'playstation', 'playstation-2']
 
-# The path to the data file
+# Paths
 paths_json = 'data/paths.json'
+hashes = 'data/rom-info/'
 
 # Initializes missing data in the paths file
 def add_missing_data():
@@ -23,6 +25,10 @@ def add_missing_data():
 
         with open(paths_json, 'w') as f:
             json.dump(data, f, indent=4)
+
+    for console in consoles:
+        console_data = Path(hashes + console)
+        console_data.mkdir(exist_ok = True)
 
 # List of games
 games = []

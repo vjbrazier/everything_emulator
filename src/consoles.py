@@ -2,7 +2,7 @@
 import eel, os, json, tkinter as tk
 from tkinter import filedialog
 
-# The path to the data file
+# Paths
 paths_json = 'data/paths.json'
 
 # Returns a boolean based on whether or not a path has been set for a console
@@ -28,14 +28,15 @@ def open_console(console):
             print("Oops, that file doesn't appear to work!")
 
 # Updates the path to the console in the JSON file
-def update_console_path(console, path):
-    with open(paths_json, 'r') as f:
-        data = json.load(f)
+def update_console_path(console, file_path):
+    if (file_path):
+        with open(paths_json, 'r') as f:
+            data = json.load(f)
 
-        data['emulator-paths'][console] = path
+            data['emulator-paths'][console] = file_path
 
-    with open(paths_json, 'w') as f:
-        json.dump(data, f, indent=4)
+        with open(paths_json, 'w') as f:
+            json.dump(data, f, indent=4)
 
 # Opens the file explorer for the user to select the emulator path
 @eel.expose
