@@ -1,21 +1,22 @@
 {
     "emulator-paths": {
-        "xbox": "",
-        "xbox-360": "",
+        "3DS": "",
+        "DS": "",
         "gameboy": "",
         "gameboy-advance": "",
         "gamecube": "",
-        "ds": "",
-        "3ds": "",
+        "NES": "",
         "nintendo-64": "",
-        "nes": "",
-        "snes": "",
-        "wii": "",
-        "wii-u": "",
-        "switch": "C:/Program Files/ryujinx-1.1.1403-win_x64/Ryujinx.exe",
-        "sega-genesis": "",
         "playstation": "",
-        "playstation-2": ""
+        "playstation-2": "",
+        "sega-genesis": "",
+        "SNES": "",
+        "switch": "C:/Program Files/ryujinx-1.1.1403-win_x64/Ryujinx.exe",
+        "wii": "",
+        "wii-U": "",
+        "xbox": "",
+        "xbox-360": "",
+        "ds": "C:/Program Files/ryujinx-1.1.1403-win_x64/avcodec-59.dll"
     },
-    "hashed-roms": {}
+    "roms-path": "D:/Actual Stuff/Files/everything_emulator/src/roms"
 }

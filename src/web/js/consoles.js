@@ -4,8 +4,6 @@ Functions: opening console, setting filepath, changing filepath
 */
 
 // Adds the call to eel needed on each button to make it open files
-
-
 async function addConsolePaths() {
     let console_buttons = document.getElementsByClassName('console-button');
     let console_paths   = document.getElementsByClassName('console-path');
@@ -33,4 +31,15 @@ async function addConsolePaths() {
             eel.modify_console_path(console_id);
         })
     }
+}
+
+// Displays an error message if you selected an invalid file
+eel.expose(error_message);
+function error_message() {
+    console.log('hello');
+    document.getElementById('invalid-file').classList.add('visible');
+
+    setTimeout(() => {
+        document.getElementById('invalid-file').classList.remove('visible');
+    }, 2500);
 }

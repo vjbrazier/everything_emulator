@@ -57,3 +57,8 @@ document.getElementById('console-right').addEventListener('click', () => {
         consoles.style.marginLeft = consoles_margin + 'px';
     }
 })
+
+// Allows modification of where you store your roms on click
+document.getElementById('modify-rom-path').addEventListener('click', () => {
+    eel.modify_rom_path();
+})

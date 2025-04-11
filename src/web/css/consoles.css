@@ -89,3 +89,21 @@
     place-self: center;
     transform: translateX(-85px);
 }
+
+#console-header {
+    place-self: center;
+}
+
+#invalid-file {
+    opacity: 0;
+
+    place-self: center;
+
+    transition: var(--transition);
+}
+
+#invalid-file.visible {
+    opacity: 1;
+
+    transition: var(--transition);
+}

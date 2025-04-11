@@ -1,0 +1,27 @@
+{
+    "hashed-roms": {
+        "cdd3c8c37322978ca8669b34bc89c804": {
+            "name": "Super Mario World (USA)",
+            "display-name": "Super Mario",
+            "console": "snes",
+            "cover": "data/rom-info//snes/cover/Super Mario World (USA).png",
+            "hover": "data/rom-info//snes/hover/Super Mario World (USA).png"
+        },
+        "20b854b239203baf6c961b850a4a51a2": {
+            "name": "Super Mario 64 (USA)",
+            "display-name": "Super Mario 64",
+            "console": "nintendo-64",
+            "cover": "data/rom-info//nintendo-64/cover/Super Mario 64 (USA).png",
+            "hover": "data/rom-info//nintendo-64/hover/Super Mario 64 (USA).png"
+        }
+    },
+    "rom-serials": {
+        "RMGE01": {
+            "name": "Super Mario Galaxy (USA)",
+            "display-name": "Super Mario Galaxy",
+            "console": "wii",
+            "cover": "data/rom-info/wii/cover/Super Mario Galaxy (USA).png",
+            "hover": "data/rom-info/wii/hover/Super Mario Galaxy (USA).png"
+        }
+    }
+}
