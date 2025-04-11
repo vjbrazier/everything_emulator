@@ -1,4 +1,5 @@
 # Imports
+import paths
 import eel, json, consoles, games
 from pathlib import Path
 
