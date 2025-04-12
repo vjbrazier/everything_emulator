@@ -1,5 +1,6 @@
 # Imports
 import paths, json, hashlib, re
+from switch.switch_game_reader import getTitleID
 from pathlib import Path
 
 # Various file name extensions
@@ -42,45 +43,108 @@ for ext in xbox_360_types:
     serial_types.append(ext)
 
 # Hashes the rom file
-def hash_rom(file):
-    with open(file, 'rb') as f:
+def get_hash(rom):
+    with open(rom, 'rb') as f:
         return hashlib.md5(f.read()).hexdigest()
 
 # For iso files, this takes the serial of the file instead of hashing it
-def get_serial(file):
-    with open(file, 'rb') as f:
-        serial = f.read(6)
-        serial = serial.decode('ascii')
+def get_serials(rom):
+    serials = {}
 
-        return serial
+    # Nintendo serial reading
+    with open(rom, 'rb') as f:
+        nintendo_serial = f.read(6)
+        nintendo_serial = nintendo_serial.decode('ascii')
+
+        serials['nintendo'] = nintendo_serial
+
+    # Playstation serial reading
+    with open(rom, 'rb') as f:
+        playstation_serial = f.read(2 * 1024 * 1024)
+
+    playstation_match = re.search(rb'(S[L|C|U|E|P|M][U|L|S|E|C|D|P|M]-?\d{4,5})', playstation_serial)
+
+    if playstation_match:
+        playstation_serial = playstation_match.group(1).decode('utf-8')
+        serials['playstation'] = playstation_serial
+
+    # Original Xbox serial reading
+    def xbox_serial(type):
+        with open(rom, 'rb') as f:
+            xbox_serial = f.read(2 * 1024 * 1024)
+
+        # The original does AA-123 but the 360 does AA-1234
+        if (type == 'xbox'):
+            xbox_match = re.search(rb'([A-Z]{2}-\d{3})', xbox_serial)
+        elif (type == 'xbox-360'):
+            xbox_match = re.search(rb'([A-Z]{2}-\d{4})', xbox_serial)
+
+        if xbox_match:
+            xbox_serial = xbox_match.group(1).decode('utf-8')
+            return xbox_serial
+
+    serials['xbox'] = xbox_serial('xbox')
+    serials['xbox-360'] = xbox_serial('xbox-360')    
+
+    return serials
 
 # Removes extra content in the rom name (such as (USA)) that users don't care for
 def remove_name_filler(name):
+    # List of unwanted region/language tags
     filler_data = [
-                   'En', 'Fr', 'Es', 'It', 'Js', 'De',
-                   'USA', 'Europe', 'Japan', 'World',
-                   '()',
-                  ]
+        'En', 'Fr', 'Es', 'It', 'Js', 'De',
+        'Europe', 'Japan', '(World)', 'Asia', 'Australia', 'USA'
+    ]
 
-    for data in filler_data:
-        name = name.replace(data, '')
+    # Step 1: Remove filler items from grouped language/region lists like (En,Fr,De)
+    def clean_lang_group(match):
+        items = [i.strip() for i in match.group(1).split(',')]
+        kept = [i for i in items if i not in filler_data]
+        return f"({', '.join(kept)})" if kept else ''
 
-    return name.strip()
+    name = re.sub(r'\(([^)]+)\)', clean_lang_group, name)
+
+    # Step 2: Remove any remaining standalone filler tokens with common separators
+    pattern = r'(\s*[\(\[\-_]?\b(?:' + '|'.join(re.escape(item) for item in filler_data if item != 'USA') + r')\b[\)\]_]*\s*)'
+    name = re.sub(pattern, ' ', name, flags=re.IGNORECASE)
+
+    # Step 3: Remove empty parentheses, brackets, dashes, or stray commas
+    name = re.sub(r'[\(\[\{][\s,]*[\)\]\}]', '', name)      # Empty ()
+    name = re.sub(r'\s{2,}', ' ', name)                     # Extra spaces
+    name = re.sub(r'[\s,\-]+$', '', name)                   # Trailing commas/dashes
+    name = name.strip()
+
+    return name.replace('(World)', '').strip()
 
 # Removes file name extensions. Different statements account for .ext vs .exxt for example
-def remove_extension(name):
-    if name[-4] == '.':
+def remove_extension_unicode(name):
+
+    # 2 letter extensions
+    if name[-3] == '.':
+        name = name.replace(name[-3], '')
+
+    # 3 letter extensions
+    elif name[-4] == '.':
         name = name.replace(name[-4:], '')
+
+    # 4 letter extensions
     elif name[-5] == '.':
         name = name.replace(name[-5:], '')
+
+    name = name.replace('\u00ae', '') # Registered Trademark
+    name = name.replace('\u2122', '') # Trademark
+    name = name.replace('\u00a9', '') # Copyright
 
     return name.strip()
 
 # When a match is found from hashing/serialling, it stores it in the file
 # This makes it so all of your roms don't need to be rehashed and searched for prior to loading again
 def add_to_storage(rom, name, console, type):
-    name = remove_extension(name)
+    name = remove_extension_unicode(name)
     display_name = remove_name_filler(name)
+
+    if (console == 'switch') or (console == 'xbox-360'):
+        name = remove_name_filler(name)
 
     with open(paths.rom_data_path, 'r') as f:
         data = json.load(f)
@@ -88,15 +152,36 @@ def add_to_storage(rom, name, console, type):
         # Changes where it is stored in the file
         if (type == 'hash'):
             data['hashed-roms'][rom] = {'name': name, 'display-name': display_name, 'console': console,
-                                        'cover': f'{paths.rom_info_path}/{console}/cover/{name}.png',
-                                        'hover': f'{paths.rom_info_path}/{console}/hover/{name}.png'
+                                        'cover': f'{paths.rom_info_path}{console}/cover/{name}.png',
+                                        'hover': f'{paths.rom_info_path}{console}/hover/{name}.png'
                                        }
         elif (type == 'serial'):
             data['rom-serials'][rom] = {'name': name, 'display-name': display_name, 'console': console,
                                         'cover': f'{paths.rom_info_path}{console}/cover/{name}.png',
                                         'hover': f'{paths.rom_info_path}{console}/hover/{name}.png'
                                        }
+            
+            # The Xbox 360 database lacks a screenshot image
+            if console == 'xbox-360':
+                data['rom-serials'][rom]['hover'] = data['rom-serials'][rom]['cover']
 
+    with open(paths.rom_data_path, 'w') as f:
+        json.dump(data, f, indent=4)
+
+# Switch games are stored differently
+def add_to_switch_storage(rom, title_id, title):
+    title = remove_extension_unicode(title)
+    display_name = remove_name_filler(title)
+
+    with open(paths.rom_data_path, 'r') as f:
+        data = json.load(f)
+
+        # The switch database lacks a screenshot image
+        data['switch-games'][rom] = {'title-id': title_id, 'console': 'switch', 'display-name': display_name,
+                                     'cover': f'{paths.rom_info_path}switch/cover/{title}.png',
+                                     'hover': f'{paths.rom_info_path}switch/cover/{title}.png'
+                                    }
+        
     with open(paths.rom_data_path, 'w') as f:
         json.dump(data, f, indent=4)
 
@@ -120,44 +205,57 @@ def check_hash(hash, console):
                 add_to_storage(hash, current_name, console, 'hash')
 
 # Compares the serial of the rom against the data, and takes the serial and name of the file
-def check_serial(serial, console):
+def check_serial(serials, console):
     console_file = console + '.dat'
 
-    with open(paths.rom_info_path + console + '/' + console_file, 'r', encoding = 'utf-8') as f:
-        # Due to the way the file is setup, we need this extra boolean
+    with open(paths.rom_info_path + console + '/' + console_file, 'r', encoding='utf-8') as f:
         inside_game_block = False
+        current_name = None
 
         for line in f:
             line = line.strip()
 
-            # Ensures we are in the right spot, and resets the name prior to getting a value for it
-            if (line.startswith('game (')):
+            if line.startswith('game ('):
                 inside_game_block = True
-                current_name = None
+                current_name = None  # Reset the game name for each new block
 
-            if inside_game_block and not current_name:
-                current_name = re.search(r'name\s+"(.+?)"', line)
-                
-                # A quick check to ensure we don't call group on a None object
-                if current_name:
-                    current_name = current_name.group(1)
+            if inside_game_block:
+                if current_name is None:
+                    match = re.search(r'name\s+"(.+?)"', line)
+                    if match:
+                        current_name = match.group(1)
+
+                # Look for a serial
+                serial_match = re.search(r'serial\s+"([A-Z0-9]{6})"', line)
+                if serial_match:
+                    serial_to_check = serial_match.group(1)
+
+                    # Check for a match only if current_name is set
+                    if current_name:
+                        for serial_type in serials:
+                            if serials[serial_type] == serial_to_check:
+                                add_to_storage(serial_to_check, current_name, console, 'serial')
 
 
-            serial_to_check = re.search(r'serial\s+"([A-Z0-9]{6})"', line)
 
-            # Another check for above
-            if serial_to_check:
-                serial_to_check = serial_to_check.group(1)
-                
-            if serial == serial_to_check:
-                add_to_storage(serial, current_name, console, 'serial')
+def check_title_id(title_id):
+    with open(paths.rom_info_path + 'switch/switch.json', 'r') as f:
+        data = json.load(f)
+
+        for id in list(data.keys()):
+            if data[id]['id'] == title_id:
+                return data[id]['name']
 
 # Checks if a hash is already stored prior to searching the entire database again
 def check_existence(rom):
     with open(paths.rom_data_path, 'r') as f:
         data = json.load(f)
 
-        if (rom in list(data['hashed-roms'].keys())) or (rom in list(data['rom-serials'].keys())):
+        hashed_roms  = list(data['hashed-roms'].keys())
+        rom_serials  = list(data['rom-serials'].keys())
+        switch_games = list(data['switch-games'].keys())
+
+        if (rom in hashed_roms) or (rom in rom_serials) or (rom in switch_games):
             return True
         else:
             return False
@@ -176,12 +274,16 @@ def rom_analysis():
     for rom in roms:
         # This is under a condition because hashing large ISOs takes a long time and is useless   
         if rom[-3:] in serial_types:
-            serial = get_serial(rom)
-            already_found = check_existence(serial)
+            serials = get_serials(rom)
+            already_found = check_existence(serials)
+
+        # Switch games are special and go through a much different process
+        elif rom[-3:] in switch_types:
+            already_found = check_existence(rom)
 
         # This is under a condition because looking for a serial in non-ISOs often causes an error
         else:
-            hash = hash_rom(rom)
+            hash = get_hash(rom)
             already_found = check_existence(hash)
             
         if (not already_found):
@@ -198,7 +300,7 @@ def rom_analysis():
                 check_hash(hash, 'gba')
 
             if rom[-3:] in gamecube_types:
-                check_serial(serial, 'gamecube')
+                check_serial(serials, 'gamecube')
 
             if rom[-3:] in nes_types:
                 check_hash(hash, 'nes')
@@ -207,10 +309,10 @@ def rom_analysis():
                 check_hash(hash, 'nintendo-64')
 
             if rom[-3:] in playstation_types:
-                check_serial(serial, 'playstation')
+                check_serial(serials, 'playstation')
 
             if rom[-3:] in playstation_2_types:
-                check_serial(serial, 'playstation-2')
+                check_serial(serials, 'playstation-2')
 
             if (rom[-2:] in sega_genesis_types) or (rom[-3:] in sega_genesis_types):
                 check_hash(hash, 'sega-genesis')
@@ -219,18 +321,23 @@ def rom_analysis():
                 check_hash(hash, 'snes')
 
             if rom[-3:] in switch_types:
-                pass
+                title_id = getTitleID(rom, paths.hactool_path, paths.prod_keys_path)
+                
+                title = check_title_id(title_id)
+                
+                if title:
+                    add_to_switch_storage(rom, title_id, title)
 
             if (rom[-3:] in wii_types) or (rom[-4:] in wii_types):
-                check_serial(serial, 'wii')
+                check_serial(serials, 'wii')
 
             if rom[-3:] in wii_u_types:
-                check_serial(serial, 'wii-u')
+                check_serial(serials, 'wii-u')
 
             if (rom[-3:] in xbox_types) or (rom[-4:] in xbox_types):
-                pass
+                check_serial(serials, 'xbox')
 
             if rom[-3:] in xbox_360_types:
-                pass
+                check_serial(serials, 'xbox-360')
 
 rom_analysis()
