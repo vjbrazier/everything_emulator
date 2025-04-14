@@ -1,0 +1,16 @@
+* {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+body {
+    background-color: var(--page-background-color);
+    color: var(--page-text-color);
+}
+
+/* Loading bar */
+#loading-bar {
+    width: 750px;
+    height: 50px;
+
+
+}

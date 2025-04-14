@@ -1,5 +1,5 @@
 # Imports
-import paths, eel, json, hashing, consoles, games
+import paths, eel, json, hashing
 from pathlib import Path
 
 # Initialize
@@ -8,9 +8,8 @@ eel.init('web')
 # List of consoles
 console_list = [
             '3DS', 'DS', 'gameboy', 'gameboy-advance', 'gamecube',
-            'NES', 'nintendo-64', 'playstation', 'playstation-2', 'sega-genesis',
-            'SNES', 'switch', 'wii', 'wii-U', 'xbox',
-            'xbox-360'
+            'NES', 'nintendo-64', 'SNES', 'switch', 'wii', 
+            'xbox', 'xbox-360'
            ]
 
 # Paths
@@ -55,6 +54,28 @@ def get_consoles():
 def get_games():
     return game_list
 
+# Counts how many new files exist for the loading page
+@eel.expose
+def count_hashing(roms):
+    total = 0
+
+    for rom in roms:
+        if (not hashing.check_existence(rom)):
+            total += 1
+
+    return total
+
+@eel.expose
+def begin_hashing(rom):
+
+
+@eel.expose
+def route_to_main():
+    # Only imports the elements after its time to have them be active
+    import consoles, games
+
+    eel.show('index.html')
+
 # Run the program
 if __name__ == '__main__':
-    eel.start('index.html', host='localhost', port='5600', size=(1500, 1080))
+    eel.start('loading.html', host='localhost', port='5600', size=(1500, 1080))

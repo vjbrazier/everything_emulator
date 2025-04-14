@@ -1,7 +1,8 @@
 # Imports
-import paths, json, hashlib, re
+import paths, json, hashlib, re, eel
 from switch.switch_game_reader import getTitleID
 from pathlib import Path
+from datetime import datetime
 
 # Various file name extensions
 three_ds_types        = ['3ds', 'cia', 'cxi']
@@ -11,82 +12,39 @@ gameboy_advance_types = ['gba']
 gamecube_types        = ['iso', 'gcm', 'gcz', 'rvz']
 nes_types             = ['nes', 'prg', 'chr']
 nintendo_64_types     = ['n64', 'v64', 'z64']
-playstation_types     = ['iso', 'bin']
-playstation_2_types   = ['iso', 'bin']
-sega_genesis_types    = ['md', 'gen', 'bin']
 snes_types            = ['sfc', 'smc', 'fig', 'swc']
 switch_types          = ['nsp', 'xci']
 wii_types             = ['iso', 'rvz', 'gcz', 'wbfs', 'nkit']
-wii_u_types           = ['wud', 'wux']
 xbox_types            = ['iso', 'xiso']
 xbox_360_types        = ['iso', 'xex']
 
-# Takes the types from above that require grabbing a serial, rather than hashing
-serial_types = []
+# Takes the types from above that require hashing
+hash_types = []
 
-for ext in gamecube_types:
-    serial_types.append(ext)
+def add_to_cumulative(list):
+    for ext in list:
+        hash_types.append(ext)
 
-for ext in playstation_types:
-    serial_types.append(ext)
-
-for ext in playstation_2_types:
-    serial_types.append(ext)
-
-for ext in wii_types:
-    serial_types.append(ext)
-
-for ext in xbox_types:
-    serial_types.append(ext)
-
-for ext in xbox_360_types:
-    serial_types.append(ext)
+add_to_cumulative(three_ds_types)
+add_to_cumulative(ds_types)
+add_to_cumulative(gameboy_types)
+add_to_cumulative(gameboy_advance_types)
+add_to_cumulative(nes_types)
+add_to_cumulative(nintendo_64_types)
+add_to_cumulative(snes_types)
 
 # Hashes the rom file
 def get_hash(rom):
     with open(rom, 'rb') as f:
         return hashlib.md5(f.read()).hexdigest()
 
-# For iso files, this takes the serial of the file instead of hashing it
-def get_serials(rom):
-    serials = {}
-
-    # Nintendo serial reading
+# For Wii/Gamecube files, this takes the serial of the file instead of hashing it
+def get_serial(rom):
     with open(rom, 'rb') as f:
-        nintendo_serial = f.read(6)
-        nintendo_serial = nintendo_serial.decode('ascii')
+        serial = f.read(6) #The serial is just the first 6 digits
+        serial = serial.decode('ascii')
 
-        serials['nintendo'] = nintendo_serial
-
-    # Playstation serial reading
-    with open(rom, 'rb') as f:
-        playstation_serial = f.read(2 * 1024 * 1024)
-
-    playstation_match = re.search(rb'(S[L|C|U|E|P|M][U|L|S|E|C|D|P|M]-?\d{4,5})', playstation_serial)
-
-    if playstation_match:
-        playstation_serial = playstation_match.group(1).decode('utf-8')
-        serials['playstation'] = playstation_serial
-
-    # Original Xbox serial reading
-    def xbox_serial(type):
-        with open(rom, 'rb') as f:
-            xbox_serial = f.read(2 * 1024 * 1024)
-
-        # The original does AA-123 but the 360 does AA-1234
-        if (type == 'xbox'):
-            xbox_match = re.search(rb'([A-Z]{2}-\d{3})', xbox_serial)
-        elif (type == 'xbox-360'):
-            xbox_match = re.search(rb'([A-Z]{2}-\d{4})', xbox_serial)
-
-        if xbox_match:
-            xbox_serial = xbox_match.group(1).decode('utf-8')
-            return xbox_serial
-
-    serials['xbox'] = xbox_serial('xbox')
-    serials['xbox-360'] = xbox_serial('xbox-360')    
-
-    return serials
+        return serial
 
 # Removes extra content in the rom name (such as (USA)) that users don't care for
 def remove_name_filler(name):
@@ -116,12 +74,12 @@ def remove_name_filler(name):
 
     return name.replace('(World)', '').strip()
 
-# Removes file name extensions. Different statements account for .ext vs .exxt for example
+# Removes file name extensions and unicode
 def remove_extension_unicode(name):
 
     # 2 letter extensions
     if name[-3] == '.':
-        name = name.replace(name[-3], '')
+        name = name.replace(name[-3:], '')
 
     # 3 letter extensions
     elif name[-4] == '.':
@@ -139,11 +97,12 @@ def remove_extension_unicode(name):
 
 # When a match is found from hashing/serialling, it stores it in the file
 # This makes it so all of your roms don't need to be rehashed and searched for prior to loading again
-def add_to_storage(rom, name, console, type):
+def add_to_storage(rom, rom_identifier, name, console, type):
     name = remove_extension_unicode(name)
     display_name = remove_name_filler(name)
 
-    if (console == 'switch') or (console == 'xbox-360'):
+    # The image archive for the Xbox-360 does not contain the extra info
+    if console == 'xbox-360':
         name = remove_name_filler(name)
 
     with open(paths.rom_data_path, 'r') as f:
@@ -151,12 +110,8 @@ def add_to_storage(rom, name, console, type):
 
         # Changes where it is stored in the file
         if (type == 'hash'):
-            data['hashed-roms'][rom] = {'name': name, 'display-name': display_name, 'console': console,
-                                        'cover': f'{paths.rom_info_path}{console}/cover/{name}.png',
-                                        'hover': f'{paths.rom_info_path}{console}/hover/{name}.png'
-                                       }
-        elif (type == 'serial'):
-            data['rom-serials'][rom] = {'name': name, 'display-name': display_name, 'console': console,
+            data['hashed-roms'][rom] = {'hash': rom_identifier,
+                                        'name': name, 'display-name': display_name, 'console': console,
                                         'cover': f'{paths.rom_info_path}{console}/cover/{name}.png',
                                         'hover': f'{paths.rom_info_path}{console}/hover/{name}.png'
                                        }
@@ -165,10 +120,17 @@ def add_to_storage(rom, name, console, type):
             if console == 'xbox-360':
                 data['rom-serials'][rom]['hover'] = data['rom-serials'][rom]['cover']
 
+        elif (type == 'serial'):
+            data['rom-serials'][rom] = {'serial': rom_identifier,
+                                        'name': name, 'display-name': display_name, 'console': console,
+                                        'cover': f'{paths.rom_info_path}{console}/cover/{name}.png',
+                                        'hover': f'{paths.rom_info_path}{console}/hover/{name}.png'
+                                       }
+
     with open(paths.rom_data_path, 'w') as f:
         json.dump(data, f, indent=4)
 
-# Switch games are stored differently
+# Switch games are stored with some different data
 def add_to_switch_storage(rom, title_id, title):
     title = remove_extension_unicode(title)
     display_name = remove_name_filler(title)
@@ -186,7 +148,7 @@ def add_to_switch_storage(rom, title_id, title):
         json.dump(data, f, indent=4)
 
 # Compares the hash of the rom against the data, and takes the hash and name of the file
-def check_hash(hash, console):
+def check_hash(rom, hash, console):
     console_file = console + '.dat'
 
     with open(paths.rom_info_path + console + '/' + console_file, 'r', encoding = 'utf-8') as f:
@@ -202,10 +164,10 @@ def check_hash(hash, console):
                 current_name = current_name.group(1)
             
             if hash == hash_to_check:
-                add_to_storage(hash, current_name, console, 'hash')
+                add_to_storage(rom, hash, current_name, console, 'hash')
 
 # Compares the serial of the rom against the data, and takes the serial and name of the file
-def check_serial(serials, console):
+def check_serial(rom, serial, console):
     console_file = console + '.dat'
 
     with open(paths.rom_info_path + console + '/' + console_file, 'r', encoding='utf-8') as f:
@@ -232,11 +194,10 @@ def check_serial(serials, console):
 
                     # Check for a match only if current_name is set
                     if current_name:
-                        for serial_type in serials:
-                            if serials[serial_type] == serial_to_check:
-                                add_to_storage(serial_to_check, current_name, console, 'serial')
-
-
+                        if serial == serial_to_check:
+                            add_to_storage(rom, serial_to_check, current_name, console, 'serial')
+                            return True
+    return False
 
 def check_title_id(title_id):
     with open(paths.rom_info_path + 'switch/switch.json', 'r') as f:
@@ -261,65 +222,48 @@ def check_existence(rom):
             return False
 
 # Creates a list of all the roms stored
+@eel.expose
 def load_rom_files():
     global roms
 
     roms_location = Path(paths.roms_path)
     roms = ['roms/' + r.name for r in roms_location.iterdir() if r.is_file()]
 
-load_rom_files()
+    return roms
 
 # Reads through roms and figures out what they are based on extension
 def rom_analysis():
     for rom in roms:
-        # This is under a condition because hashing large ISOs takes a long time and is useless   
-        if rom[-3:] in serial_types:
-            serials = get_serials(rom)
-            already_found = check_existence(serials)
-
-        # Switch games are special and go through a much different process
-        elif rom[-3:] in switch_types:
-            already_found = check_existence(rom)
-
-        # This is under a condition because looking for a serial in non-ISOs often causes an error
-        else:
-            hash = get_hash(rom)
-            already_found = check_existence(hash)
+        # Does a check to make finding a game you already have unnecessary
+        already_found = check_existence(rom)
             
         if (not already_found):
+            # This is under a condition to skip Wii games since they require a serial
+            if rom[-3:] in hash_types:
+                hash = get_hash(rom)
+            
             if rom[-3:] in three_ds_types:
-                check_hash(hash, '3ds')
+                check_hash(rom, hash, '3ds')
 
             if rom[-3:] in ds_types:
-                check_hash(hash, 'ds')
+                check_hash(rom, hash, 'ds')
 
             if rom[-2:] in gameboy_types:
-                check_hash(hash, 'gb')
+                check_hash(rom, hash, 'gameboy')
 
             if rom[-3:] in gameboy_types:
-                check_hash(hash, 'gba')
-
-            if rom[-3:] in gamecube_types:
-                check_serial(serials, 'gamecube')
+                check_hash(rom, hash, 'gameboy-advance')
 
             if rom[-3:] in nes_types:
-                check_hash(hash, 'nes')
+                check_hash(rom, hash, 'nes')
 
             if rom[-3:] in nintendo_64_types:
-                check_hash(hash, 'nintendo-64')
-
-            if rom[-3:] in playstation_types:
-                check_serial(serials, 'playstation')
-
-            if rom[-3:] in playstation_2_types:
-                check_serial(serials, 'playstation-2')
-
-            if (rom[-2:] in sega_genesis_types) or (rom[-3:] in sega_genesis_types):
-                check_hash(hash, 'sega-genesis')
+                check_hash(rom, hash, 'nintendo-64')
 
             if rom[-3:] in snes_types:
-                check_hash(hash, 'snes')
+                check_hash(rom, hash, 'snes')
 
+            # Switch games use a different process
             if rom[-3:] in switch_types:
                 title_id = getTitleID(rom, paths.hactool_path, paths.prod_keys_path)
                 
@@ -328,16 +272,19 @@ def rom_analysis():
                 if title:
                     add_to_switch_storage(rom, title_id, title)
 
-            if (rom[-3:] in wii_types) or (rom[-4:] in wii_types):
-                check_serial(serials, 'wii')
+            # These are ISO files, and have a different process
+            if (rom[-3:] in gamecube_types) or (rom[-3:] in wii_types) or (rom[-4:] in wii_types):
+                # Getting the serial is very fast, so we just get it regardless
+                serial = get_serial(rom)
 
-            if rom[-3:] in wii_u_types:
-                check_serial(serials, 'wii-u')
+                # Checks the gamecube and wii data first
+                game_found = check_serial(rom, serial, 'gamecube')
+                
+                if (not game_found):
+                    game_found = check_serial(rom, serial, 'wii')
 
-            if (rom[-3:] in xbox_types) or (rom[-4:] in xbox_types):
-                check_serial(serials, 'xbox')
-
-            if rom[-3:] in xbox_360_types:
-                check_serial(serials, 'xbox-360')
-
-rom_analysis()
+                # Hashing takes longer. If it is neither of the above, then it checks for xbox and xbox 360
+                if (not game_found):
+                    hash = get_hash(rom)
+                    check_hash(rom, hash, 'xbox')
+                    check_hash(rom, hash, 'xbox-360')

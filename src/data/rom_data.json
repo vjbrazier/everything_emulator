@@ -1,27 +1,78 @@
 {
     "hashed-roms": {
-        "cdd3c8c37322978ca8669b34bc89c804": {
+        "roms/mystery.smc": {
+            "hash": "cdd3c8c37322978ca8669b34bc89c804",
             "name": "Super Mario World (USA)",
             "display-name": "Super Mario World",
             "console": "snes",
             "cover": "data/rom-info/snes/cover/Super Mario World (USA).png",
             "hover": "data/rom-info/snes/hover/Super Mario World (USA).png"
         },
-        "20b854b239203baf6c961b850a4a51a2": {
+        "roms/mystery.z64": {
+            "hash": "20b854b239203baf6c961b850a4a51a2",
             "name": "Super Mario 64 (USA)",
             "display-name": "Super Mario 64",
             "console": "nintendo-64",
             "cover": "data/rom-info/nintendo-64/cover/Super Mario 64 (USA).png",
             "hover": "data/rom-info/nintendo-64/hover/Super Mario 64 (USA).png"
+        },
+        "roms/mystery.3ds": {
+            "hash": "7be1494691babcd3c20708e723dc060e",
+            "name": "Mario & Luigi - Dream Team (USA) (En,Fr,Es) (Rev 1)",
+            "display-name": "Mario & Luigi - Dream Team (Rev 1)",
+            "console": "3ds",
+            "cover": "data/rom-info/3ds/cover/Mario & Luigi - Dream Team (USA) (En,Fr,Es) (Rev 1).png",
+            "hover": "data/rom-info/3ds/hover/Mario & Luigi - Dream Team (USA) (En,Fr,Es) (Rev 1).png"
+        },
+        "roms/mystery.nds": {
+            "hash": "dbd76d942fc5c636b84fc299d1cab168",
+            "name": "Kirby Mass Attack (USA) (En,Fr,Es)",
+            "display-name": "Kirby Mass Attack",
+            "console": "ds",
+            "cover": "data/rom-info/ds/cover/Kirby Mass Attack (USA) (En,Fr,Es).png",
+            "hover": "data/rom-info/ds/hover/Kirby Mass Attack (USA) (En,Fr,Es).png"
+        },
+        "roms/mystery.gb": {
+            "hash": "b48161623f12f86fec88320166a21fce",
+            "name": "Super Mario Land (World)",
+            "display-name": "Super Mario Land",
+            "console": "gameboy",
+            "cover": "data/rom-info/gameboy/cover/Super Mario Land (World).png",
+            "hover": "data/rom-info/gameboy/hover/Super Mario Land (World).png"
+        },
+        "roms/mystery4.iso": {
+            "hash": "0f56f921eda19dbc630bf3283bf14857",
+            "name": "Burnout 3 - Takedown (USA)",
+            "display-name": "Burnout 3 - Takedown",
+            "console": "xbox",
+            "cover": "data/rom-info/xbox/cover/Burnout 3 - Takedown (USA).png",
+            "hover": "data/rom-info/xbox/hover/Burnout 3 - Takedown (USA).png"
+        },
+        "roms/mystery3.iso": {
+            "hash": "f7be75f60a9d83c8e976271a282bc0cd",
+            "name": "Disney-Pixar Toy Story 3",
+            "display-name": "Toy Story 3",
+            "console": "xbox-360",
+            "cover": "data/rom-info/xbox-360/cover/Toy Story 3.png",
+            "hover": "data/rom-info/xbox-360/hover/Toy Story 3.png"
         }
     },
     "rom-serials": {
-        "RMGE01": {
+        "roms/mystery.iso": {
+            "serial": "RMGE01",
             "name": "Super Mario Galaxy (USA)",
             "display-name": "Super Mario Galaxy",
             "console": "wii",
             "cover": "data/rom-info/wii/cover/Super Mario Galaxy (USA).png",
             "hover": "data/rom-info/wii/hover/Super Mario Galaxy (USA).png"
+        },
+        "roms/mystery2.iso": {
+            "serial": "GMSP01",
+            "name": "Super Mario Sunshine (Europe)",
+            "display-name": "Super Mario Sunshine",
+            "console": "gamecube",
+            "cover": "data/rom-info/gamecube/cover/Super Mario Sunshine (Europe).png",
+            "hover": "data/rom-info/gamecube/hover/Super Mario Sunshine (Europe).png"
         }
     },
     "switch-games": {

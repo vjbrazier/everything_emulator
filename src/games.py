@@ -29,6 +29,8 @@ def modify_rom_path():
     try:
         update_rom_path(file_path)
     except:
-        print("You didn't seem to choose a file.")
+        print("You didn't seem to choose a folder.")
 
     root.destroy()
+
+# Loads games that have been logged in the data to 
