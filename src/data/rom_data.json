@@ -24,14 +24,6 @@
             "cover": "data/rom-info/3ds/cover/Mario & Luigi - Dream Team (USA) (En,Fr,Es) (Rev 1).png",
             "hover": "data/rom-info/3ds/hover/Mario & Luigi - Dream Team (USA) (En,Fr,Es) (Rev 1).png"
         },
-        "roms/mystery.nds": {
-            "hash": "dbd76d942fc5c636b84fc299d1cab168",
-            "name": "Kirby Mass Attack (USA) (En,Fr,Es)",
-            "display-name": "Kirby Mass Attack",
-            "console": "ds",
-            "cover": "data/rom-info/ds/cover/Kirby Mass Attack (USA) (En,Fr,Es).png",
-            "hover": "data/rom-info/ds/hover/Kirby Mass Attack (USA) (En,Fr,Es).png"
-        },
         "roms/mystery.gb": {
             "hash": "b48161623f12f86fec88320166a21fce",
             "name": "Super Mario Land (World)",
@@ -40,6 +32,30 @@
             "cover": "data/rom-info/gameboy/cover/Super Mario Land (World).png",
             "hover": "data/rom-info/gameboy/hover/Super Mario Land (World).png"
         },
+        "roms/mystery.gba": {
+            "hash": "784a036ff1aae709e90167186639b75e",
+            "name": "Mario Kart - Super Circuit (USA)",
+            "display-name": "Mario Kart - Super Circuit",
+            "console": "gameboy-advance",
+            "cover": "data/rom-info/gameboy-advance/cover/Mario Kart - Super Circuit (USA).png",
+            "hover": "data/rom-info/gameboy-advance/hover/Mario Kart - Super Circuit (USA).png"
+        },
+        "roms/mystery.nds": {
+            "hash": "dbd76d942fc5c636b84fc299d1cab168",
+            "name": "Kirby Mass Attack (USA) (En,Fr,Es)",
+            "display-name": "Kirby Mass Attack",
+            "console": "ds",
+            "cover": "data/rom-info/ds/cover/Kirby Mass Attack (USA) (En,Fr,Es).png",
+            "hover": "data/rom-info/ds/hover/Kirby Mass Attack (USA) (En,Fr,Es).png"
+        },
+        "roms/mystery3.iso": {
+            "hash": "f7be75f60a9d83c8e976271a282bc0cd",
+            "name": "Toy Story 3",
+            "display-name": "Toy Story 3",
+            "console": "xbox-360",
+            "cover": "data/rom-info/xbox-360/cover/Toy Story 3.png",
+            "hover": "data/rom-info/xbox-360/cover/Toy Story 3.png"
+        },
         "roms/mystery4.iso": {
             "hash": "0f56f921eda19dbc630bf3283bf14857",
             "name": "Burnout 3 - Takedown (USA)",
@@ -47,14 +63,6 @@
             "console": "xbox",
             "cover": "data/rom-info/xbox/cover/Burnout 3 - Takedown (USA).png",
             "hover": "data/rom-info/xbox/hover/Burnout 3 - Takedown (USA).png"
-        },
-        "roms/mystery3.iso": {
-            "hash": "f7be75f60a9d83c8e976271a282bc0cd",
-            "name": "Disney-Pixar Toy Story 3",
-            "display-name": "Toy Story 3",
-            "console": "xbox-360",
-            "cover": "data/rom-info/xbox-360/cover/Toy Story 3.png",
-            "hover": "data/rom-info/xbox-360/hover/Toy Story 3.png"
         }
     },
     "rom-serials": {

@@ -1,5 +1,5 @@
 # Imports
-import paths, eel, json, hashing
+import paths, eel, json, hashing, consoles, games
 from pathlib import Path
 
 # Initialize
@@ -26,7 +26,7 @@ def add_missing_data():
 
         for console in console_list:
             if console not in console_paths:
-                data['emulator-paths'][console] = ''
+                data['emulator-paths'][console.lower()] = ''
 
         with open(paths.file_paths, 'w') as f:
             json.dump(data, f, indent=4)
@@ -54,26 +54,9 @@ def get_consoles():
 def get_games():
     return game_list
 
-# Counts how many new files exist for the loading page
+# Swaps to the main page after loading is finished
 @eel.expose
-def count_hashing(roms):
-    total = 0
-
-    for rom in roms:
-        if (not hashing.check_existence(rom)):
-            total += 1
-
-    return total
-
-@eel.expose
-def begin_hashing(rom):
-
-
-@eel.expose
-def route_to_main():
-    # Only imports the elements after its time to have them be active
-    import consoles, games
-
+def reroute_to_main():
     eel.show('index.html')
 
 # Run the program

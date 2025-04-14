@@ -4,26 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Everything Emulator</title>
+
+    <!-- Themes -->
+    <link rel="stylesheet" href="css/themes.css">
     
     <!-- Page Styling/Reset -->
     <link rel="stylesheet" href="css/loading_page.css">
     <link rel="stylesheet" href="css/reset.css">
-
-    <!-- Themes -->
-    <link rel="stylesheet" href="css/themes.css">
     
     <script type="text/javascript" src="/eel.js"></script>
 </head>
 <body id="webpage">
 
-    <h1>Identifying your ROMs...</h1>
-    <h3>(This may take some time)</h3>
-
-    <div id="loading">
-        <div id="loading-bar"></div>
-        <h3 id="progress"></h3>
-        <h3 id="current-file"></h3>
+    <h1 class="middle">Identifying your ROMs...</h1>
+    <h3 class="middle">(This may take some time)</h3>
+    <br>
+    <div class="middle" id="loading-bar">
+        <div id="inner-loading-bar"></div>
     </div>
+    <br>
+    <h3  class="middle" id="progress"></h3>
+    <h3  class="middle" id="current-file"></h3>
 
     <script src="js/loading_page.js"></script>
 </body>

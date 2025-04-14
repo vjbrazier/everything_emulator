@@ -118,7 +118,7 @@ def add_to_storage(rom, rom_identifier, name, console, type):
             
             # The Xbox 360 database lacks a screenshot image
             if console == 'xbox-360':
-                data['rom-serials'][rom]['hover'] = data['rom-serials'][rom]['cover']
+                data['hashed-roms'][rom]['hover'] = data['hashed-roms'][rom]['cover']
 
         elif (type == 'serial'):
             data['rom-serials'][rom] = {'serial': rom_identifier,
@@ -231,17 +231,34 @@ def load_rom_files():
 
     return roms
 
+# Counts how many new files exist for the loading page
+@eel.expose
+def count_new_roms():
+    roms = load_rom_files()
+    total = 0
+
+    for rom in roms:
+        if (not check_existence(rom)):
+            total += 1
+
+    return total
+
+total = count_new_roms()
+
 # Reads through roms and figures out what they are based on extension
+@eel.expose
 def rom_analysis():
+    roms = load_rom_files()
+
     for rom in roms:
         # Does a check to make finding a game you already have unnecessary
         already_found = check_existence(rom)
             
         if (not already_found):
             # This is under a condition to skip Wii games since they require a serial
-            if rom[-3:] in hash_types:
+            if (rom[-2:] in hash_types) or (rom[-3:] in hash_types):
                 hash = get_hash(rom)
-            
+
             if rom[-3:] in three_ds_types:
                 check_hash(rom, hash, '3ds')
 
@@ -251,7 +268,7 @@ def rom_analysis():
             if rom[-2:] in gameboy_types:
                 check_hash(rom, hash, 'gameboy')
 
-            if rom[-3:] in gameboy_types:
+            if rom[-3:] in gameboy_advance_types:
                 check_hash(rom, hash, 'gameboy-advance')
 
             if rom[-3:] in nes_types:
@@ -288,3 +305,5 @@ def rom_analysis():
                     hash = get_hash(rom)
                     check_hash(rom, hash, 'xbox')
                     check_hash(rom, hash, 'xbox-360')
+
+            eel.update_info(rom, total)
