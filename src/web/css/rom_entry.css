@@ -3,10 +3,101 @@
 }
 
 body {
+    display: flex;
+    flex-direction: column;
+
     background-color: var(--page-background-color);
     color: var(--page-text-color);
 }
 
+#file-name {
+    position: absolute;
+    left: 53px;
+    top: 10vh;
+}
+
+#content {
+    transform: translateY(15vh);
+    place-self: center;
+}
+
+#name-label {
+    margin-left: 150px;
+}
+
+input::file-selector-button {
+    height: 25px;
+    
+    background-color: var(--button-background-color);
+    color: var(--button-text-color);
+    border: 3px solid var(--button-border-color);
+    border-radius: 10px;
+
+    transition: var(--transition);
+}
+
+input[type="text"] {
+    height: 25px;
+    width: 300px;
+
+    border: 3px solid var(--button-border-color);
+    border-radius: 10px;
+
+    background-color: var(--button-background-color);
+    color: var(--button-text-color);
+    transition: var(--transition);
+}
+
+input[type="text"]::placeholder {
+    color: var(--button-text-color);
+    place-self: center;
+    transition: var(--transition);
+}
+
+#console-label {
+    margin-left: 200px;
+}
+
+select {
+    border: 3px solid var(--button-border-color);
+    border-radius: 10px;
+
+    height: 28px;
+
+    background-color: var(--button-background-color);
+    color: var(--button-text-color);
+    transition: var(--transition);
+}
+
 .middle {
     place-self: center;
+}
+
+#images {
+    display: flex;
+
+    gap: 10px;
+
+    margin-left: 40px;
+    transition: var(--transition);
+}
+
+#cover-preview, #hover-preview {
+    width: 300px;
+    height: 300px;
+
+    border: 1px solid var(--button-border-color);
+}
+
+input[type="submit"] {
+    height: 25px;
+
+    border: 3px solid var(--button-border-color);
+    border-radius: 10px;
+
+    margin-left: 315px;
+
+    background-color: var(--button-background-color);
+    color: var(--button-text-color);
+    transition: var(--transition);
 }

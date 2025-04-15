@@ -97,6 +97,7 @@ async function loadGames() {
 
 // Waits for the page to load prior to creating the data 
 window.onload = () => { 
+    window.moveTo(0, 0);
     loadConsoles();
     loadGames();
 }
