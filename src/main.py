@@ -1,5 +1,5 @@
 # Imports
-import paths, eel, json, hashing, consoles, games
+import paths, eel, json
 from pathlib import Path
 
 # Initialize
@@ -15,12 +15,19 @@ console_list = [
 # Paths
 hashes = 'data/rom-info/'
 
-# Initializes missing data in the paths file
+# Initializes missing data in the JSON files
 def add_missing_data():
+    default_path_data = ['emulator-paths', 'roms-paths']
+    default_rom_data = ['hashed-roms', 'rom-serials', 'switch-games']
 
     # Creates an empty spot for the path to an emulator .exe
     with open(paths.file_paths, 'r') as f:
         data = json.load(f)
+
+        path_options = list(data.keys())
+        for path in default_path_data:
+            if (path not in path_options):
+                data[path] = {}        
 
         console_paths = list(data['emulator-paths'].keys())
 
@@ -36,7 +43,21 @@ def add_missing_data():
         console_data = Path(hashes + console.lower())
         console_data.mkdir(exist_ok = True)
 
+    # Adds missing starter data to ROMs
+    with open(paths.rom_data_path, 'r') as f:
+        data = json.load(f)
+
+        rom_options = list(data.keys())
+        for rom in default_rom_data:
+            if (rom not in rom_options):
+                data[rom] = {}
+
+        with open(paths.rom_data_path, 'w') as f:
+            json.dump(data, f, indent=4)
+
 add_missing_data()
+
+import hashing, consoles, games
 
 # List of games
 game_list = []

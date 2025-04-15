@@ -3,16 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Everything Emulator</title>
-    
-    <!-- Page Styling/Reset -->
-    <link rel="stylesheet" href="css/page_styles.css">
-    <link rel="stylesheet" href="css/consoles.css">
-    <link rel="stylesheet" href="css/games.css">
-    <link rel="stylesheet" href="css/reset.css">
+    <title>Custom ROM Entry</title>
 
     <!-- Themes -->
     <link rel="stylesheet" href="css/themes.css">
+    
+    <!-- Page Styling/Reset -->
+    <link rel="stylesheet" href="css/rom_entry.css">
+    <link rel="stylesheet" href="css/reset.css">
     
     <script type="text/javascript" src="/eel.js"></script>
 </head>
@@ -34,40 +32,10 @@
         <button class="theme-button" data-theme-button="yellow"      id="yellow-button"     ></button>
     </div>
 
-    <h1 id="ratio"></h1>
+    <h1 class="middle">It looks like you have a ROM is that is modded <br> or we couldn't recognize it</h1>
+    <h3 class="middle">Let's fix that</h3>
 
-    <h1>The Everything Emulator</h1>
-    <div id="search-box">
-        <button id="search-icon"></button>
-        <input id="search-bar" type="text" placeholder="Search...">
-    </div>
-    
-    <h1 id="console-header">Consoles</h1>
-    <h3 id="invalid-file">It looks like the file you picked is invalid</h3>
-    <div id="console-container">
-        <div id="console-left"></div>
-
-        <!-- This extra div allows more styling tweaks -->
-        <div id="consoles"></div>
-
-        <div id="console-right"></div>
-    </div>
-
-    <br>
-    <div id="game-header">
-        <h1>Games</h1>
-        <button id="modify-rom-path">Change ROM directory</button>
-    </div>
-    <br>
-
-    <div id="games"></div>
-
-    <!-- Various scripts that make the page run -->
-    <script src="js/useful_functions.js"></script>
-    <script src="js/page_elements.js"></script>
-    <script src="js/initialization.js"></script>
-    <script src="js/consoles.js"></script>
-    <script src="js/games.js"></script>
+    <script src="js/rom_entry.js"></script>
     <script src="js/themes.js"></script>
 </body>
-</html>     
+</html>

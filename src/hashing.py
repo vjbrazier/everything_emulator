@@ -165,6 +165,7 @@ def check_hash(rom, hash, console):
             
             if hash == hash_to_check:
                 add_to_storage(rom, hash, current_name, console, 'hash')
+                return True
 
 # Compares the serial of the rom against the data, and takes the serial and name of the file
 def check_serial(rom, serial, console):
@@ -231,6 +232,18 @@ def load_rom_files():
 
     return roms
 
+# Creates a list of ROMs not already stored
+@eel.expose
+def load_new_rom_files():
+    roms = load_rom_files()
+    new_roms = []
+
+    for rom in roms:
+        if (not check_existence(rom)):
+            new_roms.append(rom)
+
+    return new_roms
+
 # Counts how many new files exist for the loading page
 @eel.expose
 def count_new_roms():
@@ -248,37 +261,50 @@ total = count_new_roms()
 # Reads through roms and figures out what they are based on extension
 @eel.expose
 def rom_analysis():
+    unidentified_roms = []
     roms = load_rom_files()
+    first_time = True
+
 
     for rom in roms:
         # Does a check to make finding a game you already have unnecessary
         already_found = check_existence(rom)
             
         if (not already_found):
+            # This is set at the start each time. When roms are checked, they return true
+            # In the event that this remains as None, then it's added to a list for user-input later
+            identified_file = None
+
+            if first_time:
+                eel.update_info(rom, total, True)
+                first_time = False
+            else:
+                eel.update_info(rom, total, False)
+
             # This is under a condition to skip Wii games since they require a serial
             if (rom[-2:] in hash_types) or (rom[-3:] in hash_types):
                 hash = get_hash(rom)
 
             if rom[-3:] in three_ds_types:
-                check_hash(rom, hash, '3ds')
+                identified_file = check_hash(rom, hash, '3ds')
 
             if rom[-3:] in ds_types:
-                check_hash(rom, hash, 'ds')
+                identified_file = check_hash(rom, hash, 'ds')
 
             if rom[-2:] in gameboy_types:
-                check_hash(rom, hash, 'gameboy')
+                identified_file = check_hash(rom, hash, 'gameboy')
 
             if rom[-3:] in gameboy_advance_types:
-                check_hash(rom, hash, 'gameboy-advance')
+                identified_file = check_hash(rom, hash, 'gameboy-advance')
 
             if rom[-3:] in nes_types:
-                check_hash(rom, hash, 'nes')
+                identified_file = check_hash(rom, hash, 'nes')
 
             if rom[-3:] in nintendo_64_types:
-                check_hash(rom, hash, 'nintendo-64')
+                identified_file = check_hash(rom, hash, 'nintendo-64')
 
             if rom[-3:] in snes_types:
-                check_hash(rom, hash, 'snes')
+                identified_file = check_hash(rom, hash, 'snes')
 
             # Switch games use a different process
             if rom[-3:] in switch_types:
@@ -287,6 +313,7 @@ def rom_analysis():
                 title = check_title_id(title_id)
                 
                 if title:
+                    identified_file = True
                     add_to_switch_storage(rom, title_id, title)
 
             # These are ISO files, and have a different process
@@ -300,10 +327,27 @@ def rom_analysis():
                 if (not game_found):
                     game_found = check_serial(rom, serial, 'wii')
 
+                if (game_found):
+                    identified_file = True
+
                 # Hashing takes longer. If it is neither of the above, then it checks for xbox and xbox 360
                 if (not game_found):
                     hash = get_hash(rom)
-                    check_hash(rom, hash, 'xbox')
-                    check_hash(rom, hash, 'xbox-360')
+                    identified_file = check_hash(rom, hash, 'xbox')
 
-            eel.update_info(rom, total)
+                    if (identified_file == None):
+                        identified_file = check_hash(rom, hash, 'xbox-360')
+
+            if (identified_file):
+                eel.add_rom(rom, True)
+            else: 
+                eel.add_rom(rom, False)
+                unidentified_roms.append(rom)
+
+    # This calls it one last time when finished to make it increment and finish the page
+    eel.update_info('Complete!', total, False)
+
+    if (unidentified_roms != []):
+        import rom_entry
+
+        rom_entry.initialize(unidentified_roms)

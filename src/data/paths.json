@@ -13,5 +13,6 @@
         "xbox": "",
         "xbox-360": ""
     },
-    "roms-path": "D:/Actual Stuff/Files/everything_emulator/src/roms"
+    "roms-path": "D:/Actual Stuff/Files/everything_emulator/src/roms",
+    "roms-paths": {}
 }

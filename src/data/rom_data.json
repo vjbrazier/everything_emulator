@@ -8,30 +8,6 @@
             "cover": "data/rom-info/snes/cover/Super Mario World (USA).png",
             "hover": "data/rom-info/snes/hover/Super Mario World (USA).png"
         },
-        "roms/mystery.z64": {
-            "hash": "20b854b239203baf6c961b850a4a51a2",
-            "name": "Super Mario 64 (USA)",
-            "display-name": "Super Mario 64",
-            "console": "nintendo-64",
-            "cover": "data/rom-info/nintendo-64/cover/Super Mario 64 (USA).png",
-            "hover": "data/rom-info/nintendo-64/hover/Super Mario 64 (USA).png"
-        },
-        "roms/mystery.3ds": {
-            "hash": "7be1494691babcd3c20708e723dc060e",
-            "name": "Mario & Luigi - Dream Team (USA) (En,Fr,Es) (Rev 1)",
-            "display-name": "Mario & Luigi - Dream Team (Rev 1)",
-            "console": "3ds",
-            "cover": "data/rom-info/3ds/cover/Mario & Luigi - Dream Team (USA) (En,Fr,Es) (Rev 1).png",
-            "hover": "data/rom-info/3ds/hover/Mario & Luigi - Dream Team (USA) (En,Fr,Es) (Rev 1).png"
-        },
-        "roms/mystery.gb": {
-            "hash": "b48161623f12f86fec88320166a21fce",
-            "name": "Super Mario Land (World)",
-            "display-name": "Super Mario Land",
-            "console": "gameboy",
-            "cover": "data/rom-info/gameboy/cover/Super Mario Land (World).png",
-            "hover": "data/rom-info/gameboy/hover/Super Mario Land (World).png"
-        },
         "roms/mystery.gba": {
             "hash": "784a036ff1aae709e90167186639b75e",
             "name": "Mario Kart - Super Circuit (USA)",
@@ -55,6 +31,30 @@
             "console": "xbox-360",
             "cover": "data/rom-info/xbox-360/cover/Toy Story 3.png",
             "hover": "data/rom-info/xbox-360/cover/Toy Story 3.png"
+        },
+        "roms/mystery.z64": {
+            "hash": "20b854b239203baf6c961b850a4a51a2",
+            "name": "Super Mario 64 (USA)",
+            "display-name": "Super Mario 64",
+            "console": "nintendo-64",
+            "cover": "data/rom-info/nintendo-64/cover/Super Mario 64 (USA).png",
+            "hover": "data/rom-info/nintendo-64/hover/Super Mario 64 (USA).png"
+        },
+        "roms/mystery.3ds": {
+            "hash": "7be1494691babcd3c20708e723dc060e",
+            "name": "Mario & Luigi - Dream Team (USA) (En,Fr,Es) (Rev 1)",
+            "display-name": "Mario & Luigi - Dream Team (Rev 1)",
+            "console": "3ds",
+            "cover": "data/rom-info/3ds/cover/Mario & Luigi - Dream Team (USA) (En,Fr,Es) (Rev 1).png",
+            "hover": "data/rom-info/3ds/hover/Mario & Luigi - Dream Team (USA) (En,Fr,Es) (Rev 1).png"
+        },
+        "roms/mystery.gb": {
+            "hash": "b48161623f12f86fec88320166a21fce",
+            "name": "Super Mario Land (World)",
+            "display-name": "Super Mario Land",
+            "console": "gameboy",
+            "cover": "data/rom-info/gameboy/cover/Super Mario Land (World).png",
+            "hover": "data/rom-info/gameboy/hover/Super Mario Land (World).png"
         },
         "roms/mystery4.iso": {
             "hash": "0f56f921eda19dbc630bf3283bf14857",
@@ -90,6 +90,13 @@
             "display-name": "Mario Party Superstars",
             "cover": "data/rom-info/switch/cover/Mario Party Superstars.png",
             "hover": "data/rom-info/switch/cover/Mario Party Superstars.png"
+        },
+        "roms/mystery3.nsp": {
+            "title-id": "0100152000022000",
+            "console": "switch",
+            "display-name": "Mario Kart 8 Deluxe",
+            "cover": "data/rom-info/switch/cover/Mario Kart 8 Deluxe.png",
+            "hover": "data/rom-info/switch/cover/Mario Kart 8 Deluxe.png"
         }
     }
 }
