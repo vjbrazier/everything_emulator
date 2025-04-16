@@ -58,7 +58,7 @@ function update_info(rom, total, first_time) {
 
     if (current == total) {
         eel.reroute_to_main();
-        
+
         setTimeout(() => {
             window.close();
         }, 1000);

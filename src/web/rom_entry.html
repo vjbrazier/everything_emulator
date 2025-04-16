@@ -32,21 +32,21 @@
         <button class="theme-button" data-theme-button="yellow"      id="yellow-button"     ></button>
     </div>
 
-    <h2 id="file-name">ROM: </h2>
+    <h2 id="file-selected">Current ROM: </h2>
 
     <div id="content">
-        <h2 class="middle">It looks like you have a ROM that is</h2>
-        <h2 class="middle">modded or just couldn't be recognized</h2>
-        <h4 class="middle">You'll have to manually provide the information</h4>
+        <h2 class="header-text">It looks like you have a ROM that is</h2>
+        <h2 class="header-text">modded or just couldn't be recognized</h2>
+        <h4 class="header-text">You'll have to manually provide the information</h4>
 
         <form>
-            <label id="name-label">Name:</label>
-            <input class="middle" id="name" type="text" placeholder="Ex. Super Mario Odyssey">
+            <label for="game-name" id="name-label">Name:</label>
+            <input class="shared-effects" id="game-name" type="text" placeholder="Ex. Super Mario Odyssey">
 
             <br> <br>
 
-            <label id="console-label">Console:</label>
-            <select class="middle" id="console">
+            <label for="console-select" id="console-label">Console:</label>
+            <select class="shared-effects" id="console-select">
                 <option value="3ds">3DS</option>
                 <option value="ds">DS</option>
                 <option value="gameboy">Gameboy</option>
@@ -62,26 +62,30 @@
             </select>
 
             <br> <br>
+        </form>
 
             <div id="images">
                 <div id="cover">
-                    <label>Cover Image:</label>
-                    <input type="file" class="middle" id="cover" accept="image/*">
+                    <label>Cover Image:</label> 
+                    <br> <br>
+                    <button class="shared-effects" id="cover">Choose file</button>
                     <br> <br>
                     <img src="https://placehold.co/300x300" id="cover-preview"></img>
                 </div>
                 <div id="hover">
-                    <label>Hover Image (optional):</label>
-                    <input type="file" class="middle" id="cover" accept="image/*">
+                    <label>Ingame Image (optional):</label>
+                    <br> <br>
+                    <button class="shared-effects" id="hover">Choose File</button>
                     <br> <br>
                     <img src="https://placehold.co/300x300" id="hover-preview"></img>
                 </div>
             </div>
 
-            <br> <br>
-            <input type="submit"></input>
-        </form>
+        <br> 
+        <button id="submit-data" class="shared-effects">Submit</button>
     </div>
+
+    <h4 id="invalid-data">You are missing data!</h4>
 
     <script src="js/rom_entry.js"></script>
     <script src="js/themes.js"></script>

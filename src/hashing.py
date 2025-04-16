@@ -288,22 +288,22 @@ def rom_analysis():
             if rom[-3:] in three_ds_types:
                 identified_file = check_hash(rom, hash, '3ds')
 
-            if rom[-3:] in ds_types:
+            elif rom[-3:] in ds_types:
                 identified_file = check_hash(rom, hash, 'ds')
 
-            if rom[-2:] in gameboy_types:
+            elif rom[-2:] in gameboy_types:
                 identified_file = check_hash(rom, hash, 'gameboy')
 
-            if rom[-3:] in gameboy_advance_types:
+            elif rom[-3:] in gameboy_advance_types:
                 identified_file = check_hash(rom, hash, 'gameboy-advance')
 
-            if rom[-3:] in nes_types:
+            elif rom[-3:] in nes_types:
                 identified_file = check_hash(rom, hash, 'nes')
 
-            if rom[-3:] in nintendo_64_types:
+            elif rom[-3:] in nintendo_64_types:
                 identified_file = check_hash(rom, hash, 'nintendo-64')
 
-            if rom[-3:] in snes_types:
+            elif rom[-3:] in snes_types:
                 identified_file = check_hash(rom, hash, 'snes')
 
             # Switch games use a different process
@@ -349,5 +349,4 @@ def rom_analysis():
 
     if (unidentified_roms != []):
         import rom_entry
-
         rom_entry.initialize(unidentified_roms)

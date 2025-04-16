@@ -10,10 +10,15 @@ body {
     color: var(--page-text-color);
 }
 
-#file-name {
+/* Information at the top */
+.header-text {
+    place-self: center;
+}
+
+#file-selected {
     position: absolute;
     left: 53px;
-    top: 10vh;
+    top: 7vh;
 }
 
 #content {
@@ -21,8 +26,26 @@ body {
     place-self: center;
 }
 
+/* Positioning of the elements */
 #name-label {
     margin-left: 150px;
+}
+
+/* Specific element styling */
+.shared-effects {
+    place-self: center;
+
+    border: 3px solid var(--button-border-color);
+    border-radius: 10px;
+
+    background-color: var(--button-background-color);
+    color: var(--button-text-color);
+    transition: var(--transition);
+}
+
+#game-name {
+    height: 25px;
+    width: 300px;
 }
 
 input::file-selector-button {
@@ -36,19 +59,7 @@ input::file-selector-button {
     transition: var(--transition);
 }
 
-input[type="text"] {
-    height: 25px;
-    width: 300px;
-
-    border: 3px solid var(--button-border-color);
-    border-radius: 10px;
-
-    background-color: var(--button-background-color);
-    color: var(--button-text-color);
-    transition: var(--transition);
-}
-
-input[type="text"]::placeholder {
+#game-name::placeholder {
     color: var(--button-text-color);
     place-self: center;
     transition: var(--transition);
@@ -59,18 +70,7 @@ input[type="text"]::placeholder {
 }
 
 select {
-    border: 3px solid var(--button-border-color);
-    border-radius: 10px;
-
     height: 28px;
-
-    background-color: var(--button-background-color);
-    color: var(--button-text-color);
-    transition: var(--transition);
-}
-
-.middle {
-    place-self: center;
 }
 
 #images {
@@ -86,18 +86,28 @@ select {
     width: 300px;
     height: 300px;
 
-    border: 1px solid var(--button-border-color);
+    border: 3px solid var(--button-border-color);
 }
 
-input[type="submit"] {
-    height: 25px;
+#submit-data{
+    height: 50px;
+    width: 100px; 
 
-    border: 3px solid var(--button-border-color);
-    border-radius: 10px;
+    margin-left: 300px;
+}
 
-    margin-left: 315px;
+#invalid-data {
+    opacity: 0;
+    place-self: center;
+    margin-top: 135px;
+    margin-left: 30px;
+    transition: var(--transition);
+}
 
-    background-color: var(--button-background-color);
-    color: var(--button-text-color);
+#invalid-data.visible {
+    opacity: 1;
+    place-self: center;
+    margin-top: 135px;
+    margin-left: 30px;
     transition: var(--transition);
 }

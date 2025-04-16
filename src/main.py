@@ -1,5 +1,5 @@
 # Imports
-import paths, eel, json
+import paths, eel, json, rom_entry
 from pathlib import Path
 
 # Initialize

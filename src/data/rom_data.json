@@ -1,29 +1,5 @@
 {
     "hashed-roms": {
-        "roms/mystery.smc": {
-            "hash": "cdd3c8c37322978ca8669b34bc89c804",
-            "name": "Super Mario World (USA)",
-            "display-name": "Super Mario World",
-            "console": "snes",
-            "cover": "data/rom-info/snes/cover/Super Mario World (USA).png",
-            "hover": "data/rom-info/snes/hover/Super Mario World (USA).png"
-        },
-        "roms/mystery.gba": {
-            "hash": "784a036ff1aae709e90167186639b75e",
-            "name": "Mario Kart - Super Circuit (USA)",
-            "display-name": "Mario Kart - Super Circuit",
-            "console": "gameboy-advance",
-            "cover": "data/rom-info/gameboy-advance/cover/Mario Kart - Super Circuit (USA).png",
-            "hover": "data/rom-info/gameboy-advance/hover/Mario Kart - Super Circuit (USA).png"
-        },
-        "roms/mystery.nds": {
-            "hash": "dbd76d942fc5c636b84fc299d1cab168",
-            "name": "Kirby Mass Attack (USA) (En,Fr,Es)",
-            "display-name": "Kirby Mass Attack",
-            "console": "ds",
-            "cover": "data/rom-info/ds/cover/Kirby Mass Attack (USA) (En,Fr,Es).png",
-            "hover": "data/rom-info/ds/hover/Kirby Mass Attack (USA) (En,Fr,Es).png"
-        },
         "roms/mystery3.iso": {
             "hash": "f7be75f60a9d83c8e976271a282bc0cd",
             "name": "Toy Story 3",
@@ -31,14 +7,6 @@
             "console": "xbox-360",
             "cover": "data/rom-info/xbox-360/cover/Toy Story 3.png",
             "hover": "data/rom-info/xbox-360/cover/Toy Story 3.png"
-        },
-        "roms/mystery.z64": {
-            "hash": "20b854b239203baf6c961b850a4a51a2",
-            "name": "Super Mario 64 (USA)",
-            "display-name": "Super Mario 64",
-            "console": "nintendo-64",
-            "cover": "data/rom-info/nintendo-64/cover/Super Mario 64 (USA).png",
-            "hover": "data/rom-info/nintendo-64/hover/Super Mario 64 (USA).png"
         },
         "roms/mystery.3ds": {
             "hash": "7be1494691babcd3c20708e723dc060e",
@@ -55,6 +23,38 @@
             "console": "gameboy",
             "cover": "data/rom-info/gameboy/cover/Super Mario Land (World).png",
             "hover": "data/rom-info/gameboy/hover/Super Mario Land (World).png"
+        },
+        "roms/mystery.smc": {
+            "hash": "cdd3c8c37322978ca8669b34bc89c804",
+            "name": "Super Mario World (USA)",
+            "display-name": "Super Mario World",
+            "console": "snes",
+            "cover": "data/rom-info/snes/cover/Super Mario World (USA).png",
+            "hover": "data/rom-info/snes/hover/Super Mario World (USA).png"
+        },
+        "roms/mystery.z64": {
+            "hash": "20b854b239203baf6c961b850a4a51a2",
+            "name": "Super Mario 64 (USA)",
+            "display-name": "Super Mario 64",
+            "console": "nintendo-64",
+            "cover": "data/rom-info/nintendo-64/cover/Super Mario 64 (USA).png",
+            "hover": "data/rom-info/nintendo-64/hover/Super Mario 64 (USA).png"
+        },
+        "roms/mystery.gba": {
+            "hash": "784a036ff1aae709e90167186639b75e",
+            "name": "Mario Kart - Super Circuit (USA)",
+            "display-name": "Mario Kart - Super Circuit",
+            "console": "gameboy-advance",
+            "cover": "data/rom-info/gameboy-advance/cover/Mario Kart - Super Circuit (USA).png",
+            "hover": "data/rom-info/gameboy-advance/hover/Mario Kart - Super Circuit (USA).png"
+        },
+        "roms/mystery.nds": {
+            "hash": "dbd76d942fc5c636b84fc299d1cab168",
+            "name": "Kirby Mass Attack (USA) (En,Fr,Es)",
+            "display-name": "Kirby Mass Attack",
+            "console": "ds",
+            "cover": "data/rom-info/ds/cover/Kirby Mass Attack (USA) (En,Fr,Es).png",
+            "hover": "data/rom-info/ds/hover/Kirby Mass Attack (USA) (En,Fr,Es).png"
         },
         "roms/mystery4.iso": {
             "hash": "0f56f921eda19dbc630bf3283bf14857",
@@ -97,6 +97,18 @@
             "display-name": "Mario Kart 8 Deluxe",
             "cover": "data/rom-info/switch/cover/Mario Kart 8 Deluxe.png",
             "hover": "data/rom-info/switch/cover/Mario Kart 8 Deluxe.png"
+        },
+        "roms/mystery2.nsp": {
+            "display-name": "Test",
+            "console": "switch",
+            "cover": "data/rom-info/switch/cover/Test.png",
+            "hover": "data/rom-info/switch/hover/Test.png"
+        },
+        "roms/zzz.nsp": {
+            "display-name": "Test 2",
+            "console": "switch",
+            "cover": "data/rom-info/switch/cover/Test 2.png",
+            "hover": "data/rom-info/switch/hover/Test 2.png"
         }
     }
 }

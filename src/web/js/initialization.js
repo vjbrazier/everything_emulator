@@ -96,8 +96,9 @@ async function loadGames() {
 
 
 // Waits for the page to load prior to creating the data 
-window.onload = () => { 
+window.addEventListener('load', () => {
     window.moveTo(0, 0);
+    window.resizeTo(1500, 1080);
     loadConsoles();
     loadGames();
-}
+})
