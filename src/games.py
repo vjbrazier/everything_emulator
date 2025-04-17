@@ -1,22 +1,36 @@
 # Imports
-import paths, eel, json, hashing, tkinter as tk
+import paths
+import eel
+import json
+import hashing
+import time
+import threading
+import tkinter as tk
 from tkinter import filedialog
 
 # Updates the path to the roms in the JSON file
 def update_rom_path(file_path):
-    if (file_path):
-        with open(paths.file_paths, 'r') as f:
-            data = json.load(f)
+    if not file_path:
+        return
 
-            data['roms-path'] = file_path
+    with open(paths.file_paths, 'r') as f:
+        data = json.load(f)
 
-        with open(paths.file_paths, 'w') as f:
-            json.dump(data, f, indent=4)
+    data['roms-path'] = file_path + '/'
+
+    with open(paths.file_paths, 'w') as f:
+        json.dump(data, f, indent=4)
 
     # Reloads all the roms following a path change in case new ones were added
     paths.set_roms_path()
-    hashing.load_rom_files()
-    hashing.rom_analysis()
+    time.sleep(1) # A brief pause to ensure that the rom_path is set prior to attempting to read it
+    eel.show('loading.html')
+    time.sleep(1) # Similar to above
+    eel.close_window()
+
+# @eel.expose
+# def begin_rom_hashing():
+#     hashing.rom_analysis()
 
 # Opens the file explorer for the user to select the rom folder
 @eel.expose

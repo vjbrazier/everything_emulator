@@ -1,5 +1,7 @@
 # Imports
-import paths, eel, json, rom_entry
+import paths
+import eel
+import json
 from pathlib import Path
 
 # Initialize
@@ -12,59 +14,34 @@ console_list = [
             'xbox', 'xbox-360'
            ]
 
-# Paths
-hashes = 'data/rom-info/'
-
 # Initializes missing data in the JSON files
 def add_missing_data():
     default_path_data = ['emulator-paths', 'roms-paths']
-    default_rom_data = ['hashed-roms', 'rom-serials', 'switch-games']
 
     # Creates an empty spot for the path to an emulator .exe
     with open(paths.file_paths, 'r') as f:
         data = json.load(f)
 
-        path_options = list(data.keys())
-        for path in default_path_data:
-            if (path not in path_options):
-                data[path] = {}        
+    for path in default_path_data:
+        data.setdefault(path, {})       
 
-        console_paths = list(data['emulator-paths'].keys())
+    for console in console_list:
+        data['emulator-paths'].setdefault(console.lower(), '')
 
-        for console in console_list:
-            if console not in console_paths:
-                data['emulator-paths'][console.lower()] = ''
-
-        with open(paths.file_paths, 'w') as f:
-            json.dump(data, f, indent=4)
+    with open(paths.file_paths, 'w') as f:
+        json.dump(data, f, indent=4)
 
     # Creates a folder to store the data of a console
     for console in console_list:
-        console_data = Path(hashes + console.lower())
-        console_data.mkdir(exist_ok = True)
-
-    # Adds missing starter data to ROMs
-    with open(paths.rom_data_path, 'r') as f:
-        data = json.load(f)
-
-        rom_options = list(data.keys())
-        for rom in default_rom_data:
-            if (rom not in rom_options):
-                data[rom] = {}
-
-        with open(paths.rom_data_path, 'w') as f:
-            json.dump(data, f, indent=4)
+        (Path(paths.rom_info_path) / console.lower()).mkdir(exist_ok=True)
 
 add_missing_data()
 
-import hashing, consoles, games
+# Not used within the file, but are imported so that all the code within is loaded
+import hashing, consoles, games, rom_entry
 
 # List of games
-game_list = []
-
-# Dummy data
-for i in range(25):
-    game_list.append(f'Game {i}')
+game_list = [f'Game {i}' for i in range(0, 25)]
 
 # Passes consoles
 @eel.expose

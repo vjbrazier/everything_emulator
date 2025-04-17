@@ -15,6 +15,10 @@ body {
     place-self: center;
 }
 
+#file-full-name {
+    display: none;
+}
+
 #file-selected {
     position: absolute;
     left: 53px;

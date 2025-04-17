@@ -1,18 +1,18 @@
 {
     "emulator-paths": {
         "3ds": "",
-        "ds": "",
+        "ds": "D:/Actual Stuff/Files/Eclipse/357midtermpractice/.project",
         "gameboy": "",
         "gameboy-advance": "",
         "gamecube": "",
         "nes": "",
         "nintendo-64": "",
         "snes": "",
-        "switch": "",
+        "switch": "C:/Program Files/ryujinx-1.1.1403-win_x64/Ryujinx.exe",
         "wii": "",
         "xbox": "",
         "xbox-360": ""
     },
-    "roms-path": "D:/Actual Stuff/Files/everything_emulator/src/roms",
+    "roms-path": "C:/Users/iride/Downloads/Test/",
     "roms-paths": {}
 }

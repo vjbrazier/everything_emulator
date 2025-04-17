@@ -1,10 +1,31 @@
 # Imports
-import paths, json, hashlib, re, eel
+import paths
+import json
+import hashlib
+import re
+import eel
+import time
+import rom_entry
 from switch.switch_game_reader import getTitleID
 from pathlib import Path
-from datetime import datetime
 
 # Various file name extensions
+console_extensions = {
+    'hash': {
+        '3ds':             ['3ds', 'cia', 'cxi'],
+        'ds' :             ['nds', 'srl'],
+        'gameboy':         ['gb'],
+        'gameboy-advance': ['gba'],
+        'nes' :            ['nes', 'prg', 'chr'],
+        'nintendo-64':     ['n64', 'v64', 'z64'],
+        'snes':            ['sfc', 'smc', 'fig', 'swc'],
+    },
+    'switch':          ['nsp', 'xci'],
+    'wii':             ['iso', 'rvz', 'gcz', 'wbfs', 'nkit'],
+    'xbox':            ['iso', 'xiso'],
+    'xbox-360':        ['iso', 'xex']
+}
+
 three_ds_types        = ['3ds', 'cia', 'cxi']
 ds_types              = ['nds', 'srl']
 gameboy_types         = ['gb']
@@ -76,7 +97,6 @@ def remove_name_filler(name):
 
 # Removes file name extensions and unicode
 def remove_extension_unicode(name):
-
     # 2 letter extensions
     if name[-3] == '.':
         name = name.replace(name[-3:], '')
@@ -95,60 +115,29 @@ def remove_extension_unicode(name):
 
     return name.strip()
 
-# When a match is found from hashing/serialling, it stores it in the file
-# This makes it so all of your roms don't need to be rehashed and searched for prior to loading again
-def add_to_storage(rom, rom_identifier, name, console, type):
+# Stores your ROMs to eliminate the need to identify them each time
+def add_to_storage(rom, rom_identifier, name, console, rom_data):
     name = remove_extension_unicode(name)
     display_name = remove_name_filler(name)
 
-    # The image archive for the Xbox-360 does not contain the extra info
-    if console == 'xbox-360':
-        name = remove_name_filler(name)
+    # The Switch and Xbox-360 image archives lack such data in their names
+    if (console == 'switch') or (console == 'xbox-360'):
+        name = display_name
 
-    with open(paths.rom_data_path, 'r') as f:
-        data = json.load(f)
-
-        # Changes where it is stored in the file
-        if (type == 'hash'):
-            data['hashed-roms'][rom] = {'hash': rom_identifier,
-                                        'name': name, 'display-name': display_name, 'console': console,
-                                        'cover': f'{paths.rom_info_path}{console}/cover/{name}.png',
-                                        'hover': f'{paths.rom_info_path}{console}/hover/{name}.png'
-                                       }
-            
-            # The Xbox 360 database lacks a screenshot image
-            if console == 'xbox-360':
-                data['hashed-roms'][rom]['hover'] = data['hashed-roms'][rom]['cover']
-
-        elif (type == 'serial'):
-            data['rom-serials'][rom] = {'serial': rom_identifier,
-                                        'name': name, 'display-name': display_name, 'console': console,
-                                        'cover': f'{paths.rom_info_path}{console}/cover/{name}.png',
-                                        'hover': f'{paths.rom_info_path}{console}/hover/{name}.png'
-                                       }
-
-    with open(paths.rom_data_path, 'w') as f:
-        json.dump(data, f, indent=4)
-
-# Switch games are stored with some different data
-def add_to_switch_storage(rom, title_id, title):
-    title = remove_extension_unicode(title)
-    display_name = remove_name_filler(title)
-
-    with open(paths.rom_data_path, 'r') as f:
-        data = json.load(f)
-
-        # The switch database lacks a screenshot image
-        data['switch-games'][rom] = {'title-id': title_id, 'console': 'switch', 'display-name': display_name,
-                                     'cover': f'{paths.rom_info_path}switch/cover/{title}.png',
-                                     'hover': f'{paths.rom_info_path}switch/cover/{title}.png'
-                                    }
-        
-    with open(paths.rom_data_path, 'w') as f:
-        json.dump(data, f, indent=4)
+    rom_data[rom] = {'rom-identifier': rom_identifier,
+                 'name': name,
+                 'display-name': display_name,
+                 'console': console,
+                 'cover-image': f'{paths.rom_info_path}{console}/cover/{name}.png',
+                 'hover-image': f'{paths.rom_info_path}{console}/hover/{name}.png',
+                }
+    
+    # The Switch and Xbox-360 image archives lack a hover-image
+    if (console == 'switch') or (console == 'xbox-360'):
+        rom_data[rom]['hover-image'] = rom_data[rom]['cover-image']
 
 # Compares the hash of the rom against the data, and takes the hash and name of the file
-def check_hash(rom, hash, console):
+def check_hash(rom, hash, rom_data, console):
     console_file = console + '.dat'
 
     with open(paths.rom_info_path + console + '/' + console_file, 'r', encoding = 'utf-8') as f:
@@ -164,11 +153,11 @@ def check_hash(rom, hash, console):
                 current_name = current_name.group(1)
             
             if hash == hash_to_check:
-                add_to_storage(rom, hash, current_name, console, 'hash')
+                add_to_storage(rom, hash, current_name, console, rom_data)
                 return True
 
 # Compares the serial of the rom against the data, and takes the serial and name of the file
-def check_serial(rom, serial, console):
+def check_serial(rom, serial, rom_data, console):
     console_file = console + '.dat'
 
     with open(paths.rom_info_path + console + '/' + console_file, 'r', encoding='utf-8') as f:
@@ -196,9 +185,8 @@ def check_serial(rom, serial, console):
                     # Check for a match only if current_name is set
                     if current_name:
                         if serial == serial_to_check:
-                            add_to_storage(rom, serial_to_check, current_name, console, 'serial')
+                            add_to_storage(rom, serial_to_check, current_name, console, rom_data)
                             return True
-    return False
 
 def check_title_id(title_id):
     with open(paths.rom_info_path + 'switch/switch.json', 'r') as f:
@@ -209,26 +197,20 @@ def check_title_id(title_id):
                 return data[id]['name']
 
 # Checks if a hash is already stored prior to searching the entire database again
-def check_existence(rom):
-    with open(paths.rom_data_path, 'r') as f:
-        data = json.load(f)
-
-        hashed_roms  = list(data['hashed-roms'].keys())
-        rom_serials  = list(data['rom-serials'].keys())
-        switch_games = list(data['switch-games'].keys())
-
-        if (rom in hashed_roms) or (rom in rom_serials) or (rom in switch_games):
-            return True
-        else:
-            return False
+def check_existence(rom, data):
+    return data.get(rom, '') != ''
 
 # Creates a list of all the roms stored
 @eel.expose
 def load_rom_files():
-    global roms
+    # Handles the directory being empty
+    if paths.roms_path == '':
+        return []
+    
+    # ext = Path(rom).suffix.lower().lstrip('.')
 
     roms_location = Path(paths.roms_path)
-    roms = ['roms/' + r.name for r in roms_location.iterdir() if r.is_file()]
+    roms = [paths.roms_path + r.name for r in roms_location.iterdir() if r.is_file()]
 
     return roms
 
@@ -236,117 +218,134 @@ def load_rom_files():
 @eel.expose
 def load_new_rom_files():
     roms = load_rom_files()
-    new_roms = []
 
-    for rom in roms:
-        if (not check_existence(rom)):
-            new_roms.append(rom)
+    # Reopens due to being called by the JS
+    with open(paths.rom_data_path, 'r') as f:
+        data = json.load(f)
 
-    return new_roms
+    return [rom for rom in roms if not check_existence(rom, data)]
 
 # Counts how many new files exist for the loading page
 @eel.expose
 def count_new_roms():
     roms = load_rom_files()
-    total = 0
 
-    for rom in roms:
-        if (not check_existence(rom)):
-            total += 1
+    # Reopens due to being called by the JS
+    with open(paths.rom_data_path, 'r') as f:
+        data = json.load(f)
 
-    return total
-
-total = count_new_roms()
+    return sum(1 for rom in roms if not check_existence(rom, data))
 
 # Reads through roms and figures out what they are based on extension
 @eel.expose
 def rom_analysis():
     unidentified_roms = []
+    total = count_new_roms()
+
     roms = load_rom_files()
     first_time = True
 
+    # Opened at the start and passed around to prevent unnecessary I/O
+    with open(paths.rom_data_path, 'r') as f:
+        rom_data = json.load(f)
 
+    # Loops through all of the ROMs
     for rom in roms:
         # Does a check to make finding a game you already have unnecessary
-        already_found = check_existence(rom)
+        already_found = check_existence(rom, rom_data)
             
-        if (not already_found):
-            # This is set at the start each time. When roms are checked, they return true
-            # In the event that this remains as None, then it's added to a list for user-input later
-            identified_file = None
+        ext = Path(rom).suffix.lower().lstrip('.')
 
-            if first_time:
-                eel.update_info(rom, total, True)
-                first_time = False
-            else:
-                eel.update_info(rom, total, False)
+        # Skips the ROM if the ROM has already been stored
+        if already_found:
+            continue
 
-            # This is under a condition to skip Wii games since they require a serial
-            if (rom[-2:] in hash_types) or (rom[-3:] in hash_types):
-                hash = get_hash(rom)
+        # This is set at the start each time. When roms are checked, they return true if found
+        # In the event that this remains as None, then it's added to a list for user-input later
+        identified_file = None
 
-            if rom[-3:] in three_ds_types:
-                identified_file = check_hash(rom, hash, '3ds')
+        eel.update_info(rom, total, first_time)
+        time.sleep(1)
+        first_time = False
 
-            elif rom[-3:] in ds_types:
-                identified_file = check_hash(rom, hash, 'ds')
 
-            elif rom[-2:] in gameboy_types:
-                identified_file = check_hash(rom, hash, 'gameboy')
+        # This is under a condition to skip Gamecube and Wii games since they require a serial
+        if ext in hash_types:
+            hash = get_hash(rom)
 
-            elif rom[-3:] in gameboy_advance_types:
-                identified_file = check_hash(rom, hash, 'gameboy-advance')
+        if ext in three_ds_types:
+            identified_file = check_hash(rom, hash, rom_data, '3ds')
 
-            elif rom[-3:] in nes_types:
-                identified_file = check_hash(rom, hash, 'nes')
+        elif ext in ds_types:
+            identified_file = check_hash(rom, hash, rom_data, 'ds')
 
-            elif rom[-3:] in nintendo_64_types:
-                identified_file = check_hash(rom, hash, 'nintendo-64')
+        elif ext in gameboy_types:
+            identified_file = check_hash(rom, hash, rom_data, 'gameboy')
 
-            elif rom[-3:] in snes_types:
-                identified_file = check_hash(rom, hash, 'snes')
+        elif ext in gameboy_advance_types:
+            identified_file = check_hash(rom, hash, rom_data, 'gameboy-advance')
 
-            # Switch games use a different process
-            if rom[-3:] in switch_types:
-                title_id = getTitleID(rom, paths.hactool_path, paths.prod_keys_path)
-                
+        elif ext in nes_types:
+            identified_file = check_hash(rom, hash, rom_data, 'nes')
+
+        elif ext in nintendo_64_types:
+            identified_file = check_hash(rom, hash, rom_data, 'nintendo-64')
+
+        elif ext in snes_types:
+            identified_file = check_hash(rom, hash, rom_data, 'snes')
+
+        # Switch games use a different process
+        if ext in switch_types:
+            title_id = getTitleID(rom, paths.hactool_path, paths.prod_keys_path)
+            
+            if title_id:
                 title = check_title_id(title_id)
                 
-                if title:
-                    identified_file = True
-                    add_to_switch_storage(rom, title_id, title)
+            if title:
+                identified_file = True
+                add_to_storage(rom, title_id, title, 'switch', rom_data)
 
-            # These are ISO files, and have a different process
-            if (rom[-3:] in gamecube_types) or (rom[-3:] in wii_types) or (rom[-4:] in wii_types):
-                # Getting the serial is very fast, so we just get it regardless
-                serial = get_serial(rom)
+        # These are ISO files, and have a different process
+        if (ext in gamecube_types) or (ext in wii_types):
+            # Getting the serial is very fast and easy, so we just get it regardless
+            serial = get_serial(rom)
 
-                # Checks the gamecube and wii data first
-                game_found = check_serial(rom, serial, 'gamecube')
-                
-                if (not game_found):
-                    game_found = check_serial(rom, serial, 'wii')
+            # Checks the gamecube and wii data first
+            identified_file = check_serial(rom, serial, rom_data, 'gamecube')
+            
+            if (identified_file == None):
+                identified_file = check_serial(rom, serial, rom_data, 'wii')
 
-                if (game_found):
-                    identified_file = True
+            # Hashing takes longer. If it is neither of the above, then it checks for xbox and xbox 360
+            if (identified_file == None):
+                hash = get_hash(rom)
 
-                # Hashing takes longer. If it is neither of the above, then it checks for xbox and xbox 360
-                if (not game_found):
-                    hash = get_hash(rom)
-                    identified_file = check_hash(rom, hash, 'xbox')
+                identified_file = check_hash(rom, hash, rom_data, 'xbox')
 
-                    if (identified_file == None):
-                        identified_file = check_hash(rom, hash, 'xbox-360')
+                if (identified_file == None):
+                    identified_file = check_hash(rom, hash, rom_data, 'xbox-360')
 
-            if (identified_file):
-                eel.add_rom(rom, True)
-            else: 
-                eel.add_rom(rom, False)
-                unidentified_roms.append(rom)
+        if (identified_file):
+            time.sleep(0.5)
+            eel.add_rom(rom, True)
+        else: 
+            time.sleep(0.5)
+            eel.add_rom(rom, False)
+            unidentified_roms.append(rom)
+
+    # Writes any updated data
+    with open(paths.rom_data_path, 'w') as f:
+        json.dump(rom_data, f, indent=4)
 
     # This calls it one last time when finished to make it increment and finish the page
-    eel.update_info('Complete!', total, False)
+    print(f"Sending update_info: {rom}, first_time: {first_time}")
+    time.sleep(1)
 
+    # This would not stop bugging out. I have no idea why, and have gave up. This is the "fix"
+    eel.update_info('Complete!', total, first_time)
+    eel.update_info('Complete!', total, first_time)
+    eel.update_info('Complete!', total, first_time)
+
+    # Only brings up the entry page if needed
     if (unidentified_roms != []):
-        import rom_entry
         rom_entry.initialize(unidentified_roms)

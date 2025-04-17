@@ -25,6 +25,7 @@ hover.addEventListener('click', async function () {
 })
 
 // Form
+const file_full_name = document.getElementById('file-full-name');
 const file_selected = document.getElementById('file-selected');
 const submit = document.getElementById('submit-data');
 const game_name = document.getElementById('game-name');
@@ -35,8 +36,8 @@ function make_submit_work() {
     submit.addEventListener('click', () => {   
         if ((game_name.value) && (console_select.value) && (cover_preview.src != 'https://placehold.co/300x300')) {
             // Removes the "Current ROM: " portion
-            rom = file_selected.innerText.substring(file_selected.innerText.indexOf(':') + 2)
-            
+            rom = file_full_name.innerText;
+
             if (hover_preview.src == 'https://placehold.co/300x300') {
                 eel.create_data(rom, game_name.value, console_select.value, cover_preview.src, cover_preview.src);
             } else {
@@ -58,7 +59,8 @@ function make_submit_work() {
 eel.expose(next_entry);
 function next_entry(new_rom) {
     console.log(new_rom);
-    file_selected.innerText = 'Current ROM: ' + new_rom.substring(new_rom.indexOf('/') + 1);
+    file_full_name.innerText = new_rom;
+    file_selected.innerText = 'Current ROM: ' + new_rom.substring(new_rom.lastIndexOf('/') + 1);
     game_name.value = '';
     console_select.value = '3ds';
     cover_preview.src = 'https://placehold.co/300x300';
@@ -74,7 +76,7 @@ function close_window() {
 }
 
 window.addEventListener('load', () => {
-    window.resizeTo(900, 1100);
+    window.resizeTo(900, 1111);
     window.moveTo(1500, 0);
     make_submit_work();
     eel.page_ready();

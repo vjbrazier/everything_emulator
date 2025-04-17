@@ -79,17 +79,10 @@ def create_data(rom, name, console, cover, hover):
     with open(paths.rom_data_path, 'r') as f:
         data = json.load(f)
 
-        if console in hash_types:
-            category = 'hashed-roms'
-        elif console == 'switch':
-            category = 'switch-games'
-        else:
-            category = 'rom-serials'
+    rom = paths.roms_path + rom
 
-        rom = 'roms/' + rom
-
-        data[category][rom] = {}
-        data[category][rom] = {'display-name': name, 'console': console, 'cover': cover, 'hover': hover}
+    data[rom] = {}
+    data[rom] = {'display-name': name, 'console': console, 'cover': cover, 'hover': hover}
 
     with open(paths.rom_data_path, 'w') as f:
         json.dump(data, f, indent=4)

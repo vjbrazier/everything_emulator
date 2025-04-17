@@ -94,6 +94,14 @@ async function loadGames() {
     }
 }
 
+eel.expose(close_window)
+function close_window() {
+
+    setTimeout(() => {
+        window.close();
+    }, 1000)
+    
+}
 
 // Waits for the page to load prior to creating the data 
 window.addEventListener('load', () => {

@@ -40,17 +40,17 @@ function add_rom(rom, found) {
     document.getElementById('files').appendChild(text);
 }
 
+let current = 0;
+
 // Updates the page info following a ROM being hashed
 eel.expose(update_info);
 function update_info(rom, total, first_time) {
     let rom_text = rom.substring(rom.lastIndexOf('/') + 1);
     current_file.innerText = 'Current file: ' + rom_text;
-    
-    current = parseInt(progress.innerText.substring(0, progress.innerText.indexOf('/')));
 
     // Without this check, it will start at 1, not 0
     if (!first_time) {
-        current += 1;
+        current++;
     }
 
     progress.innerText = `${current}/${total}: ${(current / total * 100).toFixed(0)}%`;
@@ -59,18 +59,17 @@ function update_info(rom, total, first_time) {
     if (current == total) {
         eel.reroute_to_main();
 
+        // Just a small delay prior to closing
         setTimeout(() => {
             window.close();
         }, 1000);
     }
-
-    return true; // Eel expects a return, this is just doing that for the sake of it
 }
 
 // To make the data not be returned a promise, it must bounce around functions
 async function initialize_data() {
     roms = await eel.load_new_rom_files()();
-    total = await eel.count_new_roms()();
+    total = roms.length;
 
     if (total == 0) {
         eel.reroute_to_main();
@@ -81,14 +80,14 @@ async function initialize_data() {
     }
 
     progress.innerText = '0/' + total + ': 0%';
+    set_loading_bar(0);
 
     rom_text = roms[0].substring(String(roms[0]).lastIndexOf('/') + 1);
-
-    current_file.innerText = 'Current file: ' + rom_text;
 
     eel.rom_analysis();
 }
 
 window.onload = () => {
     initialize_data();
+    window.resizeTo(1500, 1080)
 }
