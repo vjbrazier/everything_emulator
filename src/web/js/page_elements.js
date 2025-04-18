@@ -36,8 +36,8 @@ function calculate_consoles_per_scroll() {
 window.addEventListener('resize', () => {
     calculate_consoles_per_scroll();
 
-    // Debugging
-    document.getElementById('ratio').innerText = window.innerWidth + ' x ' + window.innerHeight;
+    // Debugging/Stying Setup
+    // document.getElementById('ratio').innerText = window.innerWidth + ' x ' + window.innerHeight;
 });
 
 // Shifts the margin positive to make it scroll left, adjusts position

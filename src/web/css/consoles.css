@@ -46,6 +46,8 @@
     width:  300px;
     height: 300px; 
 
+    cursor: pointer;
+
     background-color: var(--button-hover-color);
     border: 6px solid var(--button-border-color);
     transition: var(--transition);

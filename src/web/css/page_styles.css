@@ -22,21 +22,21 @@ body {
     background-repeat: no-repeat;
     background-position: center;
     
-    border: 1px solid black;
+    border: 3px solid var(--button-border-color);
     border-top-left-radius: 15px;
     border-bottom-left-radius: 15px;
     border-right: 0px solid transparent;
     
     padding: 5px 5px 5px 5px;
     width: 40px;
-    height: 44px;
+    height: 47px;
     
     background-color: var(--button-background-color);
     transition: var(--transition);
 }
 
 #search-bar, #search-bar:focus {
-    border: 1px solid black;
+    border: 3px solid var(--button-border-color);
     border-top-right-radius: 15px;
     border-bottom-right-radius: 15px;
     border-left: none;

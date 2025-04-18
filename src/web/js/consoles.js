@@ -33,16 +33,6 @@ async function addConsolePaths() {
     }
 }
 
-// Displays an error message if you selected an invalid file
-eel.expose(error_message);
-function error_message() {
-    document.getElementById('invalid-file').classList.add('visible');
-
-    setTimeout(() => {
-        document.getElementById('invalid-file').classList.remove('visible');
-    }, 2500);
-}
-
 // Uses the console data from eel to create the console buttons
 async function loadConsoles() {
     let console_list = await eel.get_consoles()();

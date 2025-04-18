@@ -27,6 +27,7 @@ async function loadGames() {
         game_console.id = console_name;
 
         game_div.classList.add('game-div');
+        game_div.classList.add('visible');
         game_button.classList.add('game-button');
         game_text.classList.add('game-text');
         game_console.classList.add('game-console');
@@ -108,3 +109,36 @@ function game_open_error(error, console_name) {
 function close_alert() {
     document.getElementById("custom-alert").classList.add("hidden");
 }
+
+function search_games(search) {
+    const game_divs = document.getElementsByClassName('game-div');
+    const game_text = document.getElementsByClassName('game-text');
+
+    if (search == '') {
+        for (let i = 0; i < game_divs.length; i++) {
+            game_divs[i].classList.add('visible');
+        }
+
+        return;
+    }
+
+    for (let i = 0; i < game_text.length; i++) {
+        // game_name = game_text[i].innerText;
+        // console.log(game_name);
+
+        if (game_text[i].innerText.toLowerCase().includes(search)) {
+            game_divs[i].classList.add('visible');
+        } else {
+            game_divs[i].classList.remove('visible');
+        }
+
+    }
+}
+
+document.getElementById('search-bar').addEventListener('input', (e) => {
+    const search = e.target.value.toLowerCase();
+
+    console.log(search);
+
+    search_games(search);
+})

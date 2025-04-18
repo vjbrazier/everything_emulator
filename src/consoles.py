@@ -23,13 +23,13 @@ def open_console(console):
     # Prevents opening a .png, for example
     file = data['emulator-paths'][console]
     if file[-4:] != '.exe':
-        eel.error_message()
+        eel.game_open_error(f'[ERROR] You chose an invalid file: {file}', '')
         return
 
     try:
         os.startfile(data['emulator-paths'][console])
-    except Exception:
-        eel.error_message()
+    except Exception as e:
+        eel.game_open_error(f'[ERROR] A problem occurred: {e}', '')
 
 # Updates the path to the console in the JSON file
 def update_console_path(console, file_path):
