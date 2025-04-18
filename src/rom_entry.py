@@ -47,7 +47,7 @@ def find_existing_data(rom):
 
     else:
         existing_data['py-cover-image'] = ''
-        existing_data['js-cover-image'] = 'https://placehold.co/300x300'
+        existing_data['js-cover-image'] = 'images/placeholder.svg'
 
     if (os.path.exists(data.get('py-hover-image'))):
         existing_data['py-hover-image'] = data.get('py-hover-image')
@@ -55,7 +55,7 @@ def find_existing_data(rom):
 
     else:
         existing_data['py-hover-image'] = ''
-        existing_data['js-hover-image'] = 'https://placehold.co/300x300'
+        existing_data['js-hover-image'] = 'images/placeholder.svg'
 
     return existing_data
 
@@ -76,6 +76,7 @@ def cycle_unidentified_roms():
             eel.next_missing_entry(missing_roms[0], data)
         else:
             eel.close_entry_window()
+            eel.reload_main_window()
     else:
         eel.next_unidentified_entry(roms[current_index])
 
@@ -89,6 +90,7 @@ def cycle_missing_roms():
 
     if (current_index >= len(missing_roms)):
         eel.close_entry_window()
+        eel.reload_main_window()
     else:
         data = find_existing_data(missing_roms[current_index])
 

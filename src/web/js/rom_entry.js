@@ -10,7 +10,7 @@ cover.addEventListener('click', async function () {
     if (file) {
         cover_preview.src = file;
     } else {
-        cover_preview.src = 'https://placehold.co/300x300';
+        cover_preview.src = 'images/placeholder.svg';
     }
 })
 
@@ -20,9 +20,21 @@ hover.addEventListener('click', async function () {
     if (file) {
         hover_preview.src = file;
     } else {
-        hover_preview.src = 'https://placehold.co/300x300';
+        hover_preview.src = 'images/placeholder.svg';
+        console.log(hover_preview.src);
     }
 })
+
+function getFileLocation(path) {
+    let index = path.indexOf('//');
+
+    if (index === -1) {
+        return path;
+    }
+
+    index = path.indexOf('/', index + 2);
+    return path.slice(index + 1);
+}
 
 // Form
 const file_full_name = document.getElementById('file-full-name');
@@ -36,13 +48,13 @@ const invalid_data = document.getElementById('invalid-data');
 
 async function make_submit_work() {
     submit.addEventListener('click', async () => {   
-        if ((game_name.value) && (console_select.value) && (cover_preview.src != 'https://placehold.co/300x300')) {
+        if ((game_name.value) && (console_select.value) && (getFileLocation(cover_preview.src) != 'web/images/placeholder.svg')) {
             // Removes the "Current ROM: " portion
             rom = file_full_name.innerText;
             full_cover_image = python_cover_image.innerText;
             full_hover_image = python_hover_image.innerText;
 
-            if (hover_preview.src == 'https://placehold.co/300x300') {
+            if (getFileLocation(hover_preview.src) == 'web/images/placeholder.svg') {
                 const hover_override = await eel.copy_cover_to_hover()();
                 console.log(hover_override);
 
@@ -79,8 +91,8 @@ function next_unidentified_entry(new_rom) {
     file_selected.innerText = 'Current ROM: ' + new_rom.substring(new_rom.lastIndexOf('/') + 1);
     game_name.value = '';
     console_select.value = '3ds';
-    cover_preview.src = 'https://placehold.co/300x300';
-    hover_preview.src = 'https://placehold.co/300x300';
+    cover_preview.src = 'images/placeholder.svg';
+    hover_preview.src = 'images/placeholder.svg';
 }
 
 eel.expose(next_missing_entry)
@@ -97,12 +109,12 @@ function next_missing_entry(new_rom, data) {
     console_select.value = data['console'];
     console_select.setAttribute('disabled', true);
 
-    if (data['cover-image'] != 'https://placehold.co/300x300') {
+    if (getFileLocation(data['cover-image']) != 'web/images/placeholder.svg') {
         python_cover_image.innerText = data['py-cover-image'];
         cover_preview.src = data['js-cover-image'];
     }
 
-    if (data['hover-image'] != 'https://placehold.co/300x300') {
+    if (getFileLocation(data['hover-image']) != 'web/images/placeholder.svg') {
         python_hover_image.innerText = data['py-hover-image']
         hover_preview.src = data['js-hover-image'];
     }

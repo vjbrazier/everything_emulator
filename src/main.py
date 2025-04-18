@@ -45,17 +45,10 @@ add_missing_data()
 # Not used within the file, but are imported so that all the code within is loaded
 import hashing, consoles, games, rom_entry
 
-# List of games
-game_list = [f'Game {i}' for i in range(0, 25)]
-
 # Passes consoles
 @eel.expose
 def get_consoles():
     return console_list
-
-@eel.expose
-def get_games():
-    return game_list
 
 @eel.expose
 def change_main_window_status():

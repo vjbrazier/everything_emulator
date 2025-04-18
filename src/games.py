@@ -4,7 +4,6 @@ import eel
 import json
 import hashing
 import time
-import threading
 import tkinter as tk
 from tkinter import filedialog
 
@@ -43,4 +42,11 @@ def modify_rom_path():
 
     root.destroy()
 
-# Loads games that have been logged in the data to 
+# Loads games that have been logged in the data
+@eel.expose
+def get_game_data():
+    # List of games
+    with open(paths.rom_data_path, 'r') as f:
+        game_data = json.load(f)
+
+    return game_data

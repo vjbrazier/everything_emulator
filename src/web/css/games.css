@@ -7,6 +7,8 @@
     display: flex;
     flex-direction: column;
 
+    width: 300px;
+
     position: relative;
     place-self: center;
     margin-bottom: 50px;
@@ -15,20 +17,59 @@
 .game-button {
     width: 300px;
     height: 300px;
-    place-self: center;
-
-    background-color: var(--button-background-color);
+    padding: 0;
     border: 3px solid var(--button-border-color);
+    background-color: var(--button-background-color);
     border-radius: 10px;
-
-    transition: var(--transition);
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    transition:
+        background-color 0.3s ease,
+        border 0.3s ease;
 }
 
 .game-button:hover {
     background-color: var(--button-hover-color);
     border: 6px solid var(--button-border-color);
+    border-radius: 10px;
+}
 
-    transition: var(--transition);
+.game-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: opacity 0.5s ease-in-out;
+    pointer-events: none;
+}
+
+.cover {
+    opacity: 1;
+}
+
+.hover {
+    opacity: 0;
+}
+
+.game-button:hover .hover {
+    opacity: 1;
+}
+
+.game-button:hover .cover {
+    opacity: 0;
+}
+
+/* .game-div {
+    border: 2px dashed red;
+    width: 300px;
+} */
+
+
+.game-img:empty::before {
+    content: url('../images/placeholder.svg');
 }
 
 .game-text {
@@ -46,6 +87,7 @@
 
     color: var(--button-text-color);
     border: 3px solid var(--button-border-color);
+    background-color: var(--button-background-color);
     border-top-right-radius: 10px;
     border-bottom-left-radius: 10px;
     transition: var(--transition);
