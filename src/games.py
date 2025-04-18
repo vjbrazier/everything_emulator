@@ -4,6 +4,8 @@ import eel
 import json
 import hashing
 import time
+import os
+import subprocess
 import tkinter as tk
 from tkinter import filedialog
 
@@ -50,3 +52,53 @@ def get_game_data():
         game_data = json.load(f)
 
     return game_data
+
+# Deletes an entry upon click
+@eel.expose
+def delete_entry(entry):
+    with open(paths.rom_data_path, 'r') as f:
+        data = json.load(f)
+
+    try:
+        del data[entry]
+    except Exception as e:
+        print(f'[ERROR] Attempted to delete {entry}, received {e}')
+
+    with open(paths.rom_data_path, 'w') as f:
+        json.dump(data, f, indent=4)
+
+    eel.reload_main_window()
+
+# Starts a game
+@eel.expose
+def start_game(game, console):
+    with open(paths.file_paths, 'r') as f:
+        data = json.load(f)
+
+    console_path = data['emulator-paths'].get(console)
+
+    if not console_path:
+        eel.game_open_error("[ERROR] You don't have an emulator setup for ", console)
+        return
+
+    try:
+        if (not os.path.exists(game)):
+            error = f'[ERROR] Game not found: {game[game.rfind('/') + 1:]}'
+
+            eel.game_open_error(error, '')
+            raise FileNotFoundError(error)
+        
+        if (not os.path.exists(console_path)):
+            error = f'[ERROR] Emulator not found: {console_path}'
+
+            eel.game_open_error(error, '')
+            raise FileNotFoundError(error)
+        
+        subprocess.Popen([console_path, game])
+        print(f'[INFO] Opened {game} with {console_path}')
+        
+    except Exception as e:
+        error = f'[ERROR] Failure: {e}'
+        
+        eel.game_open_error(error, '')
+        print(error)

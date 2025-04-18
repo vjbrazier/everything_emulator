@@ -94,7 +94,11 @@ select {
     width: 300px;
     height: 300px;
 
+    object-fit: contain;
+    pointer-events: none;
+
     border: 3px solid var(--button-border-color);
+    transition: var(--transition);
 }
 
 #submit-data{

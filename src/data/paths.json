@@ -1,9 +1,9 @@
 {
     "emulator-paths": {
-        "3ds": "",
+        "3ds": "C:/Program Files/ryujinx-1.1.1403-win_x64/avcodec-59.dll",
         "ds": "D:/Actual Stuff/Files/Eclipse/357midtermpractice/.project",
         "gameboy": "",
-        "gameboy-advance": "",
+        "gameboy-advance": "C:/Program Files/ryujinx-1.1.1403-win_x64/Ryujinx.exe",
         "gamecube": "",
         "nes": "",
         "nintendo-64": "",
