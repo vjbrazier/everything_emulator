@@ -53,16 +53,19 @@ function update_info(rom, total, first_time) {
         current++;
     }
 
-    progress.innerText = `${current}/${total}: ${(current / total * 100).toFixed(0)}%`;
-    set_loading_bar(current / total * 100);
+    if (current >= total) {
+        progress.innerText = `${total}/${total}: ${(total / total * 100).toFixed(0)}%`;
+        set_loading_bar(total / total * 100);
 
-    if (current == total) {
         eel.reroute_to_main();
 
         // Just a small delay prior to closing
         setTimeout(() => {
             window.close();
         }, 1000);
+    } else {
+        progress.innerText = `${current}/${total}: ${(current / total * 100).toFixed(0)}%`;
+        set_loading_bar(current / total * 100);
     }
 }
 

@@ -26,25 +26,41 @@ hover.addEventListener('click', async function () {
 
 // Form
 const file_full_name = document.getElementById('file-full-name');
+const python_cover_image = document.getElementById('python-cover-image');
+const python_hover_image = document.getElementById('python-hover-image');
 const file_selected = document.getElementById('file-selected');
 const submit = document.getElementById('submit-data');
 const game_name = document.getElementById('game-name');
 const console_select = document.getElementById('console-select');
 const invalid_data = document.getElementById('invalid-data');
 
-function make_submit_work() {
-    submit.addEventListener('click', () => {   
+async function make_submit_work() {
+    submit.addEventListener('click', async () => {   
         if ((game_name.value) && (console_select.value) && (cover_preview.src != 'https://placehold.co/300x300')) {
             // Removes the "Current ROM: " portion
             rom = file_full_name.innerText;
+            full_cover_image = python_cover_image.innerText;
+            full_hover_image = python_hover_image.innerText;
 
             if (hover_preview.src == 'https://placehold.co/300x300') {
-                eel.create_data(rom, game_name.value, console_select.value, cover_preview.src, cover_preview.src);
+                const hover_override = await eel.copy_cover_to_hover()();
+                console.log(hover_override);
+
+                setTimeout(() => {
+                    eel.create_data(rom, game_name.value, console_select.value, cover_preview.src, hover_override, full_cover_image, full_hover_image);
+                }, 250)
             } else {
-                eel.create_data(rom, game_name.value, console_select.value, cover_preview.src, hover_preview.src);
+                eel.create_data(rom, game_name.value, console_select.value, cover_preview.src, hover_preview.src, full_cover_image, full_hover_image);
             }
 
-            eel.cycle_rom()();
+            setTimeout( () => {
+                if (submit.getAttribute('data-entry-type') == 'unidentified') {
+                    eel.cycle_unidentified_roms()();
+                } else if (submit.getAttribute('data-entry-type') == 'missing') {
+                    eel.cycle_missing_roms()();
+                }
+            }, 500)
+
         } else {
             invalid_data.classList.add('visible');
     
@@ -56,8 +72,8 @@ function make_submit_work() {
 }
 
 // Changes the current file and resets the form
-eel.expose(next_entry);
-function next_entry(new_rom) {
+eel.expose(next_unidentified_entry);
+function next_unidentified_entry(new_rom) {
     console.log(new_rom);
     file_full_name.innerText = new_rom;
     file_selected.innerText = 'Current ROM: ' + new_rom.substring(new_rom.lastIndexOf('/') + 1);
@@ -67,9 +83,34 @@ function next_entry(new_rom) {
     hover_preview.src = 'https://placehold.co/300x300';
 }
 
+eel.expose(next_missing_entry)
+function next_missing_entry(new_rom, data) {
+    document.getElementById('header2').innerText = 'missing some data';
+    submit.setAttribute('data-entry-type', 'missing');
+
+    file_full_name.innerText = new_rom;
+    file_selected.innerText = 'Current ROM: ' + new_rom.substring(new_rom.lastIndexOf('/') + 1);
+    
+    game_name.value = data['display-name'];
+    game_name.setAttribute('readonly', true);
+
+    console_select.value = data['console'];
+    console_select.setAttribute('disabled', true);
+
+    if (data['cover-image'] != 'https://placehold.co/300x300') {
+        python_cover_image.innerText = data['py-cover-image'];
+        cover_preview.src = data['js-cover-image'];
+    }
+
+    if (data['hover-image'] != 'https://placehold.co/300x300') {
+        python_hover_image.innerText = data['py-hover-image']
+        hover_preview.src = data['js-hover-image'];
+    }
+}
+
 // Closes the window once all ROMs are complete
-eel.expose(close_window);
-function close_window() {
+eel.expose(close_entry_window);
+function close_entry_window() {
     setTimeout(() => {
         window.close();
     }, 1000);
@@ -79,5 +120,5 @@ window.addEventListener('load', () => {
     window.resizeTo(900, 1111);
     window.moveTo(1500, 0);
     make_submit_work();
-    eel.page_ready();
+    eel.entry_page_ready();
 })

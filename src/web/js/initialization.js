@@ -94,8 +94,9 @@ async function loadGames() {
     }
 }
 
-eel.expose(close_window)
-function close_window() {
+eel.expose(close_main_window)
+function close_main_window() {
+    eel.change_main_window_status();
 
     setTimeout(() => {
         window.close();

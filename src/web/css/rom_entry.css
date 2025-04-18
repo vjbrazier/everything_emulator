@@ -19,6 +19,10 @@ body {
     display: none;
 }
 
+#python-cover-image, #python-hover-image {
+    display: none;
+}
+
 #file-selected {
     position: absolute;
     left: 53px;

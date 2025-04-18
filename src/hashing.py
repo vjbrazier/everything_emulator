@@ -5,8 +5,10 @@ import hashlib
 import re
 import eel
 import time
+import os
 import rom_entry
 from switch.switch_game_reader import getTitleID
+from urllib.parse import quote
 from pathlib import Path
 
 # Various file name extensions
@@ -128,13 +130,15 @@ def add_to_storage(rom, rom_identifier, name, console, rom_data):
                  'name': name,
                  'display-name': display_name,
                  'console': console,
-                 'cover-image': f'{paths.rom_info_path}{console}/cover/{name}.png',
-                 'hover-image': f'{paths.rom_info_path}{console}/hover/{name}.png',
+                 'py-cover-image': f'{paths.rom_info_path}{console}/cover/{name}.png',
+                 'js-cover-image': f'../{paths.rom_info_path}{console}/cover/{quote(name)}.png',
+                 'py-hover-image': f'{paths.rom_info_path}{console}/hover/{name}.png',
+                 'js-hover-image': f'../{paths.rom_info_path}{console}/hover/{quote(name)}.png',
                 }
     
     # The Switch and Xbox-360 image archives lack a hover-image
-    if (console == 'switch') or (console == 'xbox-360'):
-        rom_data[rom]['hover-image'] = rom_data[rom]['cover-image']
+    # if (console == 'switch') or (console == 'xbox-360'):
+    #     rom_data[rom]['hover-image'] = rom_data[rom]['cover-image']
 
 # Compares the hash of the rom against the data, and takes the hash and name of the file
 def check_hash(rom, hash, rom_data, console):
@@ -240,6 +244,7 @@ def count_new_roms():
 @eel.expose
 def rom_analysis():
     unidentified_roms = []
+    roms_missing_data = []
     total = count_new_roms()
 
     roms = load_rom_files()
@@ -327,6 +332,11 @@ def rom_analysis():
 
         if (identified_file):
             time.sleep(0.5)
+
+            if (not os.path.exists(rom_data[rom].get('py-cover-image'))) or (not os.path.exists(rom_data[rom].get('py-hover-image'))):
+                print('missing an image!')
+                roms_missing_data.append(rom)
+
             eel.add_rom(rom, True)
         else: 
             time.sleep(0.5)
@@ -337,15 +347,11 @@ def rom_analysis():
     with open(paths.rom_data_path, 'w') as f:
         json.dump(rom_data, f, indent=4)
 
-    # This calls it one last time when finished to make it increment and finish the page
-    print(f"Sending update_info: {rom}, first_time: {first_time}")
-    time.sleep(1)
-
     # This would not stop bugging out. I have no idea why, and have gave up. This is the "fix"
     eel.update_info('Complete!', total, first_time)
     eel.update_info('Complete!', total, first_time)
     eel.update_info('Complete!', total, first_time)
 
     # Only brings up the entry page if needed
-    if (unidentified_roms != []):
-        rom_entry.initialize(unidentified_roms)
+    if (unidentified_roms != []) or (roms_missing_data != []):
+        rom_entry.initialize(unidentified_roms, roms_missing_data)

@@ -2,10 +2,15 @@
 import paths
 import eel
 import json
+import os
 from pathlib import Path
 
-# Initialize
-eel.init('web')
+# Get the absolute path to the folder where this script is located
+base_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Set Eel to use that exact folder as the root
+eel.init(base_dir)
+main_window_open = False
 
 # List of consoles
 console_list = [
@@ -52,11 +57,21 @@ def get_consoles():
 def get_games():
     return game_list
 
+@eel.expose
+def change_main_window_status():
+    global main_window_open
+
+    main_window_open = False
+
 # Swaps to the main page after loading is finished
 @eel.expose
 def reroute_to_main():
-    eel.show('index.html')
+    global main_window_open
+
+    if not main_window_open:
+        eel.show('web/index.html')
+        main_window_open = True
 
 # Run the program
 if __name__ == '__main__':
-    eel.start('loading.html', host='localhost', port='5600', size=(1500, 1080))
+    eel.start('web/loading.html', host='localhost', port='5600', size=(1500, 1080))
