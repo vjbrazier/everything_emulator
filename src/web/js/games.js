@@ -3,6 +3,7 @@ Manages functions related to the game buttons.
 Functions: 
 */
 const games = document.getElementById('games');
+let filtered = [];
 
 async function loadGames() {
     let game_data = await eel.get_game_data()();
@@ -41,7 +42,6 @@ async function loadGames() {
         game_text.innerText = game_name;
         game_console.innerText = capitalize(console_name.replaceAll('-', ' '));
         game_delete.innerText = 'Delete'; 
-        
 
         game_button.appendChild(cover_img);
         game_button.appendChild(hover_img);
@@ -63,6 +63,7 @@ async function loadGames() {
     // Only calls these after the content is fully loaded
     add_delete_functionality();
     add_game_button_functionality();
+    add_filter_functionality();
 }
 
 // Makes each of the Delete buttons functional
@@ -88,6 +89,54 @@ function add_game_button_functionality() {
             localStorage.setItem('scroll_position', window.scrollY);
 
             eel.start_game(game_buttons[i].id, game_consoles[i].id)();
+        })
+    }
+}
+
+function update_filter() {
+    const games = document.getElementsByClassName('game-div');
+    const consoles = document.getElementsByClassName('game-console');
+
+    if (filtered.length === 0) {
+        for (let i = 0; i < games.length; i++) {
+            games[i].classList.add('visible');
+        }
+
+        return;
+    }
+
+    for (let i = 0; i < games.length; i++) {
+        games[i].classList.remove('visible');
+    }
+
+    for (let i = 0; i < filtered.length; i++) {
+        for (let j = 0; j < games.length; j++) {
+            if (consoles[j].id == filtered[i]) {
+                games[j].classList.add('visible');
+            }
+        }
+    }
+}
+
+function add_filter_functionality() {
+    const console_filters = document.getElementsByClassName('console-filter');
+
+    for (let i = 0; i < console_filters.length; i++) {
+        console_filters[i].addEventListener('click', () => {
+            console_filter = console_filters[i].dataset.id;
+            
+            if (console_filters[i].classList.contains('enabled')) {
+                console.log('hello');
+                console_filters[i].classList.remove('enabled');
+                filtered.splice(filtered.indexOf(console_filter), 1);
+                update_filter();
+            }
+
+            else {
+                console_filters[i].classList.add('enabled');
+                filtered.push(console_filter);
+                update_filter();
+            }
         })
     }
 }

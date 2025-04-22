@@ -56,6 +56,7 @@ async function loadConsoles() {
         let console_button = document.createElement('button');
         let console_text = document.createElement('h3');
         let console_path = document.createElement('h3');
+        let console_filter = document.createElement('h3');
         
         // Div
         console_div.classList.add('console-div');
@@ -75,10 +76,16 @@ async function loadConsoles() {
         console_path.classList.add('console-path');
         console_path.innerText = '🗁';
 
+        // Filter
+        console_filter.innerText = 'Filter';
+        console_filter.dataset.id = console_id;
+        console_filter.classList.add('console-filter');
+
         // Appending to the page
         console_div.appendChild(console_button);
         console_div.appendChild(console_text);
         console_div.appendChild(console_path);
+        console_div.appendChild(console_filter);
         consoles.appendChild(console_div);
     }
 
