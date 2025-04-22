@@ -37,7 +37,7 @@ Setup:
 <br/> Install eel to your computer to run this program natively (pip install eel)
 <br/><br/>
 You will need:
-<br/> -The databases. You will need the boxart images, and snapshot images.
+<br/> -The databases. You will need the .dat file, boxart images, and snapshot images. Under src/data, create a folder called rom-info. Run the script once, and it will generate a console folder within this. Name the .dat file the same as this superfolder, then put boxart into a folder called cover, and snapshot into a folder called hover. The switch uses a .json file, just name it according to the folder. The Switch and Xbox 360 databases provided lack hover images. There is a menu to add your own, but if you don't want to do this yourself, just copy the cover images and rename the folder. The Switch .json also has less detailed naming, to accout for this there is a cleaner.py file under src. Move this file, and the images gallery to their own folder, and put the images under a folder called 'images', then just run the script to clean the images
 <br/> -A prod.keys file if you intend on using switch games. Throw it in the switch directory
 <br/><br/>
-Once you have downloaded and setup the database, just create a shortcut to main.py under src/, and add it to where you want this program.
+Once you have downloaded and setup the database, just create a shortcut to main.py under src/, and add it to where you want this program. There is an icon attached that you can use if you'd like
