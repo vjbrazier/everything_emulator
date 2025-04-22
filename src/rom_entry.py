@@ -4,6 +4,7 @@ import json
 import os
 import shutil
 import tkinter as tk
+from custom_logger import add_to_log
 from tkinter import filedialog
 from urllib.parse import quote
 
@@ -23,12 +24,23 @@ def entry_page_ready():
     global roms
     global missing_roms
 
+    add_to_log('[INFO] Entry Page is ready!')
+
     if (roms != []):
+        add_to_log('[INFO] Setting up unidentified ROM menu')
         eel.next_unidentified_entry(roms[0])
     else:
         data = find_existing_data(missing_roms[0])
 
-        eel.next_missing_entry(missing_roms[0], data)
+        rom_name     = data.get('display-name')
+        rom_console  = data.get('console')
+        rom_py_cover = data.get('py-cover-image')
+        rom_js_cover = data.get('js-cover-image')
+        rom_py_hover = data.get('py-hover-image')
+        rom_js_hover = data.get('js-hover-image')
+
+        add_to_log(f'[INFO] Setting up missing data ROM menu, using {rom_name}, {rom_console}, {rom_py_cover}, {rom_js_cover}, {rom_py_hover}, and {rom_js_hover}')
+        eel.next_missing_entry(missing_roms[0], rom_name, rom_console, rom_py_cover, rom_js_cover, rom_py_hover, rom_js_hover)
 
 # Finds what data is and is not missing (just images)
 def find_existing_data(rom):
@@ -42,6 +54,7 @@ def find_existing_data(rom):
     existing_data['console'] = data.get('console')
     
     if (os.path.exists(data.get('py-cover-image'))):
+        add_to_log(f'[INFO] Cover image found for {rom}')
         existing_data['py-cover-image'] = data.get('py-cover-image')
         existing_data['js-cover-image'] = '../' + data.get('js-cover-image')
 
@@ -50,6 +63,7 @@ def find_existing_data(rom):
         existing_data['js-cover-image'] = 'images/placeholder.svg'
 
     if (os.path.exists(data.get('py-hover-image'))):
+        add_to_log(f'[INFO] Hover image found for {rom}')
         existing_data['py-hover-image'] = data.get('py-hover-image')
         existing_data['js-hover-image'] = '../' + data.get('js-hover-image')
 
@@ -73,7 +87,15 @@ def cycle_unidentified_roms():
 
             data = find_existing_data(missing_roms[0])
 
-            eel.next_missing_entry(missing_roms[0], data)
+            rom_name     = data.get('display-name')
+            rom_console  = data.get('console')
+            rom_py_cover = data.get('py-cover-image')
+            rom_js_cover = data.get('js-cover-image')
+            rom_py_hover = data.get('py-hover-image')
+            rom_js_hover = data.get('js-hover-image')
+
+            add_to_log(f'[INFO] Setting up missing data ROM menu, using {rom_name}, {rom_console}, {rom_py_cover}, {rom_js_cover}, {rom_py_hover}, and {rom_js_hover}')
+            eel.next_missing_entry(missing_roms[0], rom_name, rom_console, rom_py_cover, rom_js_cover, rom_py_hover, rom_js_hover)
         else:
             eel.close_entry_window()
             eel.reload_main_window()
@@ -94,7 +116,15 @@ def cycle_missing_roms():
     else:
         data = find_existing_data(missing_roms[current_index])
 
-        eel.next_missing_entry(missing_roms[current_index], data)
+        rom_name     = data.get('display-name')
+        rom_console  = data.get('console')
+        rom_py_cover = data.get('py-cover-image')
+        rom_js_cover = data.get('js-cover-image')
+        rom_py_hover = data.get('py-hover-image')
+        rom_js_hover = data.get('js-hover-image')
+
+        add_to_log(f'[INFO] Setting up missing data ROM menu, using {rom_name}, {rom_console}, {rom_py_cover}, {rom_js_cover}, {rom_py_hover}, and {rom_js_hover}')
+        eel.next_missing_entry(missing_roms[current_index], rom_name, rom_console, rom_py_cover, rom_js_cover, rom_py_hover, rom_js_hover)
 
 @eel.expose
 def pick_image(subfolder):
@@ -131,12 +161,7 @@ def get_file_location(path):
     return path[index+1:]
 
 def setup_images(image_path, name, new_path, type):
-    print(f'[INFO] setup_images() called! Data received: \n\
-            image_path: {image_path} \n\
-            name: {name} \n\
-            new_path: {new_path} \n\
-            type: {type}'
-        )
+    add_to_log(f'[INFO] Setting up images with setup_images()! Using {image_path}, {name}, {new_path}, and {type}')
     
     # Prevents a duplicate
     image_path = image_path.lstrip('web/')
@@ -152,10 +177,7 @@ def setup_images(image_path, name, new_path, type):
 
 @eel.expose
 def create_data(rom, name, console, py_cover, py_hover, backup_cover, backup_hover):
-    print('[INFO] create_data() called! Data received:')
-    print(f'rom: {rom} \nname: {name} \nconsole: {console}')
-    print(f'cover: {py_cover} \nhover: {py_hover}')
-    print(f'backup_cover: {backup_cover} \nbackup_hover: {backup_hover}')
+    add_to_log(f'[INFO] Creating data with create_data()! Using {rom}, {name}, {console}, {py_cover}, {py_hover}, {backup_cover}, {backup_hover}')
 
     new_cover_path = paths.rom_info_path + console + '/cover/'
     new_hover_path = paths.rom_info_path + console + '/hover/'

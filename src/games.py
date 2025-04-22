@@ -8,6 +8,7 @@ import os
 import subprocess
 import tkinter as tk
 from tkinter import filedialog
+from custom_logger import add_to_log
 
 # Updates the path to the roms in the JSON file
 def update_rom_path(file_path):
@@ -40,7 +41,7 @@ def modify_rom_path():
     try:
         update_rom_path(file_path)
     except Exception:
-        print("You didn't seem to choose a folder.")
+        add_to_log("[WARN] You didn't seem to choose a folder.")
 
     root.destroy()
 
@@ -61,8 +62,9 @@ def delete_entry(entry):
 
     try:
         del data[entry]
+        add_to_log(f'[INFO] Deleted entry {entry}')
     except Exception as e:
-        print(f'[ERROR] Attempted to delete {entry}, received {e}')
+        add_to_log(f'[ERROR] Attempted to delete {entry}, received {e}')
 
     with open(paths.rom_data_path, 'w') as f:
         json.dump(data, f, indent=4)
@@ -78,6 +80,8 @@ def start_game(game, console):
     console_path = data['emulator-paths'].get(console)
 
     if not console_path:
+        
+        add_to_log(f"[ERROR] You don't have an emulator setup for {console}")
         eel.game_open_error("[ERROR] You don't have an emulator setup for ", console)
         return
 
@@ -95,7 +99,7 @@ def start_game(game, console):
             raise FileNotFoundError(error)
         
         subprocess.Popen([console_path, game])
-        print(f'[INFO] Opened {game} with {console_path}')
+        add_to_log(f'[INFO] Opened {game} with {console_path}')
         
     except Exception as e:
         error = f'[ERROR] Failure: {e}'

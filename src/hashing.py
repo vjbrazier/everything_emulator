@@ -334,7 +334,7 @@ def rom_analysis():
             time.sleep(0.5)
 
             if (not os.path.exists(rom_data[rom].get('py-cover-image'))) or (not os.path.exists(rom_data[rom].get('py-hover-image'))):
-                print('missing an image!')
+                print(f'[WARN] Missing an image! {rom}')
                 roms_missing_data.append(rom)
 
             eel.add_rom(rom, True)

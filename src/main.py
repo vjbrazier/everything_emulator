@@ -4,6 +4,7 @@ import eel
 import json
 import os
 from pathlib import Path
+import logging
 
 # Get the absolute path to the folder where this script is located
 base_dir = os.path.dirname(os.path.abspath(__file__))

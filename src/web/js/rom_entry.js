@@ -95,30 +95,28 @@ function next_unidentified_entry(new_rom) {
     hover_preview.src = 'images/placeholder.svg';
 }
 
-eel.expose(next_missing_entry)
-function next_missing_entry(new_rom, data) {
+
+eel.expose(next_missing_entry);
+function next_missing_entry(new_rom, rom_name, rom_console, rom_py_cover, rom_js_cover, rom_py_hover, rom_js_hover) {
     document.getElementById('header2').innerText = 'missing some data';
     submit.setAttribute('data-entry-type', 'missing');
 
     file_full_name.innerText = new_rom;
     file_selected.innerText = 'Current ROM: ' + new_rom.substring(new_rom.lastIndexOf('/') + 1);
     
-    game_name.value = data['display-name'];
+    game_name.value = rom_name;
     game_name.setAttribute('readonly', true);
 
-    console_select.value = data['console'];
+    console_select.value = rom_console;
     console_select.setAttribute('disabled', true);
 
-    if (getFileLocation(data['cover-image']) != 'web/images/placeholder.svg') {
-        python_cover_image.innerText = data['py-cover-image'];
-        cover_preview.src = data['js-cover-image'];
-    }
+    python_cover_image.innerText = rom_py_cover;
+    cover_preview.src = rom_js_cover;
 
-    if (getFileLocation(data['hover-image']) != 'web/images/placeholder.svg') {
-        python_hover_image.innerText = data['py-hover-image']
-        hover_preview.src = data['js-hover-image'];
-    }
+    python_hover_image.innerText = rom_py_hover;
+    hover_preview.src = rom_js_hover;
 }
+
 
 // Closes the window once all ROMs are complete
 eel.expose(close_entry_window);
@@ -132,5 +130,8 @@ window.addEventListener('load', () => {
     window.resizeTo(900, 1111);
     window.moveTo(1500, 0);
     make_submit_work();
-    eel.entry_page_ready();
+
+    setTimeout(() => {
+        eel.entry_page_ready();
+    }, 500)
 })

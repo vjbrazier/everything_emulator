@@ -2,6 +2,7 @@
 import json
 
 file_paths      = 'data/paths.json'                 # Location of stored file paths
+log_path        = 'logs/'                    # Location of logs file
 rom_info_path   = 'data/rom-info/'                  # Location of rom info
 rom_data_path   = 'data/rom_data.json'              # Location of stored rom data
 hactool_path    = 'switch/hactool.exe'              # Location of the hactool

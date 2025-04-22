@@ -1,14 +1,4 @@
 {
-    "D:/Actual Stuff/Files/everything_emulator/src/roms/mystery.nsp": {
-        "rom-identifier": "01006FE013472000",
-        "name": "Mario Party Superstars",
-        "display-name": "Mario Party Superstars",
-        "console": "switch",
-        "py-cover-image": "data/rom-info/switch/cover/Mario Party Superstars.png",
-        "js-cover-image": "../data/rom-info/switch/cover/Mario%20Party%20Superstars.png",
-        "py-hover-image": "data/rom-info/switch/hover/Mario Party Superstars.png",
-        "js-hover-image": "../data/rom-info/switch/hover/Mario%20Party%20Superstars.png"
-    },
     "D:/Actual Stuff/Files/everything_emulator/src/roms/mystery4.iso": {
         "rom-identifier": "0f56f921eda19dbc630bf3283bf14857",
         "name": "Burnout 3 - Takedown (USA)",
@@ -19,25 +9,45 @@
         "py-hover-image": "data/rom-info/xbox/hover/Burnout 3 - Takedown (USA).png",
         "js-hover-image": "../data/rom-info/xbox/hover/Burnout%203%20-%20Takedown%20%28USA%29.png"
     },
-    "D:/Actual Stuff/Files/everything_emulator/src/roms/mystery3.nsp": {
-        "rom-identifier": "0100152000022000",
-        "name": "Mario Kart 8 Deluxe",
-        "display-name": "Mario Kart 8 Deluxe",
-        "console": "switch",
-        "py-cover-image": "data/rom-info/switch/cover/Mario Kart 8 Deluxe.png",
-        "js-cover-image": "../data/rom-info/switch/cover/Mario%20Kart%208%20Deluxe.png",
-        "py-hover-image": "data/rom-info/switch/hover/Mario Kart 8 Deluxe.png",
-        "js-hover-image": "../data/rom-info/switch/hover/Mario%20Kart%208%20Deluxe.png"
+    "D:/Actual Stuff/Files/everything_emulator/src/roms/mystery.gb": {
+        "rom-identifier": "b48161623f12f86fec88320166a21fce",
+        "name": "Super Mario Land (World)",
+        "display-name": "Super Mario Land",
+        "console": "gameboy",
+        "py-cover-image": "data/rom-info/gameboy/cover/Super Mario Land (World).png",
+        "js-cover-image": "../data/rom-info/gameboy/cover/Super%20Mario%20Land%20%28World%29.png",
+        "py-hover-image": "data/rom-info/gameboy/hover/Super Mario Land (World).png",
+        "js-hover-image": "../data/rom-info/gameboy/hover/Super%20Mario%20Land%20%28World%29.png"
     },
-    "D:/Actual Stuff/Files/everything_emulator/src/roms/mystery2.iso": {
-        "rom-identifier": "GMSP01",
-        "name": "Super Mario Sunshine (Europe)",
-        "display-name": "Super Mario Sunshine",
-        "console": "gamecube",
-        "py-cover-image": "data/rom-info/gamecube/cover/Super Mario Sunshine (Europe).png",
-        "js-cover-image": "../data/rom-info/gamecube/cover/Super%20Mario%20Sunshine%20%28Europe%29.png",
-        "py-hover-image": "data/rom-info/gamecube/hover/Super Mario Sunshine (Europe).png",
-        "js-hover-image": "../data/rom-info/gamecube/hover/Super%20Mario%20Sunshine%20%28Europe%29.png"
+    "D:/Actual Stuff/Files/everything_emulator/src/roms/mystery.gba": {
+        "rom-identifier": "784a036ff1aae709e90167186639b75e",
+        "name": "Mario Kart - Super Circuit (USA)",
+        "display-name": "Mario Kart - Super Circuit",
+        "console": "gameboy-advance",
+        "py-cover-image": "data/rom-info/gameboy-advance/cover/Mario Kart - Super Circuit (USA).png",
+        "js-cover-image": "../data/rom-info/gameboy-advance/cover/Mario%20Kart%20-%20Super%20Circuit%20%28USA%29.png",
+        "py-hover-image": "data/rom-info/gameboy-advance/hover/Mario Kart - Super Circuit (USA).png",
+        "js-hover-image": "../data/rom-info/gameboy-advance/hover/Mario%20Kart%20-%20Super%20Circuit%20%28USA%29.png"
+    },
+    "D:/Actual Stuff/Files/everything_emulator/src/roms/mystery.iso": {
+        "rom-identifier": "RMGE01",
+        "name": "Super Mario Galaxy (USA)",
+        "display-name": "Super Mario Galaxy",
+        "console": "wii",
+        "py-cover-image": "data/rom-info/wii/cover/Super Mario Galaxy (USA).png",
+        "js-cover-image": "../data/rom-info/wii/cover/Super%20Mario%20Galaxy%20%28USA%29.png",
+        "py-hover-image": "data/rom-info/wii/hover/Super Mario Galaxy (USA).png",
+        "js-hover-image": "../data/rom-info/wii/hover/Super%20Mario%20Galaxy%20%28USA%29.png"
+    },
+    "D:/Actual Stuff/Files/everything_emulator/src/roms/mystery.nds": {
+        "rom-identifier": "dbd76d942fc5c636b84fc299d1cab168",
+        "name": "Kirby Mass Attack (USA) (En,Fr,Es)",
+        "display-name": "Kirby Mass Attack",
+        "console": "ds",
+        "py-cover-image": "data/rom-info/ds/cover/Kirby Mass Attack (USA) (En,Fr,Es).png",
+        "js-cover-image": "../data/rom-info/ds/cover/Kirby%20Mass%20Attack%20%28USA%29%20%28En%2CFr%2CEs%29.png",
+        "py-hover-image": "data/rom-info/ds/hover/Kirby Mass Attack (USA) (En,Fr,Es).png",
+        "js-hover-image": "../data/rom-info/ds/hover/Kirby%20Mass%20Attack%20%28USA%29%20%28En%2CFr%2CEs%29.png"
     },
     "D:/Actual Stuff/Files/everything_emulator/src/roms/mystery.smc": {
         "rom-identifier": "cdd3c8c37322978ca8669b34bc89c804",
@@ -59,54 +69,54 @@
         "py-hover-image": "data/rom-info/nintendo-64/hover/Super Mario 64 (USA).png",
         "js-hover-image": "../data/rom-info/nintendo-64/hover/Super%20Mario%2064%20%28USA%29.png"
     },
-    "D:/Actual Stuff/Files/everything_emulator/src/roms/mystery.iso": {
-        "rom-identifier": "RMGE01",
-        "name": "Super Mario Galaxy (USA)",
-        "display-name": "Super Mario Galaxy",
-        "console": "wii",
-        "py-cover-image": "data/rom-info/wii/cover/Super Mario Galaxy (USA).png",
-        "js-cover-image": "../data/rom-info/wii/cover/Super%20Mario%20Galaxy%20%28USA%29.png",
-        "py-hover-image": "data/rom-info/wii/hover/Super Mario Galaxy (USA).png",
-        "js-hover-image": "../data/rom-info/wii/hover/Super%20Mario%20Galaxy%20%28USA%29.png"
+    "D:/Actual Stuff/Files/everything_emulator/src/roms/mystery.nsp": {
+        "rom-identifier": "01006FE013472000",
+        "name": "Mario Party Superstars",
+        "display-name": "Mario Party Superstars",
+        "console": "switch",
+        "py-cover-image": "data/rom-info/switch/cover/Mario Party Superstars.png",
+        "js-cover-image": "../data/rom-info/switch/cover/Mario%20Party%20Superstars.png",
+        "py-hover-image": "data/rom-info/switch/hover/Mario Party Superstars.png",
+        "js-hover-image": "../data/rom-info/switch/hover/Mario%20Party%20Superstars.png"
     },
-    "D:/Actual Stuff/Files/everything_emulator/src/roms/mystery.gb": {
-        "rom-identifier": "b48161623f12f86fec88320166a21fce",
-        "name": "Super Mario Land (World)",
-        "display-name": "Super Mario Land",
-        "console": "gameboy",
-        "py-cover-image": "data/rom-info/gameboy/cover/Super Mario Land (World).png",
-        "js-cover-image": "../data/rom-info/gameboy/cover/Super%20Mario%20Land%20%28World%29.png",
-        "py-hover-image": "data/rom-info/gameboy/hover/Super Mario Land (World).png",
-        "js-hover-image": "../data/rom-info/gameboy/hover/Super%20Mario%20Land%20%28World%29.png"
-    },
-    "D:/Actual Stuff/Files/everything_emulator/src/roms/mystery.nds": {
-        "rom-identifier": "dbd76d942fc5c636b84fc299d1cab168",
-        "name": "Kirby Mass Attack (USA) (En,Fr,Es)",
-        "display-name": "Kirby Mass Attack",
-        "console": "ds",
-        "py-cover-image": "data/rom-info/ds/cover/Kirby Mass Attack (USA) (En,Fr,Es).png",
-        "js-cover-image": "../data/rom-info/ds/cover/Kirby%20Mass%20Attack%20%28USA%29%20%28En%2CFr%2CEs%29.png",
-        "py-hover-image": "data/rom-info/ds/hover/Kirby Mass Attack (USA) (En,Fr,Es).png",
-        "js-hover-image": "../data/rom-info/ds/hover/Kirby%20Mass%20Attack%20%28USA%29%20%28En%2CFr%2CEs%29.png"
+    "D:/Actual Stuff/Files/everything_emulator/src/roms/mystery3.nsp": {
+        "rom-identifier": "0100152000022000",
+        "name": "Mario Kart 8 Deluxe",
+        "display-name": "Mario Kart 8 Deluxe",
+        "console": "switch",
+        "py-cover-image": "data/rom-info/switch/cover/Mario Kart 8 Deluxe.png",
+        "js-cover-image": "../data/rom-info/switch/cover/Mario%20Kart%208%20Deluxe.png",
+        "py-hover-image": "data/rom-info/switch/hover/Mario Kart 8 Deluxe.png",
+        "js-hover-image": "../data/rom-info/switch/hover/Mario%20Kart%208%20Deluxe.png"
     },
     "D:/Actual Stuff/Files/everything_emulator/src/roms/mystery.3ds": {
-        "rom-identifier": "D:/Actual Stuff/Files/everything_emulator/src/roms/mystery.3ds",
-        "name": "Mario & Luigi - Dream Team",
+        "rom-identifier": "c68a85fb2afca682db668113ae8e6dda",
+        "name": "Mario & Luigi - Dream Team (USA) (En,Fr,Es)",
         "display-name": "Mario & Luigi - Dream Team",
         "console": "3ds",
-        "py-cover-image": "data/rom-info/3ds/cover/Mario & Luigi - Dream Team.png",
-        "js-cover-image": "../data/rom-info/3ds/cover/Mario%20%26%20Luigi%20-%20Dream%20Team.png",
-        "py-hover-image": "data/rom-info/3ds/hover/Mario & Luigi - Dream Team.png",
-        "js-hover-image": "../data/rom-info/3ds/hover/Mario%20%26%20Luigi%20-%20Dream%20Team.png"
+        "py-cover-image": "data/rom-info/3ds/cover/Mario & Luigi - Dream Team (USA) (En,Fr,Es).png",
+        "js-cover-image": "../data/rom-info/3ds/cover/Mario%20%26%20Luigi%20-%20Dream%20Team%20%28USA%29%20%28En%2CFr%2CEs%29.png",
+        "py-hover-image": "data/rom-info/3ds/hover/Mario & Luigi - Dream Team (USA) (En,Fr,Es).png",
+        "js-hover-image": "../data/rom-info/3ds/hover/Mario%20%26%20Luigi%20-%20Dream%20Team%20%28USA%29%20%28En%2CFr%2CEs%29.png"
     },
-    "D:/Actual Stuff/Files/everything_emulator/src/roms/mystery.gba": {
-        "rom-identifier": "784a036ff1aae709e90167186639b75e",
-        "name": "Mario Kart - Super Circuit (USA)",
-        "display-name": "Mario Kart - Super Circuit",
-        "console": "gameboy-advance",
-        "py-cover-image": "data/rom-info/gameboy-advance/cover/Mario Kart - Super Circuit (USA).png",
-        "js-cover-image": "../data/rom-info/gameboy-advance/cover/Mario%20Kart%20-%20Super%20Circuit%20%28USA%29.png",
-        "py-hover-image": "data/rom-info/gameboy-advance/hover/Mario Kart - Super Circuit (USA).png",
-        "js-hover-image": "../data/rom-info/gameboy-advance/hover/Mario%20Kart%20-%20Super%20Circuit%20%28USA%29.png"
+    "D:/Actual Stuff/Files/everything_emulator/src/roms/mystery2.iso": {
+        "rom-identifier": "GMSP01",
+        "name": "Super Mario Sunshine (Europe)",
+        "display-name": "Super Mario Sunshine",
+        "console": "gamecube",
+        "py-cover-image": "data/rom-info/gamecube/cover/Super Mario Sunshine (Europe).png",
+        "js-cover-image": "../data/rom-info/gamecube/cover/Super%20Mario%20Sunshine%20%28Europe%29.png",
+        "py-hover-image": "data/rom-info/gamecube/hover/Super Mario Sunshine (Europe).png",
+        "js-hover-image": "../data/rom-info/gamecube/hover/Super%20Mario%20Sunshine%20%28Europe%29.png"
+    },
+    "D:/Actual Stuff/Files/everything_emulator/src/roms/zzz.nsp": {
+        "rom-identifier": "D:/Actual Stuff/Files/everything_emulator/src/roms/zzz.nsp",
+        "name": "Test",
+        "display-name": "Test",
+        "console": "switch",
+        "py-cover-image": "data/rom-info/switch/cover/Test.png",
+        "js-cover-image": "../data/rom-info/switch/cover/Test.png",
+        "py-hover-image": "data/rom-info/switch/hover/Test.png",
+        "js-hover-image": "../data/rom-info/switch/hover/Test.png"
     }
 }

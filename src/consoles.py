@@ -5,6 +5,7 @@ import os
 import json
 import tkinter as tk
 from tkinter import filedialog
+from custom_logger import add_to_log
 
 # Returns a boolean based on whether or not a path has been set for a console
 @eel.expose
@@ -23,13 +24,19 @@ def open_console(console):
     # Prevents opening a .png, for example
     file = data['emulator-paths'][console]
     if file[-4:] != '.exe':
-        eel.game_open_error(f'[ERROR] You chose an invalid file: {file}', '')
+        message = f'[ERROR] You chose an invalid file: {file}'
+
+        add_to_log(message)
+        eel.game_open_error(message, '')
         return
 
     try:
         os.startfile(data['emulator-paths'][console])
     except Exception as e:
-        eel.game_open_error(f'[ERROR] A problem occurred: {e}', '')
+        message = f'[ERROR] A problem occurred: {e}'
+
+        add_to_log(message)
+        eel.game_open_error(message, '')
 
 # Updates the path to the console in the JSON file
 def update_console_path(console, file_path):
