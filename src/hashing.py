@@ -8,6 +8,7 @@ import time
 import os
 import rom_entry
 from switch.switch_game_reader import getTitleID
+from custom_logger import add_to_log
 from urllib.parse import quote
 from pathlib import Path
 
@@ -71,6 +72,7 @@ def get_serial(rom):
 
 # Removes extra content in the rom name (such as (USA)) that users don't care for
 def remove_name_filler(name):
+    add_to_log(f'[INFO] Received {name}, removing filler...')
     # List of unwanted region/language tags
     filler_data = [
         'En', 'Fr', 'Es', 'It', 'Js', 'De',
@@ -95,10 +97,12 @@ def remove_name_filler(name):
     name = re.sub(r'[\s,\-]+$', '', name)                   # Trailing commas/dashes
     name = name.strip()
 
+    add_to_log(f'[INFO] Returning {name.replace('(World)', '').strip()}')
     return name.replace('(World)', '').strip()
 
 # Removes file name extensions and unicode
 def remove_extension_unicode(name):
+    add_to_log(f'[INFO] Received {name}, removing extensions and unicode...')
     # 2 letter extensions
     if name[-3] == '.':
         name = name.replace(name[-3:], '')
@@ -115,15 +119,18 @@ def remove_extension_unicode(name):
     name = name.replace('\u2122', '') # Trademark
     name = name.replace('\u00a9', '') # Copyright
 
+    add_to_log(f'[INFO] Returning {name.strip()}')
     return name.strip()
 
 # Stores your ROMs to eliminate the need to identify them each time
 def add_to_storage(rom, rom_identifier, name, console, rom_data):
+    add_to_log(f'[INFO] Creating new entry in storage! Using {rom}, {rom_identifier}, {name}, and {console}')
     name = remove_extension_unicode(name)
     display_name = remove_name_filler(name)
 
     # The Switch and Xbox-360 image archives lack such data in their names
     if (console == 'switch') or (console == 'xbox-360'):
+        add_to_log(f'[WARN] This is a {console} game, overriding name...')
         name = display_name
 
     rom_data[rom] = {'rom-identifier': rom_identifier,
@@ -135,13 +142,10 @@ def add_to_storage(rom, rom_identifier, name, console, rom_data):
                  'py-hover-image': f'{paths.rom_info_path}{console}/hover/{name}.png',
                  'js-hover-image': f'../{paths.rom_info_path}{console}/hover/{quote(name)}.png',
                 }
-    
-    # The Switch and Xbox-360 image archives lack a hover-image
-    # if (console == 'switch') or (console == 'xbox-360'):
-    #     rom_data[rom]['hover-image'] = rom_data[rom]['cover-image']
 
 # Compares the hash of the rom against the data, and takes the hash and name of the file
 def check_hash(rom, hash, rom_data, console):
+    add_to_log(f'[INFO] Checking hash! Using {rom}, {hash}, and {console}')
     console_file = console + '.dat'
 
     with open(paths.rom_info_path + console + '/' + console_file, 'r', encoding = 'utf-8') as f:
@@ -162,6 +166,7 @@ def check_hash(rom, hash, rom_data, console):
 
 # Compares the serial of the rom against the data, and takes the serial and name of the file
 def check_serial(rom, serial, rom_data, console):
+    add_to_log(f'[INFO] Checking serial! Using {rom}, {serial}, and {console}')
     console_file = console + '.dat'
 
     with open(paths.rom_info_path + console + '/' + console_file, 'r', encoding='utf-8') as f:
@@ -193,6 +198,7 @@ def check_serial(rom, serial, rom_data, console):
                             return True
 
 def check_title_id(title_id):
+    add_to_log(f'[INFO] Checking title id! Using {title_id}')
     with open(paths.rom_info_path + 'switch/switch.json', 'r') as f:
         data = json.load(f)
 
@@ -243,11 +249,15 @@ def count_new_roms():
 # Reads through roms and figures out what they are based on extension
 @eel.expose
 def rom_analysis():
+    add_to_log('[INFO] Beginning ROM analysis...')
+
     unidentified_roms = []
     roms_missing_data = []
     total = count_new_roms()
 
     roms = load_rom_files()
+    add_to_log(f'[INFO] Loaded ROMs: {roms}')
+    
     first_time = True
 
     # Opened at the start and passed around to prevent unnecessary I/O
@@ -265,6 +275,7 @@ def rom_analysis():
         if already_found:
             continue
 
+        add_to_log(f'[INFO] Attempting to identify {rom}')
         # This is set at the start each time. When roms are checked, they return true if found
         # In the event that this remains as None, then it's added to a list for user-input later
         identified_file = None
@@ -331,16 +342,18 @@ def rom_analysis():
                     identified_file = check_hash(rom, hash, rom_data, 'xbox-360')
 
         if (identified_file):
+            add_to_log(f'[INFO] Successfully identified {rom}')
             time.sleep(0.5)
 
             if (not os.path.exists(rom_data[rom].get('py-cover-image'))) or (not os.path.exists(rom_data[rom].get('py-hover-image'))):
-                print(f'[WARN] Missing an image! {rom}')
+                add_to_log(f'[WARN] Missing an image! {rom}')
                 roms_missing_data.append(rom)
 
             eel.add_rom(rom, True)
         else: 
             time.sleep(0.5)
             eel.add_rom(rom, False)
+            add_to_log(f"[WARN] Couldn't identify a file! {rom}")
             unidentified_roms.append(rom)
 
     # Writes any updated data
@@ -348,6 +361,7 @@ def rom_analysis():
         json.dump(rom_data, f, indent=4)
 
     # This would not stop bugging out. I have no idea why, and have gave up. This is the "fix"
+    add_to_log(f'[INFO] Finished identifying ROMs')
     eel.update_info('Complete!', total, first_time)
     eel.update_info('Complete!', total, first_time)
     eel.update_info('Complete!', total, first_time)

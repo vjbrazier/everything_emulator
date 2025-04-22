@@ -62,7 +62,7 @@ def delete_entry(entry):
 
     try:
         del data[entry]
-        add_to_log(f'[INFO] Deleted entry {entry}')
+        add_to_log(f'[WARN] Deleted entry {entry}')
     except Exception as e:
         add_to_log(f'[ERROR] Attempted to delete {entry}, received {e}')
 
@@ -77,10 +77,10 @@ def start_game(game, console):
     with open(paths.file_paths, 'r') as f:
         data = json.load(f)
 
+    add_to_log(f'[INFO] Starting {game}...')
     console_path = data['emulator-paths'].get(console)
 
     if not console_path:
-        
         add_to_log(f"[ERROR] You don't have an emulator setup for {console}")
         eel.game_open_error("[ERROR] You don't have an emulator setup for ", console)
         return
@@ -89,12 +89,14 @@ def start_game(game, console):
         if (not os.path.exists(game)):
             error = f'[ERROR] Game not found: {game[game.rfind('/') + 1:]}'
 
+            add_to_log(error)
             eel.game_open_error(error, '')
             raise FileNotFoundError(error)
         
         if (not os.path.exists(console_path)):
             error = f'[ERROR] Emulator not found: {console_path}'
 
+            add_to_log(error)
             eel.game_open_error(error, '')
             raise FileNotFoundError(error)
         
@@ -104,5 +106,6 @@ def start_game(game, console):
     except Exception as e:
         error = f'[ERROR] Failure: {e}'
         
+        add_to_log(error)
         eel.game_open_error(error, '')
         print(error)

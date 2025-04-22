@@ -46,6 +46,7 @@ def update_console_path(console, file_path):
     with open(paths.file_paths, 'r') as f:
         data = json.load(f)
 
+    add_to_log(f'[INFO] Set emulator path for {console} to {file_path}')
     data['emulator-paths'][console] = file_path
 
     with open(paths.file_paths, 'w') as f:

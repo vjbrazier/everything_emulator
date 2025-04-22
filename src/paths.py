@@ -1,8 +1,9 @@
 # These paths are shared across files
 import json
+from custom_logger import add_to_log
 
 file_paths      = 'data/paths.json'                 # Location of stored file paths
-log_path        = 'logs/'                    # Location of logs file
+log_path        = 'logs/'                           # Location of logs file
 rom_info_path   = 'data/rom-info/'                  # Location of rom info
 rom_data_path   = 'data/rom_data.json'              # Location of stored rom data
 hactool_path    = 'switch/hactool.exe'              # Location of the hactool
@@ -18,5 +19,6 @@ def set_roms_path():
         data = json.load(f)
     
     roms_path = data['roms-path']
+    add_to_log(f'[INFO] ROMs path has been updated to {roms_path}')
 
 set_roms_path()

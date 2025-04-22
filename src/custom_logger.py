@@ -20,7 +20,7 @@ def count_logs():
 
 def write_log():
     file_count = count_logs()
-    log_filename = Path(paths.log_path) / f'Log {file_count + 1}.txt'
+    log_filename = Path(paths.log_path) / f'log_{file_count + 1}.txt'
 
     with open(log_filename, 'w') as f:       
         for line in log:

@@ -19,6 +19,27 @@ def initialize(unidentified_roms, roms_missing_data):
     missing_roms = roms_missing_data
     current_index = 0
 
+def next_missing_entry(rom):
+    data = find_existing_data(rom)
+
+    rom_name     = data.get('display-name')
+    rom_console  = data.get('console')
+    rom_py_cover = data.get('py-cover-image')
+    if (os.path.exists(rom_py_cover)):
+        os.remove(paths.temp_cover_path)
+        shutil.copy(rom_py_cover, paths.temp_cover_path)
+
+    rom_js_cover = data.get('js-cover-image')
+    rom_py_hover = data.get('py-hover-image')
+    if (os.path.exists(rom_py_hover)):
+        os.remove(paths.temp_hover_path)
+        shutil.copy(rom_py_hover, paths.temp_hover_path)
+
+    rom_js_hover = data.get('js-hover-image')
+
+    add_to_log(f'[INFO] Setting up missing data ROM menu, using {rom_name}, {rom_console}, {rom_py_cover}, {rom_js_cover}, {rom_py_hover}, and {rom_js_hover}')
+    eel.next_missing_entry(rom, rom_name, rom_console, rom_py_cover, rom_js_cover, rom_py_hover, rom_js_hover)
+
 @eel.expose
 def entry_page_ready():
     global roms
@@ -30,17 +51,7 @@ def entry_page_ready():
         add_to_log('[INFO] Setting up unidentified ROM menu')
         eel.next_unidentified_entry(roms[0])
     else:
-        data = find_existing_data(missing_roms[0])
-
-        rom_name     = data.get('display-name')
-        rom_console  = data.get('console')
-        rom_py_cover = data.get('py-cover-image')
-        rom_js_cover = data.get('js-cover-image')
-        rom_py_hover = data.get('py-hover-image')
-        rom_js_hover = data.get('js-hover-image')
-
-        add_to_log(f'[INFO] Setting up missing data ROM menu, using {rom_name}, {rom_console}, {rom_py_cover}, {rom_js_cover}, {rom_py_hover}, and {rom_js_hover}')
-        eel.next_missing_entry(missing_roms[0], rom_name, rom_console, rom_py_cover, rom_js_cover, rom_py_hover, rom_js_hover)
+        next_missing_entry(missing_roms[0])
 
 # Finds what data is and is not missing (just images)
 def find_existing_data(rom):
@@ -85,17 +96,7 @@ def cycle_unidentified_roms():
         if missing_roms != []:
             current_index = 0
 
-            data = find_existing_data(missing_roms[0])
-
-            rom_name     = data.get('display-name')
-            rom_console  = data.get('console')
-            rom_py_cover = data.get('py-cover-image')
-            rom_js_cover = data.get('js-cover-image')
-            rom_py_hover = data.get('py-hover-image')
-            rom_js_hover = data.get('js-hover-image')
-
-            add_to_log(f'[INFO] Setting up missing data ROM menu, using {rom_name}, {rom_console}, {rom_py_cover}, {rom_js_cover}, {rom_py_hover}, and {rom_js_hover}')
-            eel.next_missing_entry(missing_roms[0], rom_name, rom_console, rom_py_cover, rom_js_cover, rom_py_hover, rom_js_hover)
+            next_missing_entry(missing_roms[0])
         else:
             eel.close_entry_window()
             eel.reload_main_window()
@@ -114,17 +115,7 @@ def cycle_missing_roms():
         eel.close_entry_window()
         eel.reload_main_window()
     else:
-        data = find_existing_data(missing_roms[current_index])
-
-        rom_name     = data.get('display-name')
-        rom_console  = data.get('console')
-        rom_py_cover = data.get('py-cover-image')
-        rom_js_cover = data.get('js-cover-image')
-        rom_py_hover = data.get('py-hover-image')
-        rom_js_hover = data.get('js-hover-image')
-
-        add_to_log(f'[INFO] Setting up missing data ROM menu, using {rom_name}, {rom_console}, {rom_py_cover}, {rom_js_cover}, {rom_py_hover}, and {rom_js_hover}')
-        eel.next_missing_entry(missing_roms[current_index], rom_name, rom_console, rom_py_cover, rom_js_cover, rom_py_hover, rom_js_hover)
+        next_missing_entry(missing_roms[current_index])
 
 @eel.expose
 def pick_image(subfolder):
@@ -147,11 +138,13 @@ def pick_image(subfolder):
         
 @eel.expose
 def copy_cover_to_hover():
+    add_to_log('[INFO] No hover image was provided, copying cover...')
     shutil.copy(paths.temp_cover_path, paths.temp_hover_path)
     return paths.temp_hover_path
 
 # The website name will always be http://url/*. This removes that prefix to get the file location
 def get_file_location(path):
+    add_to_log(f'[INFO] Cleaning up {path}')
     index = path.find('//')
 
     if (index == -1):
@@ -169,6 +162,7 @@ def setup_images(image_path, name, new_path, type):
     shutil.copy(f'web/{image_path}', f'{new_path}{type}.png')
 
     if (os.path.exists(f'{new_path}{name}.png')):
+        add_to_log(f'[WARN] Duplicate image found! Deleting {new_path}{name}.png')
         os.remove(f'{new_path}{name}.png')
 
     os.rename(f'{new_path}{type}.png', f'{new_path}{name}.png')
@@ -190,6 +184,7 @@ def create_data(rom, name, console, py_cover, py_hover, backup_cover, backup_hov
         js_cover = '../' + new_cover_path + quote(name) + '.png'
 
     else:
+        add_to_log(f'[WARN] JS cover image link detected, using backup link')
         py_cover = backup_cover
         temp_name = py_cover[py_cover.rfind('/') + 1:]
         js_cover = '../' + new_cover_path + quote(temp_name)
@@ -200,6 +195,7 @@ def create_data(rom, name, console, py_cover, py_hover, backup_cover, backup_hov
         js_hover = '../' + new_hover_path + quote(name) + '.png'
         
     else:
+        add_to_log(f'[WARN] JS hover image link detected, using backup link')
         py_hover = backup_hover
         temp_name = py_hover[py_hover.rfind('/') + 1:]
         js_hover = '../' + new_hover_path + quote(temp_name)

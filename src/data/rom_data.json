@@ -59,16 +59,6 @@
         "py-hover-image": "data/rom-info/snes/hover/Super Mario World (USA).png",
         "js-hover-image": "../data/rom-info/snes/hover/Super%20Mario%20World%20%28USA%29.png"
     },
-    "D:/Actual Stuff/Files/everything_emulator/src/roms/mystery.z64": {
-        "rom-identifier": "20b854b239203baf6c961b850a4a51a2",
-        "name": "Super Mario 64 (USA)",
-        "display-name": "Super Mario 64",
-        "console": "nintendo-64",
-        "py-cover-image": "data/rom-info/nintendo-64/cover/Super Mario 64 (USA).png",
-        "js-cover-image": "../data/rom-info/nintendo-64/cover/Super%20Mario%2064%20%28USA%29.png",
-        "py-hover-image": "data/rom-info/nintendo-64/hover/Super Mario 64 (USA).png",
-        "js-hover-image": "../data/rom-info/nintendo-64/hover/Super%20Mario%2064%20%28USA%29.png"
-    },
     "D:/Actual Stuff/Files/everything_emulator/src/roms/mystery.nsp": {
         "rom-identifier": "01006FE013472000",
         "name": "Mario Party Superstars",
@@ -89,34 +79,14 @@
         "py-hover-image": "data/rom-info/switch/hover/Mario Kart 8 Deluxe.png",
         "js-hover-image": "../data/rom-info/switch/hover/Mario%20Kart%208%20Deluxe.png"
     },
-    "D:/Actual Stuff/Files/everything_emulator/src/roms/mystery.3ds": {
-        "rom-identifier": "c68a85fb2afca682db668113ae8e6dda",
-        "name": "Mario & Luigi - Dream Team (USA) (En,Fr,Es)",
-        "display-name": "Mario & Luigi - Dream Team",
-        "console": "3ds",
-        "py-cover-image": "data/rom-info/3ds/cover/Mario & Luigi - Dream Team (USA) (En,Fr,Es).png",
-        "js-cover-image": "../data/rom-info/3ds/cover/Mario%20%26%20Luigi%20-%20Dream%20Team%20%28USA%29%20%28En%2CFr%2CEs%29.png",
-        "py-hover-image": "data/rom-info/3ds/hover/Mario & Luigi - Dream Team (USA) (En,Fr,Es).png",
-        "js-hover-image": "../data/rom-info/3ds/hover/Mario%20%26%20Luigi%20-%20Dream%20Team%20%28USA%29%20%28En%2CFr%2CEs%29.png"
-    },
-    "D:/Actual Stuff/Files/everything_emulator/src/roms/mystery2.iso": {
-        "rom-identifier": "GMSP01",
-        "name": "Super Mario Sunshine (Europe)",
-        "display-name": "Super Mario Sunshine",
-        "console": "gamecube",
-        "py-cover-image": "data/rom-info/gamecube/cover/Super Mario Sunshine (Europe).png",
-        "js-cover-image": "../data/rom-info/gamecube/cover/Super%20Mario%20Sunshine%20%28Europe%29.png",
-        "py-hover-image": "data/rom-info/gamecube/hover/Super Mario Sunshine (Europe).png",
-        "js-hover-image": "../data/rom-info/gamecube/hover/Super%20Mario%20Sunshine%20%28Europe%29.png"
-    },
-    "D:/Actual Stuff/Files/everything_emulator/src/roms/zzz.nsp": {
-        "rom-identifier": "D:/Actual Stuff/Files/everything_emulator/src/roms/zzz.nsp",
-        "name": "Test",
-        "display-name": "Test",
-        "console": "switch",
-        "py-cover-image": "data/rom-info/switch/cover/Test.png",
-        "js-cover-image": "../data/rom-info/switch/cover/Test.png",
-        "py-hover-image": "data/rom-info/switch/hover/Test.png",
-        "js-hover-image": "../data/rom-info/switch/hover/Test.png"
+    "D:/Actual Stuff/Files/everything_emulator/src/roms/mystery.z64": {
+        "rom-identifier": "20b854b239203baf6c961b850a4a51a2",
+        "name": "Super Mario 64 (USA)",
+        "display-name": "Super Mario 64",
+        "console": "nintendo-64",
+        "py-cover-image": "data/rom-info/nintendo-64/cover/Super Mario 64 (USA).png",
+        "js-cover-image": "../data/rom-info/nintendo-64/cover/Super%20Mario%2064%20%28USA%29.png",
+        "py-hover-image": "data/rom-info/nintendo-64/hover/Super Mario 64 (USA).png",
+        "js-hover-image": "../data/rom-info/nintendo-64/hover/Super%20Mario%2064%20%28USA%29.png"
     }
 }

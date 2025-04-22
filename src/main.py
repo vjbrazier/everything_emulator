@@ -4,7 +4,7 @@ import eel
 import json
 import os
 from pathlib import Path
-import logging
+from custom_logger import add_to_log
 
 # Get the absolute path to the folder where this script is located
 base_dir = os.path.dirname(os.path.abspath(__file__))
@@ -29,16 +29,26 @@ def add_missing_data():
         data = json.load(f)
 
     for path in default_path_data:
+        if path.lower() not in data:
+            add_to_log(f'[INFO] {path} was missing from JSON, adding...')
+    
         data.setdefault(path, {})       
 
     for console in console_list:
+        if console.lower() not in data['emulator-paths']:
+            add_to_log(f'[INFO] {console} was missing from JSON, adding...')
+        
         data['emulator-paths'].setdefault(console.lower(), '')
 
     with open(paths.file_paths, 'w') as f:
+        add_to_log(f'[INFO] Writing changes to JSON...')
         json.dump(data, f, indent=4)
 
     # Creates a folder to store the data of a console
     for console in console_list:
+        if not os.path.exists(Path(paths.rom_info_path) / console.lower()):
+            add_to_log(f'[INFO] Folder for {console} was missing, creating...')
+        
         (Path(paths.rom_info_path) / console.lower()).mkdir(exist_ok=True)
 
 add_missing_data()
@@ -63,9 +73,12 @@ def reroute_to_main():
     global main_window_open
 
     if not main_window_open:
+        add_to_log(f'[INFO] Rerouting to main page')
+    
         eel.show('web/index.html')
         main_window_open = True
 
 # Run the program
 if __name__ == '__main__':
+    add_to_log(f'[INFO] Starting application')
     eel.start('web/loading.html', host='localhost', port='5600', size=(1500, 1080))
