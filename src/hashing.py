@@ -214,7 +214,7 @@ def check_existence(rom, data):
 @eel.expose
 def load_rom_files():
     # Handles the directory being empty
-    if paths.roms_path == '':
+    if paths.roms_path == '' or paths.roms_path == None:
         return []
     
     # ext = Path(rom).suffix.lower().lstrip('.')
@@ -227,6 +227,10 @@ def load_rom_files():
 # Creates a list of ROMs not already stored
 @eel.expose
 def load_new_rom_files():
+    # If this is your first load and the JSON has not been setup, this prevents a crash
+    if paths.rom_data_path == '' or paths.rom_data_path == None:
+        return []
+    
     roms = load_rom_files()
 
     # Reopens due to being called by the JS

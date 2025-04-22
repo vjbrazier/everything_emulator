@@ -8,14 +8,24 @@ let filtered = [];
 async function loadGames() {
     let game_data = await eel.get_game_data()();
 
+    // Create the following elements for each game:
+    // div     - Holds all elements to allow styling as a whole
+    // button  - Opens the game
+    // text    - Name of the games
+    // console - Console of the game
+    // delete  - The delete button
+    // cover   - Cover image
+    // hover   - Hover image
     for (let key in game_data) {
         let rom = game_data[key]
 
+        // Data about the ROM
         let game_name    = rom['display-name'];
         let console_name = rom['console'];
         let cover_image  = rom['js-cover-image'];
         let hover_image  = rom['js-hover-image'];
         
+        // Creation
         let game_div     = document.createElement('div');
         let game_button  = document.createElement('button');
         let game_text    = document.createElement('h3');
@@ -24,28 +34,40 @@ async function loadGames() {
         let cover_img    = document.createElement('img');
         let hover_img    = document.createElement('img');
 
-        game_button.id  = key;
-        game_console.id = console_name;
-
+        // Div
         game_div.classList.add('game-div');
         game_div.classList.add('visible');
-        game_button.classList.add('game-button');
-        game_text.classList.add('game-text');
-        game_console.classList.add('game-console');
-        game_delete.classList.add('game-delete');
-        cover_img.classList.add('game-img', 'cover');
-        hover_img.classList.add('game-img', 'hover');
-        
-        cover_img.src = cover_image;
-        hover_img.src = hover_image;
 
+        // Button
+        game_button.id  = key;
+        game_button.classList.add('game-button');
+
+        // Text
+        game_text.classList.add('game-text');
         game_text.innerText = game_name;
+
+        // Console
+        game_console.id = console_name;
+        game_console.classList.add('game-console');
         game_console.innerText = capitalize(console_name.replaceAll('-', ' '));
+
+        // Delete
+        game_delete.classList.add('game-delete');
         game_delete.innerText = 'Delete'; 
 
+        // Cover
+        cover_img.classList.add('game-img', 'cover');
+        cover_img.src = cover_image;
+
+        // Hover
+        hover_img.classList.add('game-img', 'hover');
+        hover_img.src = hover_image;
+
+        // Images are appended first
         game_button.appendChild(cover_img);
         game_button.appendChild(hover_img);
 
+        // Appending to the page
         game_div.appendChild(game_button);
         game_div.appendChild(game_console);
         game_div.appendChild(game_delete);

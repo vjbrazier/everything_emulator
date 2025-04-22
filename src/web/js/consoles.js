@@ -46,6 +46,7 @@ async function loadConsoles() {
     // button - Opens the console and shows image
     // text   - The name of the console
     // path   - The icon at the top-right of each console
+    // filter - The ability to toggle which consoles are visible
     for (let i = 0; i < console_list.length; i++) {
         // Name is for appearance, id is for data-grabbing
         let console_name = console_list[i].replaceAll('-', ' ');

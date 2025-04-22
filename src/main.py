@@ -22,21 +22,22 @@ console_list = [
 
 # Initializes missing data in the JSON files
 def add_missing_data():
-    default_path_data = ['emulator-paths', 'roms-paths']
-
     # Creates an empty spot for the path to an emulator .exe
     with open(paths.file_paths, 'r') as f:
         data = json.load(f)
 
-    for path in default_path_data:
-        if path.lower() not in data:
-            add_to_log(f'[INFO] {path} was missing from JSON, adding...')
-    
-        data.setdefault(path, {})       
+    if 'emulator-paths' not in data:
+        add_to_log(f'[INFO] emulator-paths is missing from JSON, adding...')
+        data['emulator-paths'] = {}
+
+    if 'roms-path' not in data:
+        add_to_log(f'[INFO] roms-path is missing from JSON, adding...')
+        data['roms-path'] = ''
+        paths.set_roms_path()
 
     for console in console_list:
         if console.lower() not in data['emulator-paths']:
-            add_to_log(f'[INFO] {console} was missing from JSON, adding...')
+            add_to_log(f'[INFO] {console} is missing from JSON, adding...')
         
         data['emulator-paths'].setdefault(console.lower(), '')
 
@@ -47,7 +48,7 @@ def add_missing_data():
     # Creates a folder to store the data of a console
     for console in console_list:
         if not os.path.exists(Path(paths.rom_info_path) / console.lower()):
-            add_to_log(f'[INFO] Folder for {console} was missing, creating...')
+            add_to_log(f'[INFO] Folder for {console} is missing, creating...')
         
         (Path(paths.rom_info_path) / console.lower()).mkdir(exist_ok=True)
 

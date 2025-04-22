@@ -28,7 +28,7 @@ def remove_name_filler(name):
     return name.replace('(World)', '').strip()
 
 
-folder_path = 'temp'
+folder_path = 'images'
 trash_folder = os.path.join(folder_path, 'Trash')
 
 # Create Trash folder if it doesn't exist

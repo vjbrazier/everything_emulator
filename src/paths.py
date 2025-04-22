@@ -18,7 +18,7 @@ def set_roms_path():
     with open(file_paths, 'r') as f:
         data = json.load(f)
     
-    roms_path = data['roms-path']
+    roms_path = data.get('roms-path')
     add_to_log(f'[INFO] ROMs path has been updated to {roms_path}')
 
 set_roms_path()

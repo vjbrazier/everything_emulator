@@ -1,6 +1,6 @@
 {
     "emulator-paths": {
-        "3ds": "D:/Actual Stuff/Pictures and Videos/Friends/Matt shocked.png",
+        "3ds": "",
         "ds": "",
         "gameboy": "",
         "gameboy-advance": "",
@@ -8,11 +8,10 @@
         "nes": "",
         "nintendo-64": "",
         "snes": "",
-        "switch": "C:/Program Files/ryujinx-1.1.1403-win_x64/Ryujinx.exe",
+        "switch": "",
         "wii": "",
         "xbox": "",
         "xbox-360": ""
     },
-    "roms-path": "D:/Actual Stuff/Files/everything_emulator/src/roms/",
-    "roms-paths": {}
+    "roms-path": ""
 }
