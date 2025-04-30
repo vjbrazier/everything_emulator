@@ -41,7 +41,3 @@ You will need:
 <br/> -A prod.keys file if you intend on using switch games. Throw it in the switch directory
 <br/><br/>
 Once you have downloaded and setup the database, just create a shortcut to main.py under src/, and add it to where you want this program. There is an icon attached that you can use if you'd like
-
-Installation video: https://www.youtube.com/watch?v=pUyltXILin0
-<br/>
-Demo video: https://www.youtube.com/watch?v=Wn3-FDPj8Y4
